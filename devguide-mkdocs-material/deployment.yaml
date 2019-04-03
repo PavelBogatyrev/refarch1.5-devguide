@@ -1,0 +1,19 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: devguide-mkdocs-material-deployment
+spec:
+  selector:
+    matchLabels:
+      app: devguide-mkdocs-material
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: devguide-mkdocs-material
+    spec:
+      containers:
+      - name: devguide-mkdocs-material
+        image: beimax/devguide-mkdocs-material:latest
+        ports:
+        - containerPort: 8000
