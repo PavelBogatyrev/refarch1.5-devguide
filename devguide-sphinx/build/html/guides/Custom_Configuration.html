@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Custom Configuration In Eks/Istio Clusters &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="custom-configuration-in-eks-istio-clusters">
+<h1>Custom Configuration In Eks/Istio Clusters<a class="headerlink" href="#custom-configuration-in-eks-istio-clusters" title="Permalink to this headline">¶</a></h1>
+<p><strong>Table of Contents</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="#custom-configuration-in-eksistio-clusters">Custom Configuration In Eks/Istio Clusters</a></p>
+<ul>
+<li><p><a class="reference external" href="#background">Background</a></p></li>
+<li><p><a class="reference external" href="#how-to-add-custom-configuration-aka-bring-your-own-yamls">How to add custom configuration aka. bring-your-own-yamls</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#ingress-and-egress">Ingress and Egress</a></p>
+<ul>
+<li><p><a class="reference external" href="#ingress">Ingress</a></p></li>
+<li><p><a class="reference external" href="#egress">Egress</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#troubleshooting">Troubleshooting</a></p></li>
+</ul>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>By default, teams will have read-only access to the Eks/Istio clusters and all changes/configuration to the cluster will be applied via automation (e.g., Jenkins pipelines for deployment process).</p></li>
+<li><p>Since RefArch1.5 infrastrcuture features are still in the pre-DevReady milestone phase as of PI12, any configuration needed to be applied to the cluster outside of the scope of these pipelines (e.g., ingress or egress routes) will be handled via a GitOps pattern through the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.tempkubeconfig">platform.infrastructure.tempkubeconfig</a> repo.</p></li>
+</ul>
+</div>
+<div class="section" id="how-to-add-custom-configuration-aka-bring-your-own-yamls">
+<h2>How to add custom configuration aka. bring-your-own-yamls<a class="headerlink" href="#how-to-add-custom-configuration-aka-bring-your-own-yamls" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Clone the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.tempkubeconfig">platform.infrastructure.tempkubeconfig</a> repo</p></li>
+<li><p>Switch to the branch representing the cluster where the change is to be applied e.g., EksI-VpcA-useast1-DeliveryDevQA-EASandbox</p></li>
+<li><p>Add the yaml file to the relevant folder using guidance below:</p>
+<ul>
+<li><p>bootstrap – for any configuration that is required to prime the cluster (e.g., emergent design needs for hydra or other infrastructure pipelines)</p></li>
+<li><p>egress – for any routing configuration to expose applications to services outside the mesh</p></li>
+<li><p>ingress – for any routing configuration to expose service methods via the istio-ingress endpoint</p></li>
+<li><p>istio – for any istio-specific configuration</p></li>
+<li><p>tools – for any tooling-specific configuration</p></li>
+</ul>
+</li>
+<li><p>Make a PR on the branch (atleast 1 EA approval required)</p></li>
+<li><p>Once the PR is approved and merged into the branch, the configuration will be sync’d and applied to the cluster within 5 minutes automatically.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ingress-and-egress">
+<h1>Ingress and Egress<a class="headerlink" href="#ingress-and-egress" title="Permalink to this headline">¶</a></h1>
+<p>Ingress and Egress to and from the Kubernetes/Istio service mesh is being built in PI12. For early access, we are providing the following process for adding Istio ingress and egress rules so you can interact with components outside the mesh.</p>
+<div class="section" id="ingress">
+<h2>Ingress<a class="headerlink" href="#ingress" title="Permalink to this headline">¶</a></h2>
+<p>To expose methods within services via the istio-ingress endpoint (gateway url), you will need to update the ingress/global-ingress-vs.yaml file in the gitops repo <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.tempkubeconfig">platform.infrastructure.tempkubeconfig</a> for the branch that maps to the cluster you are working on e.g., EksI-VpcA-useast1-DeliveryDevQA-EASandbox.</p>
+<ul class="simple">
+<li><p>Add a [match:] section with a uri-based math (prefix or exact match allowed) that will route to the destination service.</p></li>
+<li><p>Here’s a sample file: <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.tempkubeconfig/blob/EksI-VpcA-useast1-DeliveryDevQA-EASandbox/ingress/global-ingress-vs.yaml">ingress/global-ingress-vs.yaml</a></p></li>
+</ul>
+</div>
+<div class="section" id="egress">
+<h2>Egress<a class="headerlink" href="#egress" title="Permalink to this headline">¶</a></h2>
+<p>To expose applications to services that are outside the cluster, you will need the following kubernetes/istio resources applied to the cluster:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://istio.io/docs/reference/config/istio.networking.v1alpha3/#ServiceEntry">ServiceEntry</a></p></li>
+<li><p><a class="reference external" href="https://istio.io/docs/reference/config/istio.networking.v1alpha3/#VirtualService">VirtualService</a> <em>NOTE: VirtualService is required in addition to the ServiceEntry  only for HTTPS connections outside the mesh.</em></p></li>
+</ul>
+<p>To add these resources you’ll need to add a new yaml file in the gitops repo <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.tempkubeconfig">platform.infrastructure.tempkubeconfig</a> for the branch that maps to the cluster you are working on e.g., EksI-VpcA-useast1-DeliveryDevQA-EASandbox.[platform.infrastructure.tempkubeconfig]</p>
+<ul class="simple">
+<li><p>Add k8s resource [kind: ServiceEntry] to allow access to hosts that are external to the mesh</p></li>
+<li><p>Add k8s resource [kind: VirtualService] to associate routes based on SNI values, to external hosts.</p></li>
+</ul>
+<p>Here’s a sample configuration for allowing egress traffic to reach eds-api hosts on both port 80 (http) and 443 (https):
+<a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.tempkubeconfig/blob/EksI-VpcA-useast1-DeliveryDevQA-EASandbox/egress/egress-edsapi.yaml">egress-edsapi.yaml in EA-Sandbox cluster</a></p>
+<p>For more info, please see the Istio documentation on how to <a class="reference external" href="https://istio.io/docs/tasks/traffic-management/egress/">Control Egress Traffic</a>.</p>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Please reach out to EA on the <a class="reference external" href="https://teams.microsoft.com/l/channel/19%3aa2a0927486e74b35bbd033a54fc5495c%40thread.skype/Troubleshooting?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">RefArch1.5 Chat Set - Troubleshooting Channel</a> to help diagnose any issues with this process. You can &#64;mention <a class="reference external" href="abhavan&#64;ebsco.com">Aish</a>, <a class="reference external" href="nbaechtold&#64;ebsco.com">Nate</a> &amp; <a class="reference external" href="spasam&#64;ebsco.com">Seshu</a> to get someone to look into it quickly.</p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Custom_Configuration.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

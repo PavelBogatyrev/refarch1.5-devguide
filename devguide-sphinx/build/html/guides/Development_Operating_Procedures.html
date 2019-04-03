@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>SDLC for Reference Architecture 1.5 &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="sdlc-for-reference-architecture-1-5">
+<h1>SDLC for Reference Architecture 1.5<a class="headerlink" href="#sdlc-for-reference-architecture-1-5" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#Overview">Overview</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#Introduction">Introduction</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#LogicalSDLCWorkflow">Logical SDLC Workflow</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#Dev-CentricCulture">Dev-Centric Culture</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#Definitions">Definitions</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#GitHubFlowBranchingStrategy">GitHub Flow Branching Strategy</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#ReferenceBranchingModel">Reference Branching Model</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#SDLCAssertions">SDLC Assertions</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#PipelineQualityGates">Pipeline Quality Gates</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#ReferenceArchitecture1.5Pipelines">Reference Architecture 1.5 Pipelines</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#Versioning">Versioning</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#FeatureToggles">Feature Toggles</a></p></li>
+<li><p><a class="reference external" href="./Development_Operating_Procedures.md#References">References</a></p></li>
+</ul>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This page defines the Reference Architecture 1.5 SDLC to be used by teams in the delivery of business value differentiating functionality via the Hydra-based pipelines. This is a living document, which will be continuously updated as information becomes available based on team experiences and input from technology, business, and PPMO organizations.</p>
+</div>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This document defines the Software Development Life-cycle (SDLC) for the 1.5 Reference Architecture.  The SDLC is the workflow a developer uses to deliver business value into Live environments.  It defines the developer workflow, branching strategy, and best practices to be used when developing and releasing applications and services into our private and public cloud environments through the Hydra/Medusa based pipelines.  The Reference Architecture 1.5 SDLC and branching strategy is informed by the AWS/Microservices Reference Architecture 1.0 and the On-Prem Reference Architecture.</p>
+<p><strong>AWS/Microservice Reference Architecture SDLC:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://confluence/display/entarch/SDLC+for+Reference+Architecture">SDLC for Reference Architecture</a></p></li>
+<li><p><a class="reference external" href="http://confluence/display/entarch/PLATFORM-207%3A+Github+Flow">PLATFORM-207: Github Flow</a></p></li>
+</ul>
+<p><strong>On-Prem Reference Architecture SDLC:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://confluence/display/ART/SDLC+for+On-Prem+Reference+Architecture">SDLC for On-Prem Reference Architecture</a></p></li>
+</ul>
+</div>
+<div class="section" id="logical-sdlc-workflow-a-id-logicalsdlcworkflow-a">
+<h1>Logical SDLC Workflow <a id=LogicalSDLCWorkflow></a><a class="headerlink" href="#logical-sdlc-workflow-a-id-logicalsdlcworkflow-a" title="Permalink to this headline">¶</a></h1>
+<p>A complex workflow blocks developer productivity.  The following workflow, enforced through the use of the Medusa and Hydra pipeline libraries, creates a simple yet powerful workflow that enables:</p>
+<ul class="simple">
+<li><p>Faster delivery of business value into Live environments</p></li>
+<li><p>Enforcement of key NFRs, without any developer effort</p></li>
+<li><p>Complete consistency across all environments</p></li>
+<li><p>Dedicated Preview environment for acceptance testing prior to merge</p></li>
+</ul>
+<p><img alt="../_images/SDLC_1.5.png" src="../_images/SDLC_1.5.png" /></p>
+</div>
+<div class="section" id="dev-centric-culture-a-id-dev-centricculture-a">
+<h1>Dev-Centric Culture <a id=Dev-CentricCulture></a><a class="headerlink" href="#dev-centric-culture-a-id-dev-centricculture-a" title="Permalink to this headline">¶</a></h1>
+<p>See: <a class="reference external" href="http://confluence/display/entarch/Reference+Architecture#ReferenceArchitecture-DevCentricculture">http://confluence/display/entarch/Reference+Architecture#ReferenceArchitecture-DevCentricculture</a></p>
+<div class="section" id="extensive-collaboration-and-shared-responsibility">
+<h2>Extensive Collaboration and Shared Responsibility<a class="headerlink" href="#extensive-collaboration-and-shared-responsibility" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Partnership with Site Reliability Team, NOC, LiveOps in Monitoring Live</p></li>
+<li><p>Team owns ensuring Live viability for all changes promoted to Master</p></li>
+</ul>
+</div>
+<div class="section" id="no-silos">
+<h2>No Silos<a class="headerlink" href="#no-silos" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Co-Ownership with SRE, LiveOps of:  Live monitoring of errors rates/dashboards, alerts, performance telemetry dashboards</p></li>
+<li><p>Quality is a concern of development (built-in quality)</p></li>
+</ul>
+</div>
+<div class="section" id="autonomous-teams">
+<h2>Autonomous Teams<a class="headerlink" href="#autonomous-teams" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Team owns creation of Pull Requests into Master.</p></li>
+<li><p>Team owns PR approvals and acts as Continuous Operations owner. In certain cases SA/Program Team level approval may be needed.</p></li>
+</ul>
+</div>
+<div class="section" id="high-quality-development-process">
+<h2>High Quality Development Process<a class="headerlink" href="#high-quality-development-process" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Team ensures all quality-first practices are followed</p></li>
+<li><p>CI processes provide fast feedback to teams</p></li>
+<li><p>CD processes enforce testing gates</p></li>
+<li><p>Teams leverage Preview environment for acceptance</p></li>
+<li><p>Teams build resiliency into systems</p>
+<ul>
+<li><p>circuit breakers</p></li>
+<li><p>zero downtime deployments</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="valuing-feedback">
+<h2>Valuing Feedback<a class="headerlink" href="#valuing-feedback" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Teams look to measure everything and drive continuous improvement from metrics</p></li>
+<li><p>Teams value and respond quickly to defects reported from SRE, LiveOps and CustSat</p></li>
+</ul>
+</div>
+<div class="section" id="automation">
+<h2>Automation<a class="headerlink" href="#automation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Teams build pipelines to Live following the Reference Architecture 1.5</p></li>
+<li><p>See:  <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide">https://github.com/EBSCOIS/platform.training.refarch1.5-devguide</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="definitions">
+<h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><strong>Master</strong> - EBSCOIS base repository. This repository is the starting point for all branches. All builds and deployments are sourced from this repository. Only the builds should have access to master. Only user story branches should be created here. Tags should be long-lived snapshots of the code.</p></li>
+<li><p><strong>User Story Branch Origin</strong> - Personal repository. Each developer has their own origin. Developers can grant access to their origin as desired. Master branch should never contain local changes/work. User Story Branch Origins should always be kept in sync with the Master.</p></li>
+<li><p><strong>User Story Branch Local</strong> - Local repository on the developers machine.</p></li>
+<li><p><strong>Developer Remotes</strong> - Additional remotes added to collaboratively work with developers without triggering a build</p></li>
+</ul>
+</div>
+<div class="section" id="github-flow-branching-strategy-a-id-githubflowbranchingstrategy-a">
+<h1>GitHub Flow Branching Strategy <a id=GitHubFlowBranchingStrategy></a><a class="headerlink" href="#github-flow-branching-strategy-a-id-githubflowbranchingstrategy-a" title="Permalink to this headline">¶</a></h1>
+<p>The Branching Strategy for the Reference Architecture 1.5 follows the simplified GitHub Flow model that uses a “Branch and Merge” process:</p>
+<p><a class="reference external" href="https://help.github.com/articles/github-flow/">https://help.github.com/articles/github-flow/</a></p>
+</div>
+<div class="section" id="reference-branching-model-a-id-referencebranchingmodel-a">
+<h1>Reference Branching Model <a id=ReferenceBranchingModel></a><a class="headerlink" href="#reference-branching-model-a-id-referencebranchingmodel-a" title="Permalink to this headline">¶</a></h1>
+<p><img alt="../_images/RefArch1.5BranchingModel.png" src="../_images/RefArch1.5BranchingModel.png" /></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">#</th>
+<th>Step</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td>Create feature/some-name Branch</td>
+<td>Clone Master and create a tagged branch.  Dev work scaled to two-week development and release.</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td>Commit Changes</td>
+<td>Make changes to local, run tests locally, then push to Branch Origin.  Commits will trigger the deploy CI process triggers unit test run.</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td>Create PR</td>
+<td>The build system will automate the pull from master but merge conflicts will need to be resolved manually.</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td>CI Pipeline publishes versioned artifact</td>
+<td>Artifact pushed into Artifactory. CI tests (unit tests, integration tests, CDC) run before artifacts are published.</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td>Preview Environment created</td>
+<td>Used for feature/story acceptance testing and team demos.  The Preview environment is automatically generated by creating a pull request.  Preview environment should not be used for Performance tests.  Preview environments are automatically cleaned up after a set time to live. A push can be used to recreate the Preview environment again if necessary.</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td>Master Merge</td>
+<td>PR approval required.</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td>CD Pipeline Release into Staging Env</td>
+<td>Follows Canary deployment pattern. Automated release verification performed. Automatic promotion if gate passes.  Staging environment mirrors the Live enviroment and is suitable for running performance tests.</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td>CD Pipeline Release into Live Env(s)</td>
+<td>Follows Canary deployment pattern. Automated release verification performed.</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td>Enable Live traffic</td>
+<td>Automated promotion once all gates are passed. This step includes canary testing which is automated by <a href="https://github.com/EBSCOIS/platform.infrastructure.hydra#deployment-manifest">Hydra</a> and can happen from 1 to n times. This stage can also be used for dark traffic testing.</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td>Review and Verify</td>
+<td>Operations confirmed with live traffic. Validate Performance and Behavior.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="sdlc-assertions-a-id-sdlcassertions-a">
+<h1>SDLC Assertions <a id=SDLCAssertions></a><a class="headerlink" href="#sdlc-assertions-a-id-sdlcassertions-a" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>All User Story Branches are created from Master</p>
+<ul>
+<li><p>Do update (Pull down from Master) into your User Story branches frequently (At least daily)</p></li>
+<li><p>Do merge to Master regularly (At least weekly)</p></li>
+</ul>
+</li>
+<li><p>Master is kept in a releasable state at all times</p>
+<ul>
+<li><p>The Master represents a collection of Live versions and intended releases</p></li>
+<li><p>Do Not commit into Master directly</p></li>
+<li><p>Do apply Hotfixes using a User Story Branch</p></li>
+<li><p>Do Not rebase Master</p></li>
+</ul>
+</li>
+<li><p>A Branch commit triggers a CI build</p>
+<ul>
+<li><p>no versioned artifact created</p></li>
+<li><p>unit tests are run</p></li>
+</ul>
+</li>
+<li><p>A Pull Request triggers the creation of a Preview env</p>
+<ul>
+<li><p>Quality gates must pass in this env</p></li>
+<li><p>Team level Acceptance testing is done in this env</p></li>
+<li><p>Do push user story branches for discussion prior to issuing a PR</p></li>
+<li><p>PRs should represent small code changes that can be reviewed quickly</p></li>
+<li><p>Do Not introduce breaking changes (follow SOLID, 12-factor)</p></li>
+</ul>
+</li>
+<li><p>A Pull Request Approval triggers the merge into Master</p>
+<ul>
+<li><p>PO/PM/SA acceptance drives PR approval</p></li>
+</ul>
+</li>
+<li><p>A merge into Master triggers the CD process</p>
+<ul>
+<li><p>Do Not merge in broken code</p></li>
+<li><p>Do Not merge with conflicts (handle conflicts upon rebasing)</p></li>
+<li><p>Do Tag all releases</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="pipeline-quality-gates-a-id-pipelinequalitygates-a">
+<h1>Pipeline Quality Gates <a id=PipelineQualityGates></a><a class="headerlink" href="#pipeline-quality-gates-a-id-pipelinequalitygates-a" title="Permalink to this headline">¶</a></h1>
+<p>Each delivery into an environment (Preview, Staging, Live) follows the Canary promotion methodology.  All promotion events must be gated by the successful completion of a Quality Gate consisting of a set of tests appropriate for the environment.  This helps to ensure that the version of the service being promoted into use within a given environment is fit-for-purpose.</p>
+<div class="section" id="test-gates">
+<h2>Test Gates<a class="headerlink" href="#test-gates" title="Permalink to this headline">¶</a></h2>
+<p>For guidance on testing, including Consumer-Driven Contract testing and Performance testing, see:  <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide/blob/master/guides/Quality_Gates_Medusa">https://github.com/EBSCOIS/platform.training.refarch1.5-devguide/blob/master/guides/Quality_Gates_Medusa.md</a></p>
+</div>
+<div class="section" id="stage-gates">
+<h2>Stage Gates<a class="headerlink" href="#stage-gates" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="branch-builds">
+<h3>Branch Builds<a class="headerlink" href="#branch-builds" title="Permalink to this headline">¶</a></h3>
+<p>CI process initiated by a commit into a non-Master branch. Unit test gate is triggered.</p>
+</div>
+<div class="section" id="preview">
+<h3>Preview<a class="headerlink" href="#preview" title="Permalink to this headline">¶</a></h3>
+<p>Initiated by a commit in a feature branch or pull request. Preview environments last for a define set of time by default; please refer to <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra">Hydra</a> document for time to live information.  CI tests run. End-to-End tests are optional.  Preview environment is constructed in the Staging cluster but in a cost-optimized way and should not be used for performance test.  Components deployed to the Preview environment will work with other components already deployed in the Staging environment by default. However, the preview environment can also deploy additional components besides your own via an YAML configuration to provide an isolated environment to conduct testing and minimize interference to other teams.</p>
+<p>Acceptance testing at the team level is done in this environment.  PRs should not be approved until sufficient testing has been completed for the PO/PM/SA to accept the feature or user story.</p>
+</div>
+<div class="section" id="staging">
+<h3>Staging<a class="headerlink" href="#staging" title="Permalink to this headline">¶</a></h3>
+<p>CI process initiated by a merge to Master.  The Staging environment is the next higher environment pipelines deliver into and mirrors the Live environment.  It is the environment where full CD tests (E2E and Performance tests) can be executed.</p>
+</div>
+<div class="section" id="live">
+<h3>Live<a class="headerlink" href="#live" title="Permalink to this headline">¶</a></h3>
+<p>The Live environments are the final environments that the pipelines deliver into.  The Live environments are where we need to ensure the newly deployed version is operationally viable.  In this case it is acceptable to run a smaller set of “Smoke Tests” and CD tests to ensure that the newly deployed version operates as expected based on the major use cases supported by the component.</p>
+</div>
+</div>
+</div>
+<div class="section" id="versioning">
+<h1>Versioning<a class="headerlink" href="#versioning" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://semver.org/">Semantic Versioning</a> should be used by all services being delivered into an environment.</p>
+<p>Given a version number MAJOR.MINOR.PATCH, increment the:</p>
+<ol class="simple">
+<li><p>MAJOR version when you make incompatible API changes,</p></li>
+<li><p>MINOR version when you add functionality in a backwards-compatible manner, and</p></li>
+<li><p>PATCH version when you make backwards-compatible bug fixes.</p></li>
+</ol>
+</div>
+<div class="section" id="feature-toggles-a-id-featuretoggles-a">
+<h1>Feature Toggles <a id=FeatureToggles></a><a class="headerlink" href="#feature-toggles-a-id-featuretoggles-a" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="note-support-for-feature-toggles-in-1-5-will-not-be-in-place-until-after-pi12">
+<h2>Note:  Support for Feature Toggles in 1.5 will not be in place until after PI12.<a class="headerlink" href="#note-support-for-feature-toggles-in-1-5-will-not-be-in-place-until-after-pi12" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://martinfowler.com/articles/feature-toggles.html">Feature Toggles</a> <strong>may be used to:</strong></p>
+<ul class="simple">
+<li><p>isolate work in progress</p></li>
+<li><p>provide a mechanism to dynamically enable new business functionality post release</p></li>
+<li><p>enable canary testing of experimental algorithms</p></li>
+<li><p>enable A/B testing</p></li>
+</ul>
+<p><strong>Feature Toggle Best Practices:</strong></p>
+<ul class="simple">
+<li><p>Feature Toggles must have a defined expiration date.</p></li>
+<li><p>Treat Feature Toggles as Technical Debt.  Code supporting the feature toggle must be removed once the defined expiration date has been met.</p></li>
+<li><p>Testing must cover all Feature Toggle permutations - USE THEM SPARINGLY.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="reference-architecture-test-standards">
+<h2>Reference Architecture Test Standards<a class="headerlink" href="#reference-architecture-test-standards" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="http://confluence/display/~abhavan/Microservices+Test+Strategy">Microservices Test Strategy</a></p></li>
+<li><p><a class="reference external" href="http://confluence/display/entarch/SERVICES-260%3A+Pipeline+Testing">SERVICES-260: Pipeline Testing</a></p></li>
+<li><p><a class="reference external" href="http://confluence/display/entarch/UI-260%3A+DevTest+-+Automated+E2E+testing">UI-260: DevTest - Automated E2E testing</a></p></li>
+<li><p><a class="reference external" href="http://confluence/display/entarch/SERVICES-270%3A++Microservices+Testing">SERVICES-270: Microservices Testing</a></p></li>
+<li><p><a class="reference external" href="http://confluence/display/entarch/SERVICES-280%3A+Testing+Overview">SERVICES-280: Testing Overview</a></p></li>
+</ul>
+</div>
+<div class="section" id="sonarqube-quality-profiles">
+<h2>Sonarqube Quality Profiles:<a class="headerlink" href="#sonarqube-quality-profiles" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://sonarqube73.eis-platformlive.cloud/profiles">http://sonarqube73.eis-platformlive.cloud/profiles</a></p>
+</div>
+<div class="section" id="reference-architecture-1-5-feedback-channel">
+<h2>Reference Architecture 1.5 Feedback Channel<a class="headerlink" href="#reference-architecture-1-5-feedback-channel" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://teams.microsoft.com/l/team/19%3afa2ca3ef3b8042438565ebe7c5e71731%40thread.skype/conversations?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">Links to Teams Channel</a></p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Development_Operating_Procedures.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

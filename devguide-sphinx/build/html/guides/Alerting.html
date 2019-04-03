@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Alerting &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="alerting">
+<h1>Alerting<a class="headerlink" href="#alerting" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="default-baseline-alerts">
+<h2>Default Baseline Alerts<a class="headerlink" href="#default-baseline-alerts" title="Permalink to this headline">¶</a></h2>
+<p>Several baseline alerts are configured by this repository https://github.com/EBSCOIS/platform.infrastructure.baseline-alerts. The following alerts will now be implicitly added to every micro service that is deployed to the mesh. Below is an explanation for each alert and what it monitors.</p>
+<p>Alerts are automatically forwarded to Opsgenie. Any cluster designated as “test” or “sandbox” have their alerts sent to https://app.sandbox.opsgenie.com. All other clusters are configured to send their alerts to https://app.opsgenie.com.</p>
+<div class="section" id="error-alerts">
+<h3>Error Alerts<a class="headerlink" href="#error-alerts" title="Permalink to this headline">¶</a></h3>
+<p>Alert Name | Alert Description
+———- | —————–
+Service Error Rate Exceeding 10% | Fires if a service is throwing more than 10% errors for 5 minutes
+Service Error Increase Detected | Fires if there is an increase in the error rate in the past 5 minutes that 40% higher than the error rate from the past hour and the service is receiving at least 1 request per second
+Instance Error Increase Detected | Fires if there is an instance with an error rate that is 2 standard deviations above the average for the service and the service is receiving at least 1 request per second</p>
+</div>
+<div class="section" id="latency-alerts">
+<h3>Latency Alerts<a class="headerlink" href="#latency-alerts" title="Permalink to this headline">¶</a></h3>
+<p>Alert Name | Alert Description
+———- | —————–
+Service Latency over 5 seconds | Fires if a service response time is greater than 5 seconds
+Service Latency Increase Detected | Fires if there is an increase in the service latency in the past 5 minutes that 40% higher than the latency from the past hour and the service is receiving at least 1 request per second
+Instance Latency Increase Detected | Fires if there is an instance with latency that is 2 standard deviations above the average for the service and the service is receiving at least 1 request per second</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Alerting.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

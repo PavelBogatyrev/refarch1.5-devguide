@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Code Examples &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="code-examples">
+<h1>Code Examples<a class="headerlink" href="#code-examples" title="Permalink to this headline">¶</a></h1>
+<!-- TOC --><ul class="simple">
+<li><p><a class="reference external" href="#code-examples">Code Examples</a></p>
+<ul>
+<li><p><a class="reference external" href="#conventions">Conventions</a></p></li>
+<li><p><a class="reference external" href="#middle-service">Middle Service</a></p></li>
+<li><p><a class="reference external" href="#edge-service">Edge Service</a></p></li>
+<li><p><a class="reference external" href="#calling-ebsco-next-api">Calling EBSCO Next API</a></p></li>
+<li><p><a class="reference external" href="#secret-management">Secret Management</a></p></li>
+<li><p><a class="reference external" href="#queues">Queues</a></p></li>
+<li><p><a class="reference external" href="#calling-a-database">Calling a Database</a></p></li>
+<li><p><a class="reference external" href="#propogating-headers-for-distributed-tracing">Propogating headers for distributed tracing</a></p></li>
+<li><p><a class="reference external" href="#pushing-custom-metrics-to-prometheus">Pushing custom metrics to Prometheus</a></p></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC --><div class="section" id="conventions">
+<h2>Conventions<a class="headerlink" href="#conventions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>SERVICE PORT</strong></p>
+<ul>
+<li><p>All services will be exposed on port <strong>8080</strong> (java, nodejs edge &amp; ui).</p></li>
+</ul>
+</li>
+<li><p><strong>SERVICE NAME</strong></p>
+<ul>
+<li><p>Service names should not include dots, as this will interfere with the DNS-based resolution in the Kubernetes cluster.</p></li>
+<li><p>Must be a DNS 952 label (at most 24 characters, matching regex <a class="reference external" href="%5B-a-z0-9%5D*%5Ba-z0-9%5D">a-z</a>?): e.g. “my-name”</p></li>
+</ul>
+</li>
+<li><p><strong>SERVICE DISCOVERY</strong></p>
+<ul>
+<li><p>Services will use Kubernetes DNS resolution to discover its dependencies.</p></li>
+<li><p>All services are assigned a DNS A record for a name of the form <strong>my-svc.my-namespace.svc.cluster.local</strong>. This resolves to the cluster IP (or to the set of IPs of the pods selected by the Service in the case of headless services) of the Service.</p>
+<ul>
+<li><p>Example:</p>
+<ul>
+<li><p>To discover a serrvice called ‘bookProvider’ running on port 8080 in the cluster in the ‘default’ namespace, the consumer service (bookConsumer) will use the endpoint http://bookprovider:8080 as the baseUrl.</p></li>
+<li><p>To discover a serrvice called ‘bookProvider’ running on port 8080 in the cluster in the ‘application’ namespace, the consumer service (bookConsumer) will use the endpoint http://bookprovider.application.svc.cluster.local:8080 as the baseUrl.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="middle-service">
+<h2>Middle Service<a class="headerlink" href="#middle-service" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/EBSCOIS/ea.shared.simplemiddle/tree/refarch-1.5-with-springboot-2">ea.shared.simplemiddle - refarch-1.5-with-springboot-2 branch</a></p>
+<p><a class="reference external" href="https://github.com/EBSCOIS/platform.training.bookprovider/tree/istio">platform.training.bookprovider - istio branch</a></p>
+</div>
+<div class="section" id="edge-service">
+<h2>Edge Service<a class="headerlink" href="#edge-service" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/EBSCOIS/ea.shared.simpleedge/tree/refarch-1.5">ea.shared.simpleedge - refarch-1.5 branch</a></p>
+</div>
+<div class="section" id="calling-ebsco-next-api">
+<h2>Calling EBSCO Next API<a class="headerlink" href="#calling-ebsco-next-api" title="Permalink to this headline">¶</a></h2>
+<p>See auth workflows in common/models/search.js of this repo:
+<a class="reference external" href="https://github.com/EBSCOIS/discover.edspoc.edgeapi">discover.edspoc.edgeapi</a></p>
+</div>
+<div class="section" id="secret-management">
+<h2>Secret Management<a class="headerlink" href="#secret-management" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>See /config/secrets/edsapi-secrets.json and /server/lib/auth.js for how secrets are propogated in this repo:
+<a class="reference external" href="https://github.com/EBSCOIS/discover.edspoc.edgeapi">discover.edspoc.edgeapi</a></p></li>
+<li><p>Long-term this will be handled via Hashicorp Vault and the docs will be updated to reflect that.</p></li>
+</ul>
+</div>
+<div class="section" id="queues">
+<h2>Queues<a class="headerlink" href="#queues" title="Permalink to this headline">¶</a></h2>
+<p>TBD</p>
+</div>
+<div class="section" id="calling-a-database">
+<h2>Calling a Database<a class="headerlink" href="#calling-a-database" title="Permalink to this headline">¶</a></h2>
+<p>TBD</p>
+</div>
+<div class="section" id="propogating-headers-for-distributed-tracing">
+<h2>Propogating headers for distributed tracing<a class="headerlink" href="#propogating-headers-for-distributed-tracing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="with-node-js-express-middleware">
+<h3>With Node.js/Express middleware<a class="headerlink" href="#with-node-js-express-middleware" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// middleware.js</span>
+<span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;axios&quot;</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">headersToPropagate</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">&quot;x-request-id&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;x-b3-traceid&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;x-b3-spanid&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;x-b3-parentspanid&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;x-b3-sampled&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;x-b3-flags&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;x-ot-span-context&quot;</span>
+<span class="p">];</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">req</span><span class="p">.</span><span class="nx">axios</span> <span class="o">=</span> <span class="nx">axios</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+    <span class="nx">headers</span><span class="o">:</span> <span class="nx">headersToPropagate</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">header</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">val</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">header</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">acc</span><span class="p">[</span><span class="nx">header</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">acc</span><span class="p">;</span>
+    <span class="p">},</span> <span class="p">{})</span>
+  <span class="p">});</span>
+  <span class="nx">next</span><span class="p">();</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="c1">// server.js</span>
+<span class="kr">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;express&quot;</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;./middleware&quot;</span><span class="p">));</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/api/foo&quot;</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+ <span class="c1">// Make an outbound call to mid-tier using the Axios instance provided by middleware</span>
+ <span class="nx">req</span><span class="p">.</span><span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;http://somemiddleservice:8080&quot;</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(({</span><span class="nx">data</span><span class="p">})</span> <span class="p">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="p">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span> <span class="nx">message</span><span class="o">:</span> <span class="s2">&quot;Hit an error!&quot;</span> <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="pushing-custom-metrics-to-prometheus">
+<h2>Pushing custom metrics to Prometheus<a class="headerlink" href="#pushing-custom-metrics-to-prometheus" title="Permalink to this headline">¶</a></h2>
+<p>TBD</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Code_Examples.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

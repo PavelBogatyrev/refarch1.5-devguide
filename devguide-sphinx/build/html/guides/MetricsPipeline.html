@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Metrics Pipeline &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="metrics-pipeline">
+<h1>Metrics Pipeline<a class="headerlink" href="#metrics-pipeline" title="Permalink to this headline">¶</a></h1>
+<!-- TOC --><ul class="simple">
+<li><p><a class="reference external" href="#metrics-pipeline">Metrics Pipeline</a></p>
+<ul>
+<li><p><a class="reference external" href="#overview">Overview</a></p></li>
+<li><p><a class="reference external" href="#implicit-metrics-and-the-dashboard-as-a-data-contract">Implicit metrics and the dashboard as a data contract</a></p></li>
+<li><p><a class="reference external" href="#implicit-metrics,-more-detail">Implicit metrics - more detail</a></p></li>
+<li><p><a class="reference external" href="#rollout">Rollout</a></p></li>
+<li><p><a class="reference external" href="#pi12-pipeline-metric-mappings">PI12 Pipeline Metric Mappings</a></p></li>
+<li><p><a class="reference external" href="#canonical-metrics">Canonical Metrics</a></p></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC --><div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Metrics on Ref Arch 1.5 are a departure from the methodology than for Ref Arch 1.0.  In Ref Arch 1.0 the only part of the process that was
+automated and standardized was the movement of metrics from a service to a store (Datadog). Teams were responsible for defining their
+own metrics, creating these metrics individually, defining and updating standardizations, retrofitting new metrics, creating
+visualizations
+and manually updating visualizations for any changes to these metrics.</p>
+<p>Ref Arch 1.5 is a leap forward in that a great deal of this work is now done for you. Depending on the type of service and level of
+detail there may literally be no additional work other than writing your service code. Other metrics pipeline work has varying degrees of user intervention
+which this document will describe in more detail.</p>
+<p><img alt="../_images/MP-10vs15.png" src="../_images/MP-10vs15.png" />Metrics in 1.5 vs 1.0</p>
+</div>
+<div class="section" id="implicit-metrics-and-the-dashboard-as-a-data-contract">
+<h2>Implicit metrics and the dashboard as a data contract.<a class="headerlink" href="#implicit-metrics-and-the-dashboard-as-a-data-contract" title="Permalink to this headline">¶</a></h2>
+<p>Metrics that can be visualized with zero or minimal additional work will be referred to as implicit.  “Zero additional work” is self-explanatory,
+“minimal additional work” would be adding a custom annotation that conforms to a defined standard.  What makes these implicit is once
+generated in code, pipeline and dashboarding will pull these onto the dashboard automatically.  As the dashboard is merely a UI in front of Prometheus
+queries implicit signals boil down to if the signals are standardized they will appear on common dashboards.  If these signals are not, they
+won’t.  As EBSCO starts to move to using the standard dashboards for NFRs, using implicit signals is the path of least resistance to
+rapid and efficient software development.</p>
+<p>That said, if teams determine these signals are not sufficient they are still free to create their own custom metrics and dashboards.</p>
+</div>
+<div class="section" id="implicit-metrics-more-detail">
+<h2>Implicit metrics, more detail<a class="headerlink" href="#implicit-metrics-more-detail" title="Permalink to this headline">¶</a></h2>
+<p>The standardization will leverage istio’s capabilities and build out from there.  As such istio 1.0 out of the box (OOTB)
+gives us “RED” signals (Rate, Errors, Duration) for REST based services.  This is measured at the Service level.  For example,
+given Service A with endpoints 1, 2 and 3; istio provides RED signals for Service A, but not Endpoints 1, 2, and 3.  RED signals
+will be a black box calculation that is handed to us from istio.</p>
+<p>The 1.0 Metrics PDK will add the ability to see implicit RED signals for endpoints 1, 2, and 3.  This is done using Micrometer
+and some additional wiring in the PDK.  Once again the signals from here are black box via Micrometer and so signal coherence
+between the istio based and the automatic Micrometer is not guaranteed.  If that is a concern additional work may be done to
+validate/test this model.</p>
+<p>Lastly teams are free to add their own metrics and pipeline signals  These can persist into part of the pipeline and
+stored on Prometheus, or additional dashboards can be made.  Note in PI 12 adhoc dashboards on Grafana has not been implemented.</p>
+</div>
+<div class="section" id="rollout">
+<h2>Rollout<a class="headerlink" href="#rollout" title="Permalink to this headline">¶</a></h2>
+<p>As stated above these capabilities are still being developed and not all capabilities will be available in PI12.  Presently
+this is the current state of affairs:</p>
+<div class="section" id="pi12">
+<h3>PI12<a class="headerlink" href="#pi12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Implicit RED signals on Dashboard for REST based services (implicit with istio)</p></li>
+<li><p>Implicit RED Signals on Dashboard for REST based end points with Java PDK</p></li>
+<li><p>Implicit RE (no Duration) on Dashboard for REST based signals with Node Express PDK (not tested yet)</p></li>
+<li><p>Implicit Duration Quantiles to Prometheus but not Dashboard for Node Express PDK (not aligned with istio yet)</p></li>
+<li><p>Custom Metrics to Prometheus with Java and Node Express PDKs</p></li>
+<li><p>Beta versions of Grafana dashboards for custom implicit dashboards for Java PDK RED signals and Node Express RE Signals</p></li>
+</ul>
+<p><img alt="../_images/MetricsFlowinPI12.png" src="../_images/MetricsFlowinPI12.png" />High level view Metrics Flow</p>
+</div>
+<div class="section" id="pi13-candidates">
+<h3>PI13 (candidates)<a class="headerlink" href="#pi13-candidates" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Implicit duration on Dashboard for REST based signals with Node Express PDK (using istio le bucketing)</p></li>
+<li><p>Standardized pipeline components for RED signals on Non-REST services</p></li>
+<li><p>Standardized pipeline components for RED signals on Non-REST methods</p></li>
+<li><p>Ability for Adhoc dashboards</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="pi12-pipeline-metric-mappings">
+<h2>PI12 Pipeline Metric Mappings<a class="headerlink" href="#pi12-pipeline-metric-mappings" title="Permalink to this headline">¶</a></h2>
+<p>Below is an overview of which metrics are supported at which stages for the Java PDK.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Type of Metric</th>
+<th>Required Infrastructure</th>
+<th>Code that needs to be added</th>
+<th>Primary metric names</th>
+<th>Canonical Dimensions (labels)</th>
+<th>Primary Dimensions (labels)</th>
+<th>Dashboard, Alerting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Istio service  REST</td>
+<td>istio</td>
+<td>None</td>
+<td>istio_requests_total, istio_request_duration_seconds_bucket</td>
+<td>destination_service_name, response_code, le, namespace, version</td>
+<td></td>
+<td>Istio Mesh, Istio Service, Istio Workload</td>
+</tr>
+<tr>
+<td>Istio service Non-REST</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>TBD</td>
+<td></td>
+<td>TBD</td>
+</tr>
+<tr>
+<td>uri/method REST</td>
+<td>PDK</td>
+<td>None</td>
+<td>http_server_requests_seconds_count http_server_requests_seconds_bucket</td>
+<td>destination_service_name, namespace, version</td>
+<td>uri, method, exception, outcome</td>
+<td>Ref Arch 1.5 Top Level (Beta), Ref Arch 1.5 Service (Beta)</td>
+</tr>
+<tr>
+<td>Method Non-REST</td>
+<td>PDK</td>
+<td>@Timed Annotation</td>
+<td>Derived from metric name + PDK: <code>@Timed(value = "foo") yields:</code>  <code>foo_seconds_count</code> <br>  <code>foo_seconds_max</code> <br>  <code>foo_seconds_sum</code> <br>  <code>foo_seconds (quantiles, .5, .9, .95, .99)</code></td>
+<td>destination_service_name, namespace, version</td>
+<td>method, exception, class</td>
+<td>Custom in PI12 (not recommended), Basis for non-REST RED signals at some future date.</td>
+</tr>
+<tr>
+<td>Gauge</td>
+<td>PDK</td>
+<td>@Gauge Annotation</td>
+<td>Derived from metric name + PDK <code>@Gauge(name = "goo") yields:</code> <code>gooGauge</code></td>
+<td>destination_service_name, namespace, version</td>
+<td></td>
+<td>Custom</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="canonical-metrics">
+<h2>Canonical Metrics<a class="headerlink" href="#canonical-metrics" title="Permalink to this headline">¶</a></h2>
+<p>In order to maintain a cohesive pipeline metrics must be calucalted the same way in order to provide a coherent set of data.
+As the base signals rely on istio for metrics, and metrics in the PDK must have the same characteristics as the istio signals
+or we will not be able to draw meaningful conclusions</p>
+<p>The two most important characteristics of the metrics are</p>
+<ul class="simple">
+<li><p>The label (dimension)</p></li>
+<li><p>The calculation</p></li>
+</ul>
+<p>The PDKs will handle this for teams but it is important to understand.</p>
+<p><img alt="../_images/MP-MetricsAlignment.png" src="../_images/MP-MetricsAlignment.png" />Alignment Of Metrics In Ref Arch 1.5</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/MetricsPipeline.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

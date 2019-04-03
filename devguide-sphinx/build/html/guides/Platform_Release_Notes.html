@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>RefArch 1.5 Platform Release Notes &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="refarch-1-5-platform-release-notes">
+<h1>RefArch 1.5 Platform Release Notes<a class="headerlink" href="#refarch-1-5-platform-release-notes" title="Permalink to this headline">¶</a></h1>
+<p><strong>NOTE: Please refer to the <a class="reference internal" href="Troubleshooting_Guide.html"><span class="doc">Troubleshooting Guide</span></a> for the resolution of common issues.</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="#refarch-15-platform-release-notes">RefArch 1.5 Platform Release Notes</a></p>
+<ul>
+<li><p><a class="reference external" href="#pi13-i5-platform-upgrade">PI13 I5 Platform Upgrade</a></p>
+<ul>
+<li><p><a class="reference external" href="#overview">OVERVIEW</a></p></li>
+<li><p><a class="reference external" href="#deprecationschanges">DEPRECATIONS/CHANGES</a></p>
+<ul>
+<li><p><a class="reference external" href="#new-cluster">New cluster</a></p></li>
+<li><p><a class="reference external" href="#jsb-applicationyml-changes">JSB application.yml changes</a></p></li>
+<li><p><a class="reference external" href="#node-pdk-upgrade">Node PDK upgrade</a></p></li>
+<li><p><a class="reference external" href="#new-jenkins-server-refarch15e-for-services-that-use-medusa-only">New Jenkins Server (refarch15e) for services that use Medusa ONLY</a></p></li>
+<li><p><a class="reference external" href="#new-secrets-retrieval-mechanism-for-using-vault">New Secrets Retrieval Mechanism for using VAULT</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#new-features">NEW FEATURES</a></p>
+<ul>
+<li><p><a class="reference external" href="#gradle-plugins-and-521-upgrade">Gradle plugins and 5.2.1 upgrade</a></p></li>
+<li><p><a class="reference external" href="#put-secrets-in-ssm-parameter-store-using-vault-ui">Put secrets in SSM Parameter Store using vault UI</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#bug-fixes">BUG FIXES</a></p>
+<ul>
+<li><p><a class="reference external" href="#npm-audit">NPM audit</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="pi13-i5-platform-upgrade">
+<h2>PI13 I5 Platform Upgrade<a class="headerlink" href="#pi13-i5-platform-upgrade" title="Permalink to this headline">¶</a></h2>
+<p>To review release notes for the previous platform upgrades, please see <a class="reference external" href="archived-release-notes/">archived-release-notes</a>.</p>
+<div class="section" id="overview">
+<h3>OVERVIEW<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><strong>New cluster</strong>: EksJ becomes EksK</p></li>
+<li><p><strong>JSB application.yml</strong>: All JSB services should delete indicated sections from config</p></li>
+<li><p><strong>JSB Gradle upgrade and plugins changes</strong>: All JSB services should make indicated dependency changes</p></li>
+<li><p><strong>Node PDK upgrade</strong>: All Node services should update to latest version of the PDK</p></li>
+<li><p><strong>New Jenkins server</strong> <a class="reference external" href="https://jenkins-refarch15e.eis-platformlive.cloud">jenkins-refarch15e</a> for medusa-based projects.</p></li>
+<li><p><strong>Baseline Alerts</strong>: All services will now have baseline alerts configured</p></li>
+</ul>
+</div>
+<div class="section" id="deprecations-changes">
+<h3>DEPRECATIONS/CHANGES<a class="headerlink" href="#deprecations-changes" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="new-cluster">
+<h4>New cluster<a class="headerlink" href="#new-cluster" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">EksK-VpcA-useast1-DeliveryDevQA-Dev6</span></code>. Kube config file available <a class="reference external" href="../files/kubeconfig-dev6">here</a></p>
+<p>Monitoring tools page: http://monitoring.eksk-useast1.eks.eis-deliverydevqa.cloud</p>
+</div>
+<div class="section" id="jsb-application-yml-changes">
+<h4>JSB application.yml changes<a class="headerlink" href="#jsb-application-yml-changes" title="Permalink to this headline">¶</a></h4>
+<p>JSB repositories should have several items removed from <code class="docutils literal notranslate"><span class="pre">src/main/resources/application.yml</span></code>.  A large portion of these settings are now managed by the PDK.  Others are no longer in use.  If a block no longer contains items after removal, remove the block as well. (This may be the case for <code class="docutils literal notranslate"><span class="pre">server</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">logging</span></code> and <code class="docutils literal notranslate"><span class="pre">management</span></code>.)</p>
+<p>Remove the following configuration from <code class="docutils literal notranslate"><span class="pre">application.yml</span></code>:</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span>spring:
+  application:
+    name: platform.training.example  # your name
+  main:
+    banner-mode: &quot;off&quot;
+
+<span class="gd">- server:</span>
+<span class="gd">-  port: 8080</span>
+<span class="gd">-</span>
+application:
+  team: ea          # your team
+  market: training  # your market
+  domain: platform  # your domain
+<span class="gd">-  subenv: ${APP_SUB_ENV:subenv}</span>
+<span class="gd">-  environment: ${AWS_ENV:environment}</span>
+<span class="gd">-  containerId: ${HOSTNAME:container}</span>
+<span class="gd">-  transactionIdHeader: &quot;TRANSACTION_ID&quot;</span>
+<span class="gd">-</span>
+<span class="gd">- info:</span>
+<span class="gd">-  title: ${spring.application.name}</span>
+<span class="gd">-  market: ${application.market}</span>
+<span class="gd">-  domain: ${application.domain}</span>
+<span class="gd">-  version: ${APP_VERSION:unknown}</span>
+<span class="gd">-  environment: ${AWS_ENV:environment}</span>
+<span class="gd">-  containerId: ${HOSTNAME:container}</span>
+<span class="gd">-</span>
+<span class="gd">- logging:</span>
+<span class="gd">-  level:</span>
+<span class="gd">-    root: INFO</span>
+<span class="gd">-</span>
+<span class="gd">- management:</span>
+<span class="gd">-  server:</span>
+<span class="gd">-    port: 8081</span>
+<span class="gd">-  endpoints:</span>
+<span class="gd">-    web:</span>
+<span class="gd">-      exposure:</span>
+<span class="gd">-        include: env,health,info,metrics,prometheus,threaddump</span>
+<span class="gd">-      base-path: /admin</span>
+<span class="gd">-      path-mapping:</span>
+<span class="gd">-        prometheus: prometheus</span>
+<span class="gd">-  endpoint:</span>
+<span class="gd">-    metrics:</span>
+<span class="gd">-      enabled: true</span>
+<span class="gd">-    prometheus:</span>
+<span class="gd">-      enabled: true</span>
+<span class="gd">-  metrics:</span>
+<span class="gd">-    export:</span>
+<span class="gd">-      prometheus:</span>
+<span class="gd">-        enabled: true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="node-pdk-upgrade">
+<h4>Node PDK upgrade<a class="headerlink" href="#node-pdk-upgrade" title="Permalink to this headline">¶</a></h4>
+<p>An important patch release has been made available and all Node services should ugprade; this is a non-breaking change that will align services to changes in platform-level metrics collection, so all that is required is to do an npm install:</p>
+<p><code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">i</span> <span class="pre">--save</span> <span class="pre">platform.shared.node-express-pdk&#64;2.0.2</span></code></p>
+<p>Please make sure to commit the resulting changes in both the package.json and package-lock.json files to SCM.</p>
+</div>
+<div class="section" id="new-jenkins-server-refarch15e-for-services-that-use-medusa-only">
+<h4>New Jenkins Server (refarch15e) for services that use Medusa ONLY<a class="headerlink" href="#new-jenkins-server-refarch15e-for-services-that-use-medusa-only" title="Permalink to this headline">¶</a></h4>
+<p><strong>NOTE: Jenkins server jenkins-refarch15d will be decommissioned at the end of I6, if your project is on jenkins-refarch15d, it needs to be migrated to jenkins-refarch15e</strong></p>
+<ul class="simple">
+<li><p>If you are <strong>not</strong> using / migrating to <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa">Medusa</a>, you should continue to use the <code class="docutils literal notranslate"><span class="pre">refarch15a</span></code> Jenkins instance &amp; label</p></li>
+<li><p>The new Jenkins server is located at: https://jenkins-refarch15e.eis-platformlive.cloud</p></li>
+<li><p>To move your job from https://jenkins-refarch15d.eis-platformlive.cloud to https://jenkins-refarch15e.eis-platformlive.cloud</p>
+<ul>
+<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15d</span></code> label from your repo</p></li>
+<li><p>Confirm job was removed from https://jenkins-refarch15d.eis-platformlive.cloud</p></li>
+<li><p>Add a new label <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15e</span></code> to your repo</p></li>
+<li><p>Confirm job was added from https://jenkins-refarch15e.eis-platformlive.cloud</p></li>
+<li><p><strong>When switching labels, delete the old label and create a new label with ‘jenkins-refarch15e’. Do not edit the existing label</strong></p></li>
+</ul>
+</li>
+<li><p>The only library supported in <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15e</span></code> is <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa">Medusa</a></p></li>
+</ul>
+</div>
+<div class="section" id="new-secrets-retrieval-mechanism-for-using-vault">
+<h4>New Secrets Retrieval Mechanism for using VAULT<a class="headerlink" href="#new-secrets-retrieval-mechanism-for-using-vault" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>You no longer have to put config.hcl or template.ctmpl file in your repo.</p></li>
+<li><p>Application code no longer needs to place above files in config directory.</p>
+<ul>
+<li><p>This is an automated step</p></li>
+</ul>
+</li>
+<li><p>You now add a secrets-manifest.yaml to the /secrets/ directory in your repository. <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.vault-init/blob/master/configmap-mount/secrets_manifest.yaml">Sample-Manifest</a>
+<a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.vault-init#secret-manifest-to-consume-resources-in-a-pod-microservices">Documentation</a></p></li>
+<li><p>You no longer have to create multiple files to provision resources in Vault via platform.infrastructure.vault-resources.</p></li>
+<li><p>To Provision Resources create a PR in to Resources Directory in <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.vault-init/tree/master/resources">Vault-Init</a></p></li>
+<li><p><a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.vault-init/blob/master/documentation-files/zSampleSecretsManifest.yaml">Sample-Provision-Manifest</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="new-features">
+<h3>NEW FEATURES<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="gradle-plugins-and-5-2-1-upgrade">
+<h4>Gradle plugins and 5.2.1 upgrade<a class="headerlink" href="#gradle-plugins-and-5-2-1-upgrade" title="Permalink to this headline">¶</a></h4>
+<p>JSB repositories that use Medusa should make the following changes:</p>
+<ul class="simple">
+<li><p>Add two new plugins, <code class="docutils literal notranslate"><span class="pre">com.github.ben-manes.versions</span></code> and <code class="docutils literal notranslate"><span class="pre">com.pasam.gradle.buildinfo</span></code>, to <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> and update the versions of existing plugins.  The result should contain the following:</p></li>
+</ul>
+<div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>plugins {
+  // ...
+  id &#39;com.github.ben-manes.versions&#39; version &#39;0.21.0&#39;
+  id &#39;com.pasam.gradle.buildinfo&#39; version &#39;0.1.3&#39;
+  id &#39;com.jfrog.artifactory&#39; version &#39;4.9.3&#39;
+  id &#39;org.owasp.dependencycheck&#39; version &#39;4.0.2&#39;
+  id &#39;org.sonarqube&#39; version &#39;2.7&#39;
+  id &#39;org.springframework.boot&#39; version &quot;2.1.3.RELEASE&quot;
+  id &#39;spring-cloud-contract&#39; version &quot;2.1.1.RELEASE&quot;
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Update versions of the following dependencies in the <code class="docutils literal notranslate"><span class="pre">ext</span></code> section of <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code>:</p></li>
+</ul>
+<div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>ext {
+  // ...
+  // Compile dependency versions
+  amazonAWSJavaSDKVersion = &#39;1.11.519&#39;
+  lombokVersion = &#39;1.18.6&#39;
+  springBootVersion = &#39;2.1.3.RELEASE&#39;
+  springCloudContractVersion = &#39;2.1.1.RELEASE&#39;
+  swaggerVersion = &#39;2.9.2&#39;
+
+  // Test dependency versions
+  junitJupiterVersion = &#39;5.4.1&#39;
+  junitLauncherVersion = &#39;1.4.1&#39;
+  mockitoVersion = &#39;2.23.4&#39;
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Update the Jacoco tool version in <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code>:</p></li>
+</ul>
+<div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>jacoco {
+  toolVersion = &#39;0.8.3&#39;
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add the following test runtime for <code class="docutils literal notranslate"><span class="pre">junit-platform-commons</span></code> to the <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> section of <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code>:</p></li>
+</ul>
+<div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>dependencies {
+  // Tests
+  // ...
+  testRuntime group: &#39;org.junit.platform&#39;, name: &#39;junit-platform-commons&#39;, version: &quot;${junitLauncherVersion}&quot;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">mavenLocal()</span></code> to <code class="docutils literal notranslate"><span class="pre">settings.gradle</span></code>:</p></li>
+</ul>
+<div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>pluginManagement {
+  repositories {
+    mavenLocal()
+    // ...
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Run the following command to upgrade gradle wrapper to version 5.2.1:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">./gradlew</span> <span class="pre">wrapper</span> <span class="pre">--gradle-version</span> <span class="pre">5.2.1</span> <span class="pre">--distribution-type</span> <span class="pre">all</span></code></p></li>
+</ul>
+</li>
+<li><p>Stage and commit all the changes that includes the following files:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradle/wrapper/gradle-wrapper.jar</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradle/wrapper/gradle-wrapper.properties</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradlew</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gradlew.bat</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build.gradle</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">settings.gradle</span></code></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="put-secrets-in-ssm-parameter-store-using-vault-ui">
+<h4>Put secrets in SSM Parameter Store using vault UI<a class="headerlink" href="#put-secrets-in-ssm-parameter-store-using-vault-ui" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>Select users can use VaultUI to put secrets in the AWS SSM Parameter store.</p></li>
+<li><p><a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.vault-ssm/blob/master/README.md#using-vault-ui-to-put-secrets-in-aws-ssm-parameter-store">Using Vault UI to put secrets into AWS SSM Parameter Store</a></p></li>
+</ul>
+<!--- Reused Links ---></div>
+<div class="section" id="baseline-alerts">
+<h4>Baseline Alerts<a class="headerlink" href="#baseline-alerts" title="Permalink to this headline">¶</a></h4>
+<p>See <a class="reference internal" href="Alerting.html"><span class="doc">Alerting</span></a> guide</p>
+</div>
+</div>
+<div class="section" id="bug-fixes">
+<h3>BUG FIXES<a class="headerlink" href="#bug-fixes" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="npm-audit">
+<h4>NPM audit<a class="headerlink" href="#npm-audit" title="Permalink to this headline">¶</a></h4>
+<p>An intermittent failure had been observed in Jenkins during audit, breaking builds. Thanks to :star: <a class="reference external" href="https://github.com/elliotmrodriguez">&#64;elliotmrodriguez</a> :star:, the NPM audit helper now has a retry mechanism and improved error messaging.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Platform_Release_Notes.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

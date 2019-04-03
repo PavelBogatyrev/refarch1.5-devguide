@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Troubleshooting &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+<!-- TOC --><ul class="simple">
+<li><p><a class="reference external" href="#troubleshooting">Troubleshooting</a></p></li>
+<li><p><a class="reference external" href="#github-autowire">Github Autowire</a></p>
+<ul>
+<li><p><a class="reference external" href="#symptoms">Symptoms</a></p></li>
+<li><p><a class="reference external" href="#solution">Solution</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#crash-loop-detection">Crash Loop Detection</a></p>
+<ul>
+<li><p><a class="reference external" href="#symptoms-1">Symptoms</a></p></li>
+<li><p><a class="reference external" href="#solution-1">Solution</a></p>
+<ul>
+<li><p><a class="reference external" href="#walkthrough">Walkthrough</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#sudo-no-tty-present-and-no-askpass-program-specified">sudo: no tty present and no askpass program specified</a></p>
+<ul>
+<li><p><a class="reference external" href="#symptoms-2">Symptoms</a></p></li>
+<li><p><a class="reference external" href="#solution-2">Solution</a></p></li>
+<li><p><a class="reference external" href="#walkthrough-1">Walkthrough</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="#service-is-slow-or-crashingrestarting-while-running-a-performance-or-load-test">Service is slow or crashing/restarting while running a performance or load test</a></p>
+<ul>
+<li><p><a class="reference external" href="#symptoms-3">Symptoms</a></p></li>
+<li><p><a class="reference external" href="#solution-3">Solution</a></p>
+<ul>
+<li><p><a class="reference external" href="#walkthough">Walkthough:</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC --></div>
+<div class="section" id="github-autowire">
+<h1>Github Autowire<a class="headerlink" href="#github-autowire" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="symptoms">
+<h2>Symptoms<a class="headerlink" href="#symptoms" title="Permalink to this headline">¶</a></h2>
+<p>Project or Repository does not appear in the Jenkins-Refarch15a Server despite having the jenkins-refarch15a label.</p>
+</div>
+<div class="section" id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<p>In the event that a repository does not show up in the Jenkins-RefArch15a server, please confirm:</p>
+<ol class="simple">
+<li><p>https://infrastructure.eis-platformlive.cloud webhook exists in your repository.
+(Webhook configured to send only Label Events)</p></li>
+<li><p>https://jenkins-refarc15a-public.eis-platformlive.cloud webhook exists in your repository
+(Webhook configured to send Pull Requests and Pushes)</p></li>
+<li><p>jenkins-refarch15a label exists and is correctly spelt in your repository.
+DELETE label jenkins-refarch15a and then CREATE it again. Do not edit the existing label.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="crash-loop-detection">
+<h1>Crash Loop Detection<a class="headerlink" href="#crash-loop-detection" title="Permalink to this headline">¶</a></h1>
+<p>Crash loop detection is a feature within hydra that will fail your pipeline build if your service’s container fails to start or crashes during startup.</p>
+<div class="section" id="id1">
+<h2>Symptoms<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>You will see something similar to this in the Jenkins log for your project:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">51</span> <span class="n">Staging</span> <span class="n">pods</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">52</span> <span class="n">Deployment</span> <span class="n">ebsconext</span><span class="o">-</span><span class="n">edge</span><span class="o">-</span><span class="mi">04</span><span class="n">cc528</span> <span class="n">found</span><span class="o">.</span> <span class="n">Updating</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">52</span> <span class="n">Service</span> <span class="n">ebsconext</span><span class="o">-</span><span class="n">edge</span> <span class="n">found</span><span class="o">.</span> <span class="n">Updating</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">52</span> <span class="n">ConfigMap</span> <span class="n">ebsconext</span><span class="o">-</span><span class="n">edge</span><span class="o">-</span><span class="mi">04</span><span class="n">cc528</span><span class="o">-</span><span class="n">config</span> <span class="n">found</span><span class="o">.</span> <span class="n">Updating</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">52</span> <span class="n">Horizontal</span> <span class="n">Pod</span> <span class="n">Autoscaler</span> <span class="n">ebsconext</span><span class="o">-</span><span class="n">edge</span><span class="o">-</span><span class="n">hpa</span> <span class="n">found</span><span class="o">.</span> <span class="n">Updating</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">52</span> <span class="n">complete</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">52</span> <span class="n">Running</span> <span class="n">crashloop</span> <span class="n">detection</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">53</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">58</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">03</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">08</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">13</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">18</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">23</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">28</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">33</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">38</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">44</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">49</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">54</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">34</span><span class="p">:</span><span class="mi">59</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">04</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">09</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">14</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">19</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">24</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">30</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">35</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">40</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">45</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">50</span> <span class="n">Replica</span> <span class="n">Status</span><span class="p">(</span><span class="n">Desired</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Current</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Updated</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Available</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Unavailable</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">55</span> <span class="n">Deploy</span> <span class="n">ebsconext</span><span class="o">-</span><span class="n">edge</span><span class="o">-</span><span class="mi">04</span><span class="n">cc528</span> <span class="n">Not</span> <span class="n">Successful</span><span class="p">:</span> <span class="kc">None</span> <span class="n">pods</span> <span class="n">available</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">55</span> <span class="n">completed</span> <span class="n">crashloop</span> <span class="n">detection</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">55</span> <span class="n">In</span> <span class="n">a</span> <span class="n">crashloop</span><span class="o">.</span> <span class="n">Aborting</span><span class="o">...</span>
+<span class="mi">2018</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">15</span> <span class="mi">14</span><span class="p">:</span><span class="mi">35</span><span class="p">:</span><span class="mi">55</span> <span class="n">Rolling</span> <span class="n">back</span> <span class="n">version</span> <span class="mi">04</span><span class="n">cc528</span><span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Solution<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>First, you will need to ensure that your service is passing its health checks (Liveness Probe).  If it is passing them then you will want to retrive the logs from your service to figure out why it is not starting.  You can get them by using the `kubectl logs -n application’ command.</p>
+<div class="section" id="walkthrough">
+<h3>Walkthrough<a class="headerlink" href="#walkthrough" title="Permalink to this headline">¶</a></h3>
+<ol>
+<li><p>Rerun your Jenkins build and watch the console output for the line <code class="docutils literal notranslate"><span class="pre">Staging</span> <span class="pre">pods...</span></code></p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">get</span> <span class="pre">pods</span> <span class="pre">-n</span> <span class="pre">application</span></code></p></li>
+<li><p>Find one of the failed pods by its name.  The naming convention is <code class="docutils literal notranslate"><span class="pre">&lt;Service</span> <span class="pre">Name&gt;-&lt;Version&gt;-&lt;UniqueID&gt;</span></code>.</p>
+<ul class="simple">
+<li><p>An example pod name from the above jenkins log would be: <code class="docutils literal notranslate"><span class="pre">ebsconext-edge-04cc528-847ff5c57f-bfp7w</span></code></p></li>
+</ul>
+</li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">application</span> <span class="pre">&lt;PodName&gt;</span></code> to see if your pod’s health checks are failing or are misconfigured.</p>
+<ul>
+<li><p>Example: <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">application</span> <span class="pre">ebsconext-edge-04cc528-847ff5c57f-bfp7w</span></code></p></li>
+<li><p>If you see text indicating that a Liveness probe has failed then you must update your deployment manifest to include a Liveness check that returns a HTTP status 200 code <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest#service-health-policy-optional">Liveness Checks</a></p></li>
+<li><p>Failed Liveness Check Example:</p>
+<div class="highlight-Warning Unhealthy 6m (x3 over 6m) kubelet, ip-10-25-230-114.ec2.internal Liveness probe failed: % Total Received Xferd Average Speed Time Current notranslate"><div class="highlight"><pre><span></span>                                Dload  Upload   Total   Spent    Left  Speed
+0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (7) Failed to connect to localhost port 8081: Connection refused
+Warning  Unhealthy  6m (x9 over 6m)  kubelet, ip-10-25-230-114.ec2.internal  Readiness probe failed:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                Dload  Upload   Total   Spent    Left  Speed
+0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (7) Failed to connect to localhost port 8081: Connection refused
+Warning  BackOff  1m (x4 over 2m)  kubelet, ip-10-25-230-114.ec2.internal  Back-off restarting failed container
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">-n</span> <span class="pre">application</span> <span class="pre">&lt;Pod</span> <span class="pre">Name&gt;</span> <span class="pre">&lt;Container</span> <span class="pre">Name&gt;</span></code></p>
+<ul class="simple">
+<li><p>Example: <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">logs</span> <span class="pre">-n</span> <span class="pre">application</span> <span class="pre">ebsconext-edge-04cc528-847ff5c57f-bfp7w</span> <span class="pre">ebsconext-edge</span></code></p></li>
+<li><p>Use the application logs to diagnose why the container will not start.</p></li>
+</ul>
+</li>
+<li><p>If there are no application logs or the output indicates a general kubernetes error then run <code class="docutils literal notranslate"><span class="pre">kubectl</span> <span class="pre">describe</span> <span class="pre">pod</span> <span class="pre">-n</span> <span class="pre">application</span> <span class="pre">&lt;PodName&gt;</span></code> and start a chat on the Troubleshooting RefArch 1.5 Chat Set including the output of this command.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="sudo-no-tty-present-and-no-askpass-program-specified">
+<h1>sudo: no tty present and no askpass program specified<a class="headerlink" href="#sudo-no-tty-present-and-no-askpass-program-specified" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id3">
+<h2>Symptoms<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>You recieve an error in your Jenkins build indicating an error similar to <code class="docutils literal notranslate"><span class="pre">sudo:</span> <span class="pre">no</span> <span class="pre">tty</span> <span class="pre">present</span> <span class="pre">and</span> <span class="pre">no</span> <span class="pre">askpass</span> <span class="pre">program</span> <span class="pre">specified</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">++</span> <span class="nb">id</span> <span class="o">-</span><span class="n">u</span>
+<span class="o">+</span> <span class="n">sudo</span> <span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="mi">501</span> <span class="o">.</span>
+<span class="n">sudo</span><span class="p">:</span> <span class="n">no</span> <span class="n">tty</span> <span class="n">present</span> <span class="ow">and</span> <span class="n">no</span> <span class="n">askpass</span> <span class="n">program</span> <span class="n">specified</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>Solution<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>The use of sudo is no longer supported on Jekins slaves.  It must be removed from your Jenkinsfile in order for you build to run.</p>
+</div>
+<div class="section" id="id5">
+<h2>Walkthrough<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Below is an example removeing the use of sudo from a Java microservice Jenkinsfile.</p>
+<p><strong>Before:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!Groovy</span>
+<span class="nd">@Library</span><span class="p">(</span><span class="s2">&quot;platform.infrastructure.pipelinelibrary@refarch1.5-current&quot;</span><span class="p">)</span> <span class="n">_</span>
+
+<span class="n">node</span><span class="p">(</span><span class="n">platformDefaults</span><span class="o">.</span><span class="n">getBuildNodeLabel</span><span class="p">())</span> <span class="p">{</span>
+
+  <span class="k">def</span> <span class="nf">ecrRegistry</span> <span class="o">=</span> <span class="n">platformDefaults</span><span class="o">.</span><span class="n">getDockerRegistry</span><span class="p">()</span>
+
+  <span class="n">stage</span><span class="p">(</span><span class="s2">&quot;Checkout&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sh</span> <span class="s2">&quot;sudo rm -rf build .gradle&quot;</span>
+    <span class="n">deleteDir</span><span class="p">()</span>
+    <span class="n">checkout</span> <span class="n">scm</span>
+  <span class="p">}</span>
+
+  <span class="n">stage</span><span class="p">(</span><span class="s2">&quot;Pull Build Image&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">def</span> <span class="nf">credentials</span> <span class="o">=</span> <span class="n">platformDefaults</span><span class="o">.</span><span class="n">getCredentialsId</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">region</span> <span class="o">=</span> <span class="n">platformDefaults</span><span class="o">.</span><span class="n">getRegion</span><span class="p">()</span>
+
+    <span class="n">docker</span><span class="o">.</span><span class="n">withRegistry</span><span class="p">(</span><span class="s2">&quot;https://$</span><span class="si">{ecrRegistry}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;ecr:$</span><span class="si">{region}</span><span class="s2">:$</span><span class="si">{credentials}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">docker</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="s2">&quot;platform/images/gradle&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pull</span><span class="p">()</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">stage</span><span class="p">(</span><span class="s1">&#39;Build&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sh</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    docker run --rm -v \$HOME/.gradle/gradle.properties:/home/gradle/.gradle/gradle.properties:ro -v \$WORKSPACE:/home/gradle:rw -u root $</span><span class="si">{ecrRegistry}</span><span class="s2">/platform/images/gradle clean assemble test</span>
+<span class="s2">    sudo chown -R \$(id -u) .</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+  <span class="p">}</span>
+
+  <span class="n">dockerBuildPush</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>After:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!Groovy</span>
+<span class="nd">@Library</span><span class="p">(</span><span class="s2">&quot;platform.infrastructure.pipelinelibrary@refarch1.5-current&quot;</span><span class="p">)</span> <span class="n">_</span>
+
+<span class="n">node</span><span class="p">(</span><span class="n">platformDefaults</span><span class="o">.</span><span class="n">getBuildNodeLabel</span><span class="p">())</span> <span class="p">{</span>
+
+  <span class="k">def</span> <span class="nf">ecrRegistry</span> <span class="o">=</span> <span class="n">platformDefaults</span><span class="o">.</span><span class="n">getDockerRegistry</span><span class="p">()</span>
+
+  <span class="n">stage</span><span class="p">(</span><span class="s2">&quot;Checkout&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">deleteDir</span><span class="p">()</span>
+    <span class="n">checkout</span> <span class="n">scm</span>
+  <span class="p">}</span>
+
+  <span class="n">stage</span><span class="p">(</span><span class="s2">&quot;Pull Build Image&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">def</span> <span class="nf">credentials</span> <span class="o">=</span> <span class="n">platformDefaults</span><span class="o">.</span><span class="n">getCredentialsId</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">region</span> <span class="o">=</span> <span class="n">platformDefaults</span><span class="o">.</span><span class="n">getRegion</span><span class="p">()</span>
+
+    <span class="n">docker</span><span class="o">.</span><span class="n">withRegistry</span><span class="p">(</span><span class="s2">&quot;https://$</span><span class="si">{ecrRegistry}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;ecr:$</span><span class="si">{region}</span><span class="s2">:$</span><span class="si">{credentials}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">docker</span><span class="o">.</span><span class="n">image</span><span class="p">(</span><span class="s2">&quot;platform/images/gradle-refarch15a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pull</span><span class="p">()</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">stage</span><span class="p">(</span><span class="s1">&#39;Build&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sh</span> <span class="s2">&quot;docker run --rm -v \$HOME/.gradle/gradle.properties:/home/gradle/.gradle/gradle.properties:ro -v \$WORKSPACE:/opt/ebsco:rw $</span><span class="si">{ecrRegistry}</span><span class="s2">/platform/images/gradle-refarch15a clean assemble test&quot;</span>
+  <span class="p">}</span>
+
+  <span class="n">dockerBuildPush</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">withNodeWrapper</span><span class="p">(</span><span class="n">platformDefaults</span><span class="o">.</span><span class="n">getDeployNodeLabel</span><span class="p">())</span> <span class="p">{</span>
+  <span class="n">hydraPreview</span> <span class="n">deployEnv</span><span class="p">:</span> <span class="s2">&quot;dev&quot;</span><span class="p">,</span> <span class="n">instances</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">hydraDeploy</span> <span class="n">deployEnv</span><span class="p">:</span> <span class="s2">&quot;dev&quot;</span><span class="p">,</span> <span class="n">instances</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="s1">&#39;application&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="service-is-slow-or-crashing-restarting-while-running-a-performance-or-load-test">
+<h1>Service is slow or crashing/restarting while running a performance or load test<a class="headerlink" href="#service-is-slow-or-crashing-restarting-while-running-a-performance-or-load-test" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id6">
+<h2>Symptoms<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>You are running a performance test, load test or generating a significant amount of traffic for your service and it is not performing well or is crashing and restarting often.</p>
+</div>
+<div class="section" id="id7">
+<h2>Solution<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>One possible cause is having improper resource requests and limits set for your pod.</p>
+<ul class="simple">
+<li><p>A resource request tells the kubernetes scheduler how much CPU and memory that your pod will normally use to run.  If you underestimate your resource request then your pod may not receive the resources that it needs in order to operate properly and may be contending for resources with other pods.  Additionally, when a kubernetes node is under resource pressure it will evict pods that are using more resources then they requested before other pods.</p></li>
+<li><p>A resource limit will limit the resources that your pod uses in order to protect the environment from excessive resource consumption.  It is a best practice to have limits on all pods to help kubernetes balance resource appropriately.  A CPU limit will throttle the maximum CPU consumption of your pod while a memory limit will restart you pod when exceeded.</p></li>
+</ul>
+<p>CPU resources are measured in millicores (1000 millicores = 1 CPU core) and memory resources can be measured in units of memory.</p>
+<p>You can see how kubernetes guarantees resources in the following <a class="reference external" href="https://kubernetes.io/docs/tasks/configure-pod-container/quality-service-pod/">article</a>.</p>
+<p>There are 3 classes of resource QoS in kubernetes:</p>
+<ul class="simple">
+<li><p><strong>Best Effort:</strong> If your pod has no resource requests or limits then kubernetes will make a best effort to give your pod resources but will not guarantee anything.</p></li>
+<li><p><strong>Burstable:</strong> A burstable pod means that it has resource requests that are lower than the limits.  Kubernetes will guarantee the resource requests and make a best effort to provide resources up to the resource limits.</p></li>
+<li><p><strong>Guaranteed:</strong>  A guaranteed pod means that it has both resource requests and limits and that the values for both are identical.  Kubernetes will then guarantee those resources to that pod.</p></li>
+</ul>
+<div class="section" id="walkthough">
+<h3>Walkthough:<a class="headerlink" href="#walkthough" title="Permalink to this headline">¶</a></h3>
+<p>You can see if you are exceeding your resource requests or limits by querying Prometheus.  In the future, this capability will be available in Grafana.</p>
+<p>To see if you are exceeding your CPU or memory requests:</p>
+<ol class="simple">
+<li><p>Go to <a class="reference external" href="http://prometheus.ekse-useast1.eks.eis-deliverydevqa.cloud:9090">prometheus</a>.</p></li>
+<li><p>The following query will tell you the difference between how many millicores your service is using compared to the amount that it has requested.  A negative value indicates using fewer resources than requested while a positive value indicates using more than requested.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(sum(rate(container_cpu_usage_seconds_total{namespace=&quot;application&quot;,</span> <span class="pre">pod_name=~&quot;ebsconext-ui.*&quot;}[30m]))</span> <span class="pre">by</span> <span class="pre">(pod_name)</span> <span class="pre">-</span> <span class="pre">on</span> <span class="pre">(pod_name)</span> <span class="pre">label_replace(sum(kube_pod_container_resource_requests_cpu_cores{})</span> <span class="pre">by</span> <span class="pre">(pod),&quot;pod_name&quot;,&quot;$1&quot;,&quot;pod&quot;,&quot;(.*)&quot;))</span> <span class="pre">*</span> <span class="pre">1000</span></code></p></li>
+<li><p>To change the query to look at your service replace the text <code class="docutils literal notranslate"><span class="pre">ebsconext-ui</span></code> in the field <code class="docutils literal notranslate"><span class="pre">pod_name=~&quot;.*ebsconext-ui.*&quot;</span></code> to the name of your service.</p></li>
+<li><p>To change the time range for the query (defaults to 30 minutes) change the <code class="docutils literal notranslate"><span class="pre">[30m]</span></code> value to the number of minutes that you desire.</p></li>
+<li><p>Once complete click the execute button</p></li>
+</ul>
+</li>
+<li><p>The following query will tell you the difference between how many MB of memory your service has requested and how much it is using.  A negative value indicates using fewer resources than requested while a postive value indicates using more than requested.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">(sum</span> <span class="pre">(avg_over_time(container_memory_usage_bytes{namespace=&quot;application&quot;,</span> <span class="pre">pod_name=~&quot;ebsconext-ui.*&quot;}[30m]))</span> <span class="pre">by</span> <span class="pre">(pod_name)</span> <span class="pre">-</span> <span class="pre">on</span> <span class="pre">(pod_name)</span> <span class="pre">label_replace(sum(kube_pod_container_resource_requests_memory_bytes{})</span> <span class="pre">by</span> <span class="pre">(pod),&quot;pod_name&quot;,&quot;$1&quot;,&quot;pod&quot;,&quot;(.*)&quot;))</span> <span class="pre">/</span> <span class="pre">1024</span> <span class="pre">/</span> <span class="pre">1024</span></code></p></li>
+<li><p>To change the query to look at your service replace the text <code class="docutils literal notranslate"><span class="pre">ebsconext-ui</span></code> in the field <code class="docutils literal notranslate"><span class="pre">pod_name=~&quot;.*ebsconext-ui.*&quot;</span></code> to the name of your service.</p></li>
+<li><p>To change the time range for the query (defaults to 30 minutes) change the <code class="docutils literal notranslate"><span class="pre">[30m]</span></code> value to the number of minutes that you desire.</p></li>
+</ul>
+</li>
+<li><p>Once you have the correct values from these queries you can update the Resources Policy section of your <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest">deployment-manifest</a> with more accurate values.</p></li>
+</ol>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Troubleshooting_Guide.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

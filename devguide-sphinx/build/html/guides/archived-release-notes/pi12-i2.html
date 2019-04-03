@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>PI12 - I2 &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pi12-i2">
+<h1>PI12 - I2<a class="headerlink" href="#pi12-i2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="deprecations-changes">
+<h2>DEPRECATIONS/CHANGES<a class="headerlink" href="#deprecations-changes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Pipeline Library, JenkinsLib and Live Jenkins Server:</strong></p>
+<ul>
+<li><p>Old JenkinsLib library will not be supported in RefArch 1.5</p>
+<ul>
+<li><p>https://github.com/EBSCOIS/platform.infrastructure.jenkinslib</p></li>
+</ul>
+</li>
+<li><p>Jenkins LIVE (jenkins.eis-platformlive.cloud) not to be used with RefArch 1.5</p></li>
+<li><p>Medusa and platform.infrastructure.pipelinelibrary are the only options in RefArch 1.5</p>
+<ul>
+<li><p>https://github.com/EBSCOIS/platform.infrastructure.medusa</p></li>
+<li><p>https://github.com/EBSCOIS/platform.infrastructure.pipelinelibrary</p></li>
+</ul>
+</li>
+<li><p>Primary Contact: Matt Conescu or Eric Peacock
+[How to Request Assistance : http://confluence.corp.epnet.com/pages/viewpage.action?title=How+To+Request+Assistance+From+fourEighteen&amp;spaceKey=TCO ]</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>NOTE: These are BREAKING CHANGES, so please make sure to update jenkinsfile and deployment manifest before deploying to the <strong>dev</strong> environment</strong></p>
+<ul class="simple">
+<li><p><strong>Jenkinsfile and Default.yaml Changes</strong></p>
+<ul>
+<li><p><strong>Jenkinsfile</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sudo</span></code> commands are no longer supported in the new <code class="docutils literal notranslate"><span class="pre">refarch15a</span></code> jenkins server. Please make updates to the jenkinsfile to reflect this.</p>
+<ul>
+<li><p>Use the new gradle docker image for this: <code class="docutils literal notranslate"><span class="pre">docker.image(&quot;platform/images/gradle-refarch15a&quot;)</span></code></p></li>
+</ul>
+</li>
+<li><p>Change <code class="docutils literal notranslate"><span class="pre">sonar.host.url</span></code> in <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> to point to the new refarch15a sonar-server.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">property</span> <span class="pre">'sonar.host.url',</span> <span class="pre">&quot;http://sonarqube73.eis-platformlive.cloud&quot;</span></code></p></li>
+</ul>
+</li>
+<li><p>Node/npm/nvm are no longer installed on the jenkins nodes, so Node projects must execute their audit/ci/test/[build]/[publish] scripts within Docker.</p>
+<ul>
+<li><p>Reference implementation can be found in the ebsconext-ui repository here: https://github.com/EBSCOIS/discover.shared.ebsconext-ui/blob/c0542cf-build%237/Jenkinsfile#L14-L42</p></li>
+</ul>
+</li>
+<li><p><strong>Hydra commands</strong></p>
+<ul>
+<li><p>To deploy to sandbox env, please use the label <code class="docutils literal notranslate"><span class="pre">sandbox</span></code> instead of <code class="docutils literal notranslate"><span class="pre">ea-devqa</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hydraPreview</span></code>: All preview envs will deploy to the <code class="docutils literal notranslate"><span class="pre">default</span></code> namespace and the Jenkinsfiles will have to add this argument for this to work (this is a known hydra issue that will be resolved before I4).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hydraDeploy</span></code>: All microservices will deploy to the <code class="docutils literal notranslate"><span class="pre">application</span></code> namespace by default now.</p></li>
+<li><p>The default number of replicas for a microservice deployed to the kubernetes clusters would be <code class="docutils literal notranslate"><span class="pre">1</span></code>. This can be changed using the <code class="docutils literal notranslate"><span class="pre">instances</span></code> argument when calling <code class="docutils literal notranslate"><span class="pre">hydraDeploy</span></code>.
+<code class="docutils literal notranslate"><span class="pre">hydraPreview</span> <span class="pre">deployEnv:</span> <span class="pre">&quot;dev&quot;,</span> <span class="pre">namespace:</span> <span class="pre">&quot;application&quot;,</span> <span class="pre">instances:</span> <span class="pre">1</span></code>
+<code class="docutils literal notranslate"><span class="pre">hydraDeploy</span> <span class="pre">deployEnv:</span> <span class="pre">&quot;dev&quot;</span></code></p></li>
+</ul>
+</li>
+<li><p>SAMPLE JENKINSFILES</p>
+<ul>
+<li><p>JAVA: https://github.com/EBSCOIS/platform.training.simplemiddle-refarch1.5a/blob/master/Jenkinsfile</p></li>
+<li><p>NODE: https://github.com/EBSCOIS/discover.shared.ebsconext-ui/blob/master/Jenkinsfile</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Deployment manifest (hydra/default.yaml)</strong></p>
+<ul>
+<li><p>Hydra deploy will now require health check endpoints in order to be able to configure the <code class="docutils literal notranslate"><span class="pre">LivenessProbe</span></code> and <code class="docutils literal notranslate"><span class="pre">Readiness</span></code> kubernetes probes for the application pods.</p>
+<ul>
+<li><p>RECOMMENDED HEALTH ENDPOINTS for app are <code class="docutils literal notranslate"><span class="pre">/admin/health</span></code> and port <code class="docutils literal notranslate"><span class="pre">8081</span></code></p></li>
+<li><p>JAVA SAMPLE with override of default health endpoints <a class="reference external" href="https://github.com/EBSCOIS/platform.training.demoprovider/blob/master/hydra/manifest/default.yaml#L14">default.yaml</a></p></li>
+<li><p>NODE SAMPLE with required <a class="reference external" href="https://github.com/EBSCOIS/discover.shared.ebsconext-ui/blob/c0542cf-build%237/hydra/manifest/default.yaml#L26-L39">configuration</a> and <a class="reference external" href="https://github.com/EBSCOIS/discover.shared.ebsconext-ui/blob/c0542cf-build%237/src/server/temp-health.js">code</a> changes. (Note that this requirement <strong>only</strong> applies to runtime services; Node libraries or CLI tools which do not deploy a service into the cluster are exempt.)</p></li>
+<li><p>More information available in the <code class="docutils literal notranslate"><span class="pre">Hydra</span> <span class="pre">Service</span> <span class="pre">Health</span> <span class="pre">Endpoint</span></code> section below.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="new-features">
+<h2>NEW FEATURES<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><strong>Github Autowire:</strong> No More Org Scans, Autowiring Mechanism will place Github Repositories in Jenkins Server</p>
+<ul class="simple">
+<li><p>Single Repository Adoption:
+Create New Label for Repository called <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15b</span></code> (for medusa only), or <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15a</span></code>
+This will create the project on the Jenkins Server and create necessary webhooks for the Github Repository
+To move your job from https://jenkins-refarch15a.eis-platformlive.cloud to https://jenkins-refarch15b.eis-platformlive.cloud</p>
+<ul>
+<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15a</span></code>  label from your repo</p></li>
+<li><p>Confirm job was removed from https://jenkins-refarch15a.eis-platformlive.cloud</p></li>
+<li><p>Add a new label <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15b</span></code> to your repo</p></li>
+<li><p>Confirm job was added from https://jenkins-refarch15b.eis-platformlive.cloud</p></li>
+<li><p><strong><strong>Editing the label instead of removing and re-adding will not work</strong></strong></p></li>
+</ul>
+</li>
+<li><p>Multiple Repository Adoption:
+Create a Branch in https://github.com/EBSCOIS/platform.infrastructure.jenkins-webhooks
+Modify https://github.com/EBSCOIS/platform.infrastructure.jenkins-webhooks/blob/master/data/migrate.yaml to reflect the Repo’s that need to be migrated to the new Jenkins and create a PR with the changes.
+Example:
+jenkins-refarch15b:
+repo_name:
+- platform.training.repo1
+- platform.training.repo2
+- platform.training.repo3
+All Repository Webhooks will be updated, and Projects created in the new Jenkins Server.</p></li>
+</ul>
+<p>[Please DO NOT Delete the infrastructure.eis-platformlive.cloud webhook from your repository webhooks]</p>
+<ul class="simple">
+<li><p>Documentation for Repo Adoption:
+https://github.com/EBSCOIS/platform.infrastructure.jenkins-webhooks/blob/master/README.md
+http://confluence/display/TCO/Jenkins+Webhook+Automation</p></li>
+<li><p>Primary Contact: Matt Conescu or Eric Peacock
+[How to Request Assistance : http://confluence.corp.epnet.com/pages/viewpage.action?title=How+To+Request+Assistance+From+fourEighteen&amp;spaceKey=TCO ]</p></li>
+</ul>
+</li>
+<li><p><strong>New Jenkins Server:</strong></p>
+<ul class="simple">
+<li><p>New Jenkins Server:
+https://jenkins-refarch15b.eis-platformlive.cloud (medusa only)
+https://jenkins-refarch15a.eis-platformlive.cloud (medusa and pipelinelibrary supported)</p></li>
+<li><p>Primary Contact: Matt Conescu or Eric Peacock
+[How to Request Assistance : http://confluence.corp.epnet.com/pages/viewpage.action?title=How+To+Request+Assistance+From+fourEighteen&amp;spaceKey=TCO ]</p></li>
+</ul>
+</li>
+<li><p><strong>Hydra Customizable Metric Endpoint:</strong> Hydra now supports customizable metric endpoints.</p>
+<ul class="simple">
+<li><p>Defaults to path <code class="docutils literal notranslate"><span class="pre">/admin/prometheus</span></code> on port <code class="docutils literal notranslate"><span class="pre">8081</span></code> (metrics-custom = false)</p></li>
+<li><p>Can be changed in the <code class="docutils literal notranslate"><span class="pre">deployment</span> <span class="pre">manifest</span></code> under <code class="docutils literal notranslate"><span class="pre">MetricsEndpoint:</span></code> (metrics-custom = true)</p></li>
+<li><p>Stored under annotations in <code class="docutils literal notranslate"><span class="pre">metrics-path</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics-io-port</span></code>, and <code class="docutils literal notranslate"><span class="pre">metrics-custom</span></code>.</p></li>
+<li><p>For more information check our <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest#metric-endpoints">wiki</a></p></li>
+<li><p>Contact <a class="reference external" href="EISOPFCahaba&#64;EBSCOInd.onmicrosoft.com">Team Cahaba</a> via email or Teams for support</p></li>
+</ul>
+</li>
+<li><p><strong>Hydra Service Health Endpoint:</strong> Hydra now supports service health endpoints to know when a container is ready to start accepting traffic. To get started using a service health endpoint, you will first need to add it to the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest">deployment manifest</a></p>
+<ul class="simple">
+<li><p>Service health endpoint is optional, but it defaults to /health and 8081 if it’s not provided. The endpoint should return status 200, the contents do not matter at this time.</p></li>
+<li><p>For more information, please take a look at our <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest#service-health-policy-optional">wiki</a></p></li>
+<li><p>Contact <a class="reference external" href="EISOPFCahaba&#64;EBSCOInd.onmicrosoft.com">Team Cahaba</a> via email or Teams for support</p></li>
+</ul>
+</li>
+<li><p><strong>Java Scaffolding Project – BETA release :</strong> This is a project, driven via Jenkins as a build job, to generate a skeleton repo in Java for the 1.5 Ref Architecture which will include sample tests, quality gates as well as deploy to the dev Kubernetes cluster.</p>
+<ul class="simple">
+<li><p>Link to repo with documentation on how to use the project: <a class="reference external" href="https://github.com/EBSCOIS/platform.scaffolding.java">platform.scaffolding.java</a></p></li>
+<li><p>This is a <em>beta release</em> as there will be enhancements made to the scaffolding generator when the Java PDK feature is completed.</p>
+<ul>
+<li><p>The <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.logging">refarch1.5-java-logging-library</a> has been completed and will be made available for scaffolded projects in I3/I4.</p></li>
+<li><p>The metrics and distributed-tracing shared libraries will not be wired up if you generate a repo using this project in I3/I4 and the generated project will need to be <em>patched</em> later when this functionality is available to reflect the latest state of the project.</p></li>
+<li><p>Starting in I3, newly scaffolded projects will have webhooks for build jobs on the <a class="reference external" href="https://jenkins-refarch15a.eis-platformlive.cloud">new jenkins-refarch15a server</a>.</p></li>
+<li><p>RefArch 1.5 microservice GitHub repositories must to be updated to avoid building on legacy Jenkins. Delete Jenkins webhook for https://jenkins-public.eis-platformlive.cloud/github-webhook from <strong>GitHub repository &gt; Settings &gt; Webhooks</strong></p></li>
+</ul>
+</li>
+<li><p>Please contact Team REX or EA team members on the <a class="reference external" href="https://teams.microsoft.com/l/channel/19%3aa2a0927486e74b35bbd033a54fc5495c%40thread.skype/Troubleshooting?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">RefArch1.5 Troubleshooting Channel</a> for support or to provide feedback if there are any issues.</p></li>
+</ul>
+</li>
+<li><p><strong>Node UI &amp; Edge Scaffolding Projects – BETA releases :</strong> These are two distinct Node-based CLI tools to aid in the scaffolding of new Node projects, which include boilerplate code, configuration, and tests, as well as pipeline scripts to enable rapid bootstrapping and deployment of new services to the Ref Arch 1.5 service mesh. The details of what’s provided out-of-the-box differ between the two projects, so please refer to their READMEs for more detailed information.</p>
+<ul class="simple">
+<li><p>Links to repos with instructions for use:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.generator-ui">platform.infrastructure.generator-ui</a></p></li>
+<li><p><a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.generator-node-express">platform.infrastructure.generator-node-express</a></p></li>
+</ul>
+</li>
+<li><p>Disclaimer: These are <em>beta releases</em> and should be considered works-in-progress; they will be updated and enhanced to keep in-line with pipeline and infrastructure changes, as well as provide improved functionality and greater test coverage. Be aware that keeping generated code up-to-date with changes in generators is an inherently manual process and detailed migration instructions will not be provided as the projects evolve, so careful consideration should be given before relying on early-phase code-generators.</p></li>
+</ul>
+</li>
+<li><p><strong>Kiali Support:</strong> Kiali (https://www.kiali.io/) will be added as a standard monitoring component within the Kubernetes clusters. Monitoring web page will serve as index page to access Kiali and the link for which will be an output in the Jenkisn Job while running Service-mesh pipeline.</p></li>
+</ul>
+</div>
+<div class="section" id="bug-fixes">
+<h2>BUG FIXES<a class="headerlink" href="#bug-fixes" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Bug Fix 1:</strong> Description of issue being solved</p>
+<ul>
+<li><p>Are there any changes needed by teams or is this resolved behind the scenes?</p></li>
+<li><p>List any workarounds that will need to be removed now that this issue is resolved</p></li>
+<li><p>Who is the primary contact for questions?</p></li>
+</ul>
+</li>
+</ul>
+<!--- reused links ---></div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/guides/archived-release-notes/pi12-i2.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

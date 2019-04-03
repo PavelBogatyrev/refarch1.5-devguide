@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Observability &#8212; DevGuide 1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="observability">
+<h1>Observability<a class="headerlink" href="#observability" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="#observability">Observability</a></p>
+<ul class="simple">
+<li><p><a class="reference external" href="#tools-ecosystem">Tools Ecosystem</a></p></li>
+<li><p><a class="reference external" href="#tools-and-roles">Tools and Roles</a></p></li>
+<li><p><a class="reference external" href="#index-page-for-monitoring-tools">Index page for monitoring tools</a></p></li>
+<li><p><a class="reference external" href="#opsgenie">Opsgenie</a></p></li>
+<li><p><a class="reference external" href="#further-reading">Further reading</a></p></li>
+</ul>
+<div class="section" id="tools-ecosystem">
+<h2>Tools Ecosystem<a class="headerlink" href="#tools-ecosystem" title="Permalink to this headline">¶</a></h2>
+<p><img alt="../_images/observability_1.5_interaction.png" src="../_images/observability_1.5_interaction.png" />Interaction between the core observability tools in refarch1.5</p>
+</div>
+<div class="section" id="tools-and-roles">
+<h2>Tools and Roles<a class="headerlink" href="#tools-and-roles" title="Permalink to this headline">¶</a></h2>
+<p>| Tool         	| Role                                                                                                                                                                                                                                                                                	| Instrumentation needed in services?                                                                                                               	|
+|————–	|————————————————————————————————————————————————————————————————————————————————————————————-	|—————————————————————————————————————————————————	|
+| Fluentd      	| collecting, filtering, buffering, and outputting logs from containers to logging backend                                                                                                                                                                                            	| integrate with refarch1.5 observability pdk for appending custom tags and standardization of logging format                                       	|
+| Sumologic    	| managed logging platform - backend, visualization, analytics                                                                                                                                                                                                                        	| none - integration provided by infrastructure pipeline                                                                                            	|
+| Prometheus   	| metrics aggregation service &amp; backend, data source for alerts and dashboards                                                                                                                                                                                                        	| none for OOTB metrics integrate with refarch1.5 observability pdk &amp; add annotations in code if custom metrics are needed                          	|
+| Grafana      	| metrics visualization via configurable dashboards                                                                                                                                                                                                                                   	| none for OOTB dashboards customization supported via modifications to json of default dashboards in source control                                	|
+| Alertmanager 	| alert management platform for prometheus handling deduplicating, grouping, and routing them to the receiver integration (e.g., opsgenie)                                                                                                                                            	| none for  OOTB alerts customization supported                                                                                                     	|
+| OpsGenie     	| alerting and on-call receiver/ management solution                                                                                                                                                                                                                                  	| none - integration provided by infrastructure pipeline                                                                                            	|
+| Jaeger       	| distributed tracing system, to provide end-to-end visibility and method-level insights into service requests                                                                                                                                                                        	| integrate with refarch1.5 observability pdk to propagate trace context. if it is service that doesn’t make outbound calls then nothing is needed. 	|
+| Kiali        	| visualize the topology of the service mesh in real time to identify bottlenecks and understand how data flows through the cluster. Includes realtime service dependency graph, distributed tracing integration, metrics integration, health checks, config viewing/validation, etc. 	| none - integration will be provided by infrastructure pipeline (pi12 item)                                                                        	|</p>
+</div>
+<div class="section" id="index-page-for-monitoring-tools">
+<h2>Index page for monitoring tools<a class="headerlink" href="#index-page-for-monitoring-tools" title="Permalink to this headline">¶</a></h2>
+<p>Every cluster would come with an index page, which would contain links to the monitoring components for the Eks/Istio infrastructure and services.</p>
+<p>Here’s a sample of what this looks like presently for the <code class="docutils literal notranslate"><span class="pre">dev5</span></code> cluster:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://monitoring.eksj-useast1.eks.eis-deliverydevqa.cloud.">Links for ISTIO monitoring components</a></p></li>
+<li><p><a class="reference external" href="http://kiali.eksj-useast1.eks.eis-deliverydevqa.cloud:20001">Link to Kiali</a></p>
+<ul>
+<li><p>username/pwd: admin/admin</p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://fsx.ebsco.com/adfs/ls/IdpInitiatedSignOn.aspx">Link to login to Sumologic</a></p></li>
+</ul>
+</div>
+<div class="section" id="opsgenie">
+<h2>Opsgenie<a class="headerlink" href="#opsgenie" title="Permalink to this headline">¶</a></h2>
+<p>Teams need to make sure they are added to Opsgenie to ensure delivery of alert notifications. Medusa will verify your team is configured in Opsgenie and will fail builds if your team is not found.</p>
+<p>To add your team to OpsGenie:</p>
+<ol class="simple">
+<li><p>Log into Opsgenie:</p>
+<ul class="simple">
+<li><p>Sandbox: https://app.sandbox.opsgenie.com</p></li>
+<li><p>Live: https://app.opsgenie.com</p></li>
+</ul>
+</li>
+<li><p>Select ‘Teams’ from the Opsgenie navigation menu</p></li>
+<li><p>Click the ‘Add Team’ button</p></li>
+<li><p>Fill in the details for your team and add your team members.</p>
+<ul class="simple">
+<li><p>Your team name will need to match the team name in your applicationDefinition.yaml file.</p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><img alt="../_images/opsgenie-teams-nav.png" src="../_images/opsgenie-teams-nav.png" />Select 'Teams' from the Opsgenie navigation menu</p></li>
+<li><p><img alt="../_images/opsgenie-add-team.png" src="../_images/opsgenie-add-team.png" />Click the 'Add Team' button</p></li>
+<li><p><img alt="../_images/opsgenie-team-details.png" src="../_images/opsgenie-team-details.png" />Fill in details</p></li>
+</ul>
+</div>
+<div class="section" id="further-reading">
+<h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
+<p>Please see the <a class="reference external" href="http://confluence/display/~abhavan/Observability+-+Logging%2C+Metrics%2C+Tracing">Observability</a> page on confluence for more details.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">DevGuide</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Pavel.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/guides/Observability.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
