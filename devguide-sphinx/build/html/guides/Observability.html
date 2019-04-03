@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Observability &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -34,11 +36,11 @@
 <h1>Observability<a class="headerlink" href="#observability" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="#observability">Observability</a></p>
 <ul class="simple">
-<li><p><a class="reference external" href="#tools-ecosystem">Tools Ecosystem</a></p></li>
-<li><p><a class="reference external" href="#tools-and-roles">Tools and Roles</a></p></li>
-<li><p><a class="reference external" href="#index-page-for-monitoring-tools">Index page for monitoring tools</a></p></li>
-<li><p><a class="reference external" href="#opsgenie">Opsgenie</a></p></li>
-<li><p><a class="reference external" href="#further-reading">Further reading</a></p></li>
+<li><a class="reference external" href="#tools-ecosystem">Tools Ecosystem</a></li>
+<li><a class="reference external" href="#tools-and-roles">Tools and Roles</a></li>
+<li><a class="reference external" href="#index-page-for-monitoring-tools">Index page for monitoring tools</a></li>
+<li><a class="reference external" href="#opsgenie">Opsgenie</a></li>
+<li><a class="reference external" href="#further-reading">Further reading</a></li>
 </ul>
 <div class="section" id="tools-ecosystem">
 <h2>Tools Ecosystem<a class="headerlink" href="#tools-ecosystem" title="Permalink to this headline">¶</a></h2>
@@ -62,13 +64,12 @@
 <p>Every cluster would come with an index page, which would contain links to the monitoring components for the Eks/Istio infrastructure and services.</p>
 <p>Here’s a sample of what this looks like presently for the <code class="docutils literal notranslate"><span class="pre">dev5</span></code> cluster:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://monitoring.eksj-useast1.eks.eis-deliverydevqa.cloud.">Links for ISTIO monitoring components</a></p></li>
-<li><p><a class="reference external" href="http://kiali.eksj-useast1.eks.eis-deliverydevqa.cloud:20001">Link to Kiali</a></p>
-<ul>
-<li><p>username/pwd: admin/admin</p></li>
+<li><a class="reference external" href="http://monitoring.eksj-useast1.eks.eis-deliverydevqa.cloud.">Links for ISTIO monitoring components</a></li>
+<li><a class="reference external" href="http://kiali.eksj-useast1.eks.eis-deliverydevqa.cloud:20001">Link to Kiali</a><ul>
+<li>username/pwd: admin/admin</li>
 </ul>
 </li>
-<li><p><a class="reference external" href="https://fsx.ebsco.com/adfs/ls/IdpInitiatedSignOn.aspx">Link to login to Sumologic</a></p></li>
+<li><a class="reference external" href="https://fsx.ebsco.com/adfs/ls/IdpInitiatedSignOn.aspx">Link to login to Sumologic</a></li>
 </ul>
 </div>
 <div class="section" id="opsgenie">
@@ -76,29 +77,27 @@
 <p>Teams need to make sure they are added to Opsgenie to ensure delivery of alert notifications. Medusa will verify your team is configured in Opsgenie and will fail builds if your team is not found.</p>
 <p>To add your team to OpsGenie:</p>
 <ol class="simple">
-<li><p>Log into Opsgenie:</p>
-<ul class="simple">
-<li><p>Sandbox: https://app.sandbox.opsgenie.com</p></li>
-<li><p>Live: https://app.opsgenie.com</p></li>
+<li>Log into Opsgenie:<ul>
+<li>Sandbox: https://app.sandbox.opsgenie.com</li>
+<li>Live: https://app.opsgenie.com</li>
 </ul>
 </li>
-<li><p>Select ‘Teams’ from the Opsgenie navigation menu</p></li>
-<li><p>Click the ‘Add Team’ button</p></li>
-<li><p>Fill in the details for your team and add your team members.</p>
-<ul class="simple">
-<li><p>Your team name will need to match the team name in your applicationDefinition.yaml file.</p></li>
+<li>Select ‘Teams’ from the Opsgenie navigation menu</li>
+<li>Click the ‘Add Team’ button</li>
+<li>Fill in the details for your team and add your team members.<ul>
+<li>Your team name will need to match the team name in your applicationDefinition.yaml file.</li>
 </ul>
 </li>
 </ol>
 <ul class="simple">
-<li><p><img alt="../_images/opsgenie-teams-nav.png" src="../_images/opsgenie-teams-nav.png" />Select 'Teams' from the Opsgenie navigation menu</p></li>
-<li><p><img alt="../_images/opsgenie-add-team.png" src="../_images/opsgenie-add-team.png" />Click the 'Add Team' button</p></li>
-<li><p><img alt="../_images/opsgenie-team-details.png" src="../_images/opsgenie-team-details.png" />Fill in details</p></li>
+<li><img alt="../_images/opsgenie-teams-nav.png" src="../_images/opsgenie-teams-nav.png" />Select 'Teams' from the Opsgenie navigation menu</li>
+<li><img alt="../_images/opsgenie-add-team.png" src="../_images/opsgenie-add-team.png" />Click the 'Add Team' button</li>
+<li><img alt="../_images/opsgenie-team-details.png" src="../_images/opsgenie-team-details.png" />Fill in details</li>
 </ul>
 </div>
 <div class="section" id="further-reading">
 <h2>Further reading<a class="headerlink" href="#further-reading" title="Permalink to this headline">¶</a></h2>
-<p>Please see the <a class="reference external" href="http://confluence/display/~abhavan/Observability+-+Logging%2C+Metrics%2C+Tracing">Observability</a> page on confluence for more details.</p>
+<p>Please see the <a class="reference external" href="http://confluence/display/%7Eabhavan/Observability+-+Logging%2C+Metrics%2C+Tracing">Observability</a> page on confluence for more details.</p>
 </div>
 </div>
 
@@ -133,6 +132,8 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -153,7 +154,7 @@
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

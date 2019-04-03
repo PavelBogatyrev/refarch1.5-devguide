@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>SDLC for Reference Architecture 1.5 &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -34,19 +36,19 @@
 <h1>SDLC for Reference Architecture 1.5<a class="headerlink" href="#sdlc-for-reference-architecture-1-5" title="Permalink to this headline">¶</a></h1>
 <p>:exclamation:<strong>Note:</strong> For the PI13.3 architecture drop, this document is specific to Java Spring Boot and Node.js edge microservces. It will remain so until the RefArch1.5 implementation is far enough along that the document becomes common to all RefArch1.5 supported technologies.:exclamation:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Overview">Overview</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Introduction">Introduction</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#LogicalSDLCWorkflow">Logical SDLC Workflow</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Dev-CentricCulture">Dev-Centric Culture</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Definitions">Definitions</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#GitHubFlowBranchingStrategy">GitHub Flow Branching Strategy</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#ReferenceBranchingModel">Reference Branching Model</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#SDLCAssertions">SDLC Assertions</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#PipelineQualityGates">Pipeline Quality Gates</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#ReferenceArchitecture1.5Pipelines">Reference Architecture 1.5 Pipelines</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Versioning">Versioning</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#FeatureToggles">Feature Toggles</a></p></li>
-<li><p><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#References">References</a></p></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Overview">Overview</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Introduction">Introduction</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#LogicalSDLCWorkflow">Logical SDLC Workflow</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Dev-CentricCulture">Dev-Centric Culture</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Definitions">Definitions</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#GitHubFlowBranchingStrategy">GitHub Flow Branching Strategy</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#ReferenceBranchingModel">Reference Branching Model</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#SDLCAssertions">SDLC Assertions</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#PipelineQualityGates">Pipeline Quality Gates</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#ReferenceArchitecture1.5Pipelines">Reference Architecture 1.5 Pipelines</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#Versioning">Versioning</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#FeatureToggles">Feature Toggles</a></li>
+<li><a class="reference external" href="./Development_Operating_Procedures_JSB_or_Node_Microservices.md#References">References</a></li>
 </ul>
 </div>
 <div class="section" id="overview">
@@ -58,22 +60,22 @@
 <p>This document defines the Software Development Life-cycle (SDLC) for the 1.5 Reference Architecture.  The SDLC is the workflow a developer uses to deliver business value into Live environments.  It defines the developer workflow, branching strategy, and best practices to be used when developing and releasing applications and services into our private and public cloud environments through the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa">Medusa</a> based pipelines.  The Reference Architecture 1.5 SDLC and branching strategy is informed by the AWS/Microservices Reference Architecture 1.0 and the On-Prem Reference Architecture.</p>
 <p><strong>AWS/Microservice Reference Architecture SDLC:</strong></p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://confluence/display/entarch/SDLC+for+Reference+Architecture">SDLC for Reference Architecture</a></p></li>
-<li><p><a class="reference external" href="http://confluence/display/entarch/PLATFORM-207%3A+Github+Flow">PLATFORM-207: Github Flow</a></p></li>
+<li><a class="reference external" href="http://confluence/display/entarch/SDLC+for+Reference+Architecture">SDLC for Reference Architecture</a></li>
+<li><a class="reference external" href="http://confluence/display/entarch/PLATFORM-207%3A+Github+Flow">PLATFORM-207: Github Flow</a></li>
 </ul>
 <p><strong>On-Prem Reference Architecture SDLC:</strong></p>
 <ul class="simple">
-<li><p><a class="reference external" href="http://confluence/display/ART/SDLC+for+On-Prem+Reference+Architecture">SDLC for On-Prem Reference Architecture</a></p></li>
+<li><a class="reference external" href="http://confluence/display/ART/SDLC+for+On-Prem+Reference+Architecture">SDLC for On-Prem Reference Architecture</a></li>
 </ul>
 </div>
 <div class="section" id="logical-sdlc-workflow-a-id-logicalsdlcworkflow-a">
 <h1>Logical SDLC Workflow <a id=LogicalSDLCWorkflow></a><a class="headerlink" href="#logical-sdlc-workflow-a-id-logicalsdlcworkflow-a" title="Permalink to this headline">¶</a></h1>
 <p>A complex workflow blocks developer productivity.  The following workflow, enforced through the use of the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa">Medusa</a> pipeline library, creates a simple yet powerful workflow that enables:</p>
 <ul class="simple">
-<li><p>Faster delivery of business value into Live environments</p></li>
-<li><p>Enforcement of key NFRs, without any developer effort</p></li>
-<li><p>Complete consistency across all environments</p></li>
-<li><p>Dedicated Preview environment for acceptance testing prior to merge</p></li>
+<li>Faster delivery of business value into Live environments</li>
+<li>Enforcement of key NFRs, without any developer effort</li>
+<li>Complete consistency across all environments</li>
+<li>Dedicated Preview environment for acceptance testing prior to merge</li>
 </ul>
 <p><img alt="../_images/SDLC_1.5.png" src="../_images/SDLC_1.5.png" /></p>
 </div>
@@ -83,35 +85,34 @@
 <div class="section" id="extensive-collaboration-and-shared-responsibility">
 <h2>Extensive Collaboration and Shared Responsibility<a class="headerlink" href="#extensive-collaboration-and-shared-responsibility" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Partnership with Site Reliability Team, NOC, LiveOps in Monitoring Live</p></li>
-<li><p>Team owns ensuring Live viability for all changes promoted to Master</p></li>
+<li>Partnership with Site Reliability Team, NOC, LiveOps in Monitoring Live</li>
+<li>Team owns ensuring Live viability for all changes promoted to Master</li>
 </ul>
 </div>
 <div class="section" id="no-silos">
 <h2>No Silos<a class="headerlink" href="#no-silos" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Co-Ownership with SRE, LiveOps of:  Live monitoring of errors rates/dashboards, alerts, performance telemetry dashboards</p></li>
-<li><p>Quality is a concern of development (built-in quality)</p></li>
+<li>Co-Ownership with SRE, LiveOps of:  Live monitoring of errors rates/dashboards, alerts, performance telemetry dashboards</li>
+<li>Quality is a concern of development (built-in quality)</li>
 </ul>
 </div>
 <div class="section" id="autonomous-teams">
 <h2>Autonomous Teams<a class="headerlink" href="#autonomous-teams" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Team owns creation of Pull Requests into Master.</p></li>
-<li><p>Team owns PR approvals and acts as Continuous Operations owner. In certain cases SA/Program Team level approval may be needed.</p></li>
+<li>Team owns creation of Pull Requests into Master.</li>
+<li>Team owns PR approvals and acts as Continuous Operations owner. In certain cases SA/Program Team level approval may be needed.</li>
 </ul>
 </div>
 <div class="section" id="high-quality-development-process">
 <h2>High Quality Development Process<a class="headerlink" href="#high-quality-development-process" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Team ensures all quality-first practices are followed</p></li>
-<li><p>CI processes provide fast feedback to teams</p></li>
-<li><p>CD processes enforce testing gates</p></li>
-<li><p>Teams leverage Preview environment for acceptance</p></li>
-<li><p>Teams build resiliency into systems</p>
-<ul>
-<li><p>circuit breakers</p></li>
-<li><p>zero downtime deployments</p></li>
+<li>Team ensures all quality-first practices are followed</li>
+<li>CI processes provide fast feedback to teams</li>
+<li>CD processes enforce testing gates</li>
+<li>Teams leverage Preview environment for acceptance</li>
+<li>Teams build resiliency into systems<ul>
+<li>circuit breakers</li>
+<li>zero downtime deployments</li>
 </ul>
 </li>
 </ul>
@@ -119,41 +120,39 @@
 <div class="section" id="valuing-feedback">
 <h2>Valuing Feedback<a class="headerlink" href="#valuing-feedback" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Teams look to measure everything and drive continuous improvement from metrics</p></li>
-<li><p>Teams value and respond quickly to defects reported from SRE, LiveOps and CustSat</p></li>
+<li>Teams look to measure everything and drive continuous improvement from metrics</li>
+<li>Teams value and respond quickly to defects reported from SRE, LiveOps and CustSat</li>
 </ul>
 </div>
 <div class="section" id="automation">
 <h2>Automation<a class="headerlink" href="#automation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Teams build pipelines to Live following the Reference Architecture 1.5</p></li>
-<li><p>See:  <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide">https://github.com/EBSCOIS/platform.training.refarch1.5-devguide</a></p></li>
+<li>Teams build pipelines to Live following the Reference Architecture 1.5</li>
+<li>See:  <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide">https://github.com/EBSCOIS/platform.training.refarch1.5-devguide</a></li>
 </ul>
 </div>
 </div>
 <div class="section" id="definitions">
 <h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p><strong>Master</strong> - EBSCOIS base repository. This repository is the starting point for all branches. All builds and deployments are sourced from this repository. Only the builds should have access to master. Only user story branches should be created here. Tags should be long-lived snapshots of the code.</p></li>
-<li><p><strong>User Story Branch Origin</strong> - Personal repository. Each developer has their own origin. Developers can grant access to their origin as desired. Master branch should never contain local changes/work. User Story Branch Origins should always be kept in sync with the Master.</p></li>
-<li><p><strong>User Story Branch Local</strong> - Local repository on the developers machine.</p></li>
-<li><p><strong>Developer Remotes</strong> - Additional remotes added to collaboratively work with developers without triggering a build</p></li>
+<li><strong>Master</strong> - EBSCOIS base repository. This repository is the starting point for all branches. All builds and deployments are sourced from this repository. Only the builds should have access to master. Only user story branches should be created here. Tags should be long-lived snapshots of the code.</li>
+<li><strong>User Story Branch Origin</strong> - Personal repository. Each developer has their own origin. Developers can grant access to their origin as desired. Master branch should never contain local changes/work. User Story Branch Origins should always be kept in sync with the Master.</li>
+<li><strong>User Story Branch Local</strong> - Local repository on the developers machine.</li>
+<li><strong>Developer Remotes</strong> - Additional remotes added to collaboratively work with developers without triggering a build</li>
 </ul>
 </div>
 <div class="section" id="github-flow-branching-strategy-a-id-githubflowbranchingstrategy-a">
 <h1>GitHub Flow Branching Strategy <a id=GitHubFlowBranchingStrategy></a><a class="headerlink" href="#github-flow-branching-strategy-a-id-githubflowbranchingstrategy-a" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>The Branching Strategy for microservices in the Reference Architecture 1.5 follows a variation of the simplified GitHub Flow model that uses a “Branch and Merge” process: <a class="reference external" href="https://help.github.com/articles/github-flow/">https://help.github.com/articles/github-flow/</a></p>
-<ul>
-<li><p><strong>Note:</strong> the variation from the simplified GitHub Flow model is that we do not make use of <code class="docutils literal notranslate"><span class="pre">release/</span></code> branches. We release directly from the master branch.</p>
-<ul>
-<li><p>The format of release branch names is very specific. It is described in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/README.md#repository-branches">Repository Branches section of the Medusa readme</a>.</p></li>
+<li>The Branching Strategy for microservices in the Reference Architecture 1.5 follows a variation of the simplified GitHub Flow model that uses a “Branch and Merge” process: <a class="reference external" href="https://help.github.com/articles/github-flow/">https://help.github.com/articles/github-flow/</a><ul>
+<li><strong>Note:</strong> the variation from the simplified GitHub Flow model is that we do not make use of <code class="docutils literal notranslate"><span class="pre">release/</span></code> branches. We release directly from the master branch.<ul>
+<li>The format of release branch names is very specific. It is described in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/README.md#repository-branches">Repository Branches section of the Medusa readme</a>.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Infrastructure projects do use <code class="docutils literal notranslate"><span class="pre">Release</span></code> branches in order to support the “drop” cadence model we are using for early platform development.</p></li>
-<li><p><strong>Note</strong> all branches must be named according to the rules described in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/README.md#repository-branches">Repository Branches section of the Medusa readme</a></p></li>
+<li>Infrastructure projects do use <code class="docutils literal notranslate"><span class="pre">Release</span></code> branches in order to support the “drop” cadence model we are using for early platform development.</li>
+<li><strong>Note</strong> all branches must be named according to the rules described in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/README.md#repository-branches">Repository Branches section of the Medusa readme</a></li>
 </ul>
 </div>
 <div class="section" id="reference-branching-model-a-id-referencebranchingmodel-a">
@@ -238,53 +237,46 @@
 <div class="section" id="sdlc-assertions-a-id-sdlcassertions-a">
 <h1>SDLC Assertions <a id=SDLCAssertions></a><a class="headerlink" href="#sdlc-assertions-a-id-sdlcassertions-a" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>All User Story Branches are created from Master</p>
-<ul>
-<li><p>Do update (Pull down from Master) into your User Story branches frequently (At least daily)</p></li>
-<li><p>Do merge to Master regularly (At least weekly)</p></li>
+<li>All User Story Branches are created from Master<ul>
+<li>Do update (Pull down from Master) into your User Story branches frequently (At least daily)</li>
+<li>Do merge to Master regularly (At least weekly)</li>
 </ul>
 </li>
-<li><p>Master is kept in a releasable state at all times</p>
-<ul>
-<li><p>The Master represents a collection of Live versions and intended releases</p></li>
-<li><p>Do Not commit into Master directly</p></li>
-<li><p>Do apply Hotfixes using a User Story Branch</p></li>
-<li><p>Do Not rebase Master</p></li>
+<li>Master is kept in a releasable state at all times<ul>
+<li>The Master represents a collection of Live versions and intended releases</li>
+<li>Do Not commit into Master directly</li>
+<li>Do apply Hotfixes using a User Story Branch</li>
+<li>Do Not rebase Master</li>
 </ul>
 </li>
-<li><p>A push to a public branch triggers a CI build</p>
-<ul>
-<li><p>A versioned pre-release artifact is created</p></li>
-<li><p>Unit tests are run (as determined by archetype)</p></li>
-<li><p>Integration tests are run (as determined by archetype)</p></li>
+<li>A push to a public branch triggers a CI build<ul>
+<li>A versioned pre-release artifact is created</li>
+<li>Unit tests are run (as determined by archetype)</li>
+<li>Integration tests are run (as determined by archetype)</li>
 </ul>
 </li>
-<li><p>A push to a public branch triggers the creation of a Preview env</p>
-<ul>
-<li><p>Quality gates must pass in this env</p></li>
-<li><p>Preview environments live for only 2 hours</p></li>
+<li>A push to a public branch triggers the creation of a Preview env<ul>
+<li>Quality gates must pass in this env</li>
+<li>Preview environments live for only 2 hours</li>
 </ul>
 </li>
-<li><p>A Pull Request triggers the creation of a Preview env</p>
-<ul>
-<li><p>Quality gates must pass in this env</p></li>
-<li><p>Static analysis is run (as determined by archetype)</p></li>
-<li><p>Team level Acceptance testing is done in this env</p></li>
-<li><p>Do push user story branches for discussion prior to issuing a PR</p></li>
-<li><p>PRs should represent small code changes that can be reviewed quickly</p></li>
-<li><p>Do Not introduce breaking changes (follow SOLID, 12-factor)</p></li>
+<li>A Pull Request triggers the creation of a Preview env<ul>
+<li>Quality gates must pass in this env</li>
+<li>Static analysis is run (as determined by archetype)</li>
+<li>Team level Acceptance testing is done in this env</li>
+<li>Do push user story branches for discussion prior to issuing a PR</li>
+<li>PRs should represent small code changes that can be reviewed quickly</li>
+<li>Do Not introduce breaking changes (follow SOLID, 12-factor)</li>
 </ul>
 </li>
-<li><p>A Pull Request Approval triggers the merge into Master</p>
-<ul>
-<li><p>PO/PM/SA acceptance drives PR approval</p></li>
+<li>A Pull Request Approval triggers the merge into Master<ul>
+<li>PO/PM/SA acceptance drives PR approval</li>
 </ul>
 </li>
-<li><p>A merge into Master triggers the CD process</p>
-<ul>
-<li><p>Do Not merge in broken code</p></li>
-<li><p>Do Not merge with conflicts (handle conflicts upon rebasing)</p></li>
-<li><p>All releases are tagged automatically by pipeline</p></li>
+<li>A merge into Master triggers the CD process<ul>
+<li>Do Not merge in broken code</li>
+<li>Do Not merge with conflicts (handle conflicts upon rebasing)</li>
+<li>All releases are tagged automatically by pipeline</li>
 </ul>
 </li>
 </ul>
@@ -294,7 +286,7 @@
 <p>Each delivery into an environment (Preview, Int, Live) follows the Canary promotion methodology supported by <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra">Hydra</a>.  All promotion events must be gated by the successful completion of a Quality Gate consisting of a set of tests appropriate for the environment.  This helps to ensure that the version of the service being promoted into use within a given environment is fit-for-purpose.</p>
 <div class="section" id="test-gates">
 <h2>Test Gates<a class="headerlink" href="#test-gates" title="Permalink to this headline">¶</a></h2>
-<p>For guidance on testing, including Consumer-Driven Contract testing and Performance testing, see:  <a class="reference external" href="http://confluence/display/~abhavan/Microservices+Test+Strategy">Microservices Test Strategy</a></p>
+<p>For guidance on testing, including Consumer-Driven Contract testing and Performance testing, see:  <a class="reference external" href="http://confluence/display/%7Eabhavan/Microservices+Test+Strategy">Microservices Test Strategy</a></p>
 <div class="section" id="sonarqube-static-code-analysis">
 <h3>Sonarqube Static Code Analysis<a class="headerlink" href="#sonarqube-static-code-analysis" title="Permalink to this headline">¶</a></h3>
 <p>Gate consists of static code anlysis using Sonarqube.  Outcome of this stage is a report that teams will use to assess code quality to help drive identification of tech debt stories for backlog.  Standard Sonarqube Quality Profiles have been established for a number of different programming languages.  See this Yammer post:  <a class="reference external" href="https://www.yammer.com/ebsco.com/#/Threads/show?threadId=1160757472&amp;search_origin=global&amp;scoring=linear1Y-prankie-group-private-higher&amp;match=any-exact&amp;search_sort=relevance&amp;page=1&amp;search=chris%20matheson">Yammer</a></p>
@@ -322,23 +314,23 @@
 <h3>PR/feature Branch Builds<a class="headerlink" href="#pr-feature-branch-builds" title="Permalink to this headline">¶</a></h3>
 <p>CI process initiated by a commit into a PR or feature branch. The following gates are triggered and a preview environment is created:</p>
 <ul class="simple">
-<li><p>Unit tests.</p></li>
-<li><p>Contract tests.</p></li>
-<li><p>Integration tests.</p></li>
-<li><p>Sonarqube Static Code Analysis.</p></li>
-<li><p>End-to-End tests (against service Preview)</p></li>
+<li>Unit tests.</li>
+<li>Contract tests.</li>
+<li>Integration tests.</li>
+<li>Sonarqube Static Code Analysis.</li>
+<li>End-to-End tests (against service Preview)</li>
 </ul>
 </div>
 <div class="section" id="master-branch-builds">
 <h3>Master Branch Builds<a class="headerlink" href="#master-branch-builds" title="Permalink to this headline">¶</a></h3>
 <p>CI process initiated by a PR merge to Master.  The following gates are triggered:</p>
 <ul class="simple">
-<li><p>Unit tests.</p></li>
-<li><p>Contract tests.</p></li>
-<li><p>Integration tests.</p></li>
-<li><p>Sonarqube Static Code Analysis.</p></li>
-<li><p>End-to-End tests.</p></li>
-<li><p>Performance tests.</p></li>
+<li>Unit tests.</li>
+<li>Contract tests.</li>
+<li>Integration tests.</li>
+<li>Sonarqube Static Code Analysis.</li>
+<li>End-to-End tests.</li>
+<li>Performance tests.</li>
 </ul>
 </div>
 <div class="section" id="preview">
@@ -362,14 +354,13 @@
 <div class="section" id="notes">
 <h2>Notes:<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Developers should run tests locally before committing changes to a remote branch.</p></li>
-<li><p>A check-in to a remote branch triggers a CI build.  Unit &amp; Integration tests are run (as determined by the archetype).</p></li>
-<li><p>A PR into Master triggers the generation of a versioned pre-release artifact (that represents a merging the branch and master), and deployment of that artifact in a Preview environment.</p></li>
-<li><p>Team/ART level Acceptance testing is performed in the PR Preview environment.</p></li>
-<li><p>PR approval and merge triggers a build of the master branch resulting in deployment into INT and Live.</p></li>
-<li><p>Canary deployment used in all environments:</p>
-<ul>
-<li><p>All automated gates must pass before full promotion</p></li>
+<li>Developers should run tests locally before committing changes to a remote branch.</li>
+<li>A check-in to a remote branch triggers a CI build.  Unit &amp; Integration tests are run (as determined by the archetype).</li>
+<li>A PR into Master triggers the generation of a versioned pre-release artifact (that represents a merging the branch and master), and deployment of that artifact in a Preview environment.</li>
+<li>Team/ART level Acceptance testing is performed in the PR Preview environment.</li>
+<li>PR approval and merge triggers a build of the master branch resulting in deployment into INT and Live.</li>
+<li>Canary deployment used in all environments:<ul>
+<li>All automated gates must pass before full promotion</li>
 </ul>
 </li>
 </ul>
@@ -380,14 +371,13 @@
 <p><a class="reference external" href="http://semver.org/">Semantic Versioning</a> is used by all services being delivered into an environment.</p>
 <p>Given a version number MAJOR.MINOR.PATCH, versioning is handled in the following manner:</p>
 <ol class="simple">
-<li><p>MAJOR version must be incremented when you make incompatible API changes.</p>
-<ul class="simple">
-<li><p>Developers have control of this part of the version. It can be set in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/blob/master/README.md#application-definition-file">applicationDefinition.yaml</a> file.</p></li>
-<li><p>Strictly speaking however, there should be no need to change this part of the version when developing a microservice, because any breaking change should be deployed as a new service out of a new project repo, e.g. breaking changes in a service named <code class="docutils literal notranslate"><span class="pre">myService</span></code> should be made in a new project repo resulting in <code class="docutils literal notranslate"><span class="pre">myService2</span></code>.</p></li>
+<li>MAJOR version must be incremented when you make incompatible API changes.<ul>
+<li>Developers have control of this part of the version. It can be set in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/blob/master/README.md#application-definition-file">applicationDefinition.yaml</a> file.</li>
+<li>Strictly speaking however, there should be no need to change this part of the version when developing a microservice, because any breaking change should be deployed as a new service out of a new project repo, e.g. breaking changes in a service named <code class="docutils literal notranslate"><span class="pre">myService</span></code> should be made in a new project repo resulting in <code class="docutils literal notranslate"><span class="pre">myService2</span></code>.</li>
 </ul>
 </li>
-<li><p>MINOR version increments automatically as part of the build process. Developers have no control over this part of the version number. For the purposes of pipeline automation no distinction is made between “new features” and “bug fixes” with respect to the MINOR version number.</p></li>
-<li><p>PATCH version does not change. It serves no specific purpose other to remain compatible with systems and services that require a 3 part version.</p></li>
+<li>MINOR version increments automatically as part of the build process. Developers have no control over this part of the version number. For the purposes of pipeline automation no distinction is made between “new features” and “bug fixes” with respect to the MINOR version number.</li>
+<li>PATCH version does not change. It serves no specific purpose other to remain compatible with systems and services that require a 3 part version.</li>
 </ol>
 </div>
 <div class="section" id="feature-toggles-a-id-featuretoggles-a">
@@ -396,16 +386,16 @@
 <h2>Note:  Support for Feature Toggles in 1.5 will not be in place until after PI13.<a class="headerlink" href="#note-support-for-feature-toggles-in-1-5-will-not-be-in-place-until-after-pi13" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="https://martinfowler.com/articles/feature-toggles.html">Feature Toggles</a> <strong>may be used to:</strong></p>
 <ul class="simple">
-<li><p>isolate work in progress</p></li>
-<li><p>provide a mechanism to dynamically enable new business functionality post release</p></li>
-<li><p>enable canary testing of experimental algorithms</p></li>
-<li><p>enable A/B testing</p></li>
+<li>isolate work in progress</li>
+<li>provide a mechanism to dynamically enable new business functionality post release</li>
+<li>enable canary testing of experimental algorithms</li>
+<li>enable A/B testing</li>
 </ul>
 <p><strong>Feature Toggle Best Practices:</strong></p>
 <ul class="simple">
-<li><p>Feature Toggles must have a defined expiration date.</p></li>
-<li><p>Treat Feature Toggles as Technical Debt.  Code supporting the feature toggle must be removed once the defined expiration date has been met.</p></li>
-<li><p>Testing must cover all Feature Toggle permutations - USE THEM SPARINGLY.</p></li>
+<li>Feature Toggles must have a defined expiration date.</li>
+<li>Treat Feature Toggles as Technical Debt.  Code supporting the feature toggle must be removed once the defined expiration date has been met.</li>
+<li>Testing must cover all Feature Toggle permutations - USE THEM SPARINGLY.</li>
 </ul>
 </div>
 </div>
@@ -414,11 +404,11 @@
 <div class="section" id="reference-architecture-test-standards">
 <h2>Reference Architecture Test Standards<a class="headerlink" href="#reference-architecture-test-standards" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="http://confluence/display/~abhavan/Microservices+Test+Strategy">Microservices Test Strategy</a></p></li>
-<li><p><a class="reference external" href="http://confluence/display/entarch/SERVICES-260%3A+Pipeline+Testing">SERVICES-260: Pipeline Testing</a></p></li>
-<li><p><a class="reference external" href="http://confluence/display/entarch/UI-260%3A+DevTest+-+Automated+E2E+testing">UI-260: DevTest - Automated E2E testing</a></p></li>
-<li><p><a class="reference external" href="http://confluence/display/entarch/SERVICES-270%3A++Microservices+Testing">SERVICES-270: Microservices Testing</a></p></li>
-<li><p><a class="reference external" href="http://confluence/display/entarch/SERVICES-280%3A+Testing+Overview">SERVICES-280: Testing Overview</a></p></li>
+<li><a class="reference external" href="http://confluence/display/%7Eabhavan/Microservices+Test+Strategy">Microservices Test Strategy</a></li>
+<li><a class="reference external" href="http://confluence/display/entarch/SERVICES-260%3A+Pipeline+Testing">SERVICES-260: Pipeline Testing</a></li>
+<li><a class="reference external" href="http://confluence/display/entarch/UI-260%3A+DevTest+-+Automated+E2E+testing">UI-260: DevTest - Automated E2E testing</a></li>
+<li><a class="reference external" href="http://confluence/display/entarch/SERVICES-270%3A++Microservices+Testing">SERVICES-270: Microservices Testing</a></li>
+<li><a class="reference external" href="http://confluence/display/entarch/SERVICES-280%3A+Testing+Overview">SERVICES-280: Testing Overview</a></li>
 </ul>
 </div>
 <div class="section" id="sonarqube-quality-profiles">
@@ -462,6 +452,8 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -482,7 +474,7 @@
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

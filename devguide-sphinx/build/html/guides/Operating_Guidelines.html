@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>RefArch 1.5 Platform Operating Guidelines &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -33,13 +35,12 @@
   <div class="section" id="refarch-1-5-platform-operating-guidelines">
 <h1>RefArch 1.5 Platform Operating Guidelines<a class="headerlink" href="#refarch-1-5-platform-operating-guidelines" title="Permalink to this headline">¶</a></h1>
 <!-- TOC --><ul class="simple">
-<li><p><a class="reference external" href="#refarch-15-platform-operating-guidelines">RefArch 1.5 Platform Operating Guidelines</a></p>
-<ul>
-<li><p><a class="reference external" href="#dev-environments">Dev Environments</a></p></li>
-<li><p><a class="reference external" href="#platform-release-schedule">Platform Release Schedule</a></p></li>
-<li><p><a class="reference external" href="#communication-and-support">Communication and Support</a></p></li>
-<li><p><a class="reference external" href="#upgrade-day">Upgrade Day</a></p></li>
-<li><p><a class="reference external" href="#post-upgrade-day">Post Upgrade Day</a></p></li>
+<li><a class="reference external" href="#refarch-15-platform-operating-guidelines">RefArch 1.5 Platform Operating Guidelines</a><ul>
+<li><a class="reference external" href="#dev-environments">Dev Environments</a></li>
+<li><a class="reference external" href="#platform-release-schedule">Platform Release Schedule</a></li>
+<li><a class="reference external" href="#communication-and-support">Communication and Support</a></li>
+<li><a class="reference external" href="#upgrade-day">Upgrade Day</a></li>
+<li><a class="reference external" href="#post-upgrade-day">Post Upgrade Day</a></li>
 </ul>
 </li>
 </ul>
@@ -47,21 +48,20 @@
 <div class="section" id="dev-environments">
 <h2>Dev Environments<a class="headerlink" href="#dev-environments" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Microservices will be deployed and tested in 2 AWS dev environments to allow for platform improvements in one as active EBSCO Next platform development is going on in the other. In PI12, these will be the only environments available</p>
-<ul>
-<li><p><strong>Current:</strong> Dev teams deploy their microservices to this environment during normal iterations (green below)</p></li>
-<li><p><strong>Next:</strong> Dev teams may deploy their microservices to this environment in order to test changes required for the next version of the platform (yellow below)</p></li>
+<li>Microservices will be deployed and tested in 2 AWS dev environments to allow for platform improvements in one as active EBSCO Next platform development is going on in the other. In PI12, these will be the only environments available<ul>
+<li><strong>Current:</strong> Dev teams deploy their microservices to this environment during normal iterations (green below)</li>
+<li><strong>Next:</strong> Dev teams may deploy their microservices to this environment in order to test changes required for the next version of the platform (yellow below)</li>
 </ul>
 </li>
-<li><p>Current and Next environments will be rotated every other iteration in PI12. We will assess how this period works and adjust as necessary.</p></li>
-<li><p>Rotation will be executed with an automated rebuild, blowing away everything in both environments. We do this to ensure we can recreate environments in an automated way.</p></li>
-<li><p>Key non-breaking fixes and enhancements will be overlaid onto the Current environment as needed.</p></li>
+<li>Current and Next environments will be rotated every other iteration in PI12. We will assess how this period works and adjust as necessary.</li>
+<li>Rotation will be executed with an automated rebuild, blowing away everything in both environments. We do this to ensure we can recreate environments in an automated way.</li>
+<li>Key non-breaking fixes and enhancements will be overlaid onto the Current environment as needed.</li>
 </ul>
 </div>
 <div class="section" id="platform-release-schedule">
 <h2>Platform Release Schedule<a class="headerlink" href="#platform-release-schedule" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Platform dev teams will release the Next environment by end of day Thursday, before Friday platform upgrade by product dev teams.</p></li>
+<li>Platform dev teams will release the Next environment by end of day Thursday, before Friday platform upgrade by product dev teams.</li>
 </ul>
 <p><img alt="../_images/PI12_RefArch1.5_Platform_Upgrade_Schedule.png" src="../_images/PI12_RefArch1.5_Platform_Upgrade_Schedule.png" />Upgrade Schedule</p>
 </div>
@@ -70,60 +70,57 @@
 <p>Dev teams will use the resources below for instructions and to raise issues and questions about deployment to the Next version of the platform.</p>
 <p><strong>It is important we direct all discussion to the shared Teams channel so issues and solutions are available to all dev teams.</strong></p>
 <ul>
-<li><p>Release Notes:</p>
+<li><p class="first">Release Notes:</p>
 <p>The <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide/blob/master/guides/Platform_Release_Notes">Platform Release Notes</a> section of this document will describe project changes required to upgrade to the new version of the platform. This will be complete by end of day Thursday, likely sooner.</p>
 </li>
-<li><p>Teams room:</p>
+<li><p class="first">Teams room:</p>
 <p>The <a class="reference external" href="https://teams.microsoft.com/l/team/19%3afa2ca3ef3b8042438565ebe7c5e71731%40thread.skype/conversations?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">Ref Arch 1.5 Feedback</a> Teams Channel will include a Tab to capture status at various check-ins as well as use of the chat for ongoing issues reporting/progress</p>
 </li>
-<li><p>Egress from microservices/mesh to external services is managed by submitting a Pull Request to a single repository (TBD). PR’s will be reviewed and executed by “Platform Support.”</p></li>
-<li><p>Ingress and routing to applications is done with Ambassador gateway (if ready) or by using host header (if not)</p></li>
+<li><p class="first">Egress from microservices/mesh to external services is managed by submitting a Pull Request to a single repository (TBD). PR’s will be reviewed and executed by “Platform Support.”</p>
+</li>
+<li><p class="first">Ingress and routing to applications is done with Ambassador gateway (if ready) or by using host header (if not)</p>
+</li>
 </ul>
 </div>
 <div class="section" id="upgrade-day">
 <h2>Upgrade Day<a class="headerlink" href="#upgrade-day" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Friday morning of upgrade day, product dev teams will</p>
-<ul>
-<li><p>make any required changes to their code repos as identified in the <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide/blob/master/guides/Platform_Release_Notes">Platform Release Notes</a></p></li>
-<li><p>Perform a deployment</p>
-<ul>
-<li><p>Deploying to the upgraded Next environment does not require a change to your Jenkinsfile – starting the morning of Upgrade Day, all deployments will be targeted at the new environment.</p></li>
-<li><p>There will be a way to override which environment (Dev1/Dev2) you deploy to but this should only be used in special cases in coordination with the Platform development teams.</p></li>
+<li>Friday morning of upgrade day, product dev teams will<ul>
+<li>make any required changes to their code repos as identified in the <a class="reference external" href="https://github.com/EBSCOIS/platform.training.refarch1.5-devguide/blob/master/guides/Platform_Release_Notes">Platform Release Notes</a></li>
+<li>Perform a deployment<ul>
+<li>Deploying to the upgraded Next environment does not require a change to your Jenkinsfile – starting the morning of Upgrade Day, all deployments will be targeted at the new environment.</li>
+<li>There will be a way to override which environment (Dev1/Dev2) you deploy to but this should only be used in special cases in coordination with the Platform development teams.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>Check-ins with EA/PO weill be held at 11am and 3pm and EA will be continuously monitoring the Teams channel to provide support</p></li>
-<li><p>EA will monitor teams room throughout the day and provide support</p></li>
-<li><p>In the event of an unforeseen problem with the Next environment, EA will make a call whether to fix forward (preferred) or roll back. EA will do their best to have a fix available by early afternoon for teams to react. Target end of day decision (3pm ET) with EA whether to roll back or fix forward.</p></li>
-<li><p>POs for teams (both platform dev and product dev) will monitor communication stream to coordinate &amp; prioritize when teams need to address specific issues. (i.e. Set up conf call/MS Teams meeting for breakouts as needed for specific issues).</p></li>
-<li><p>Escalations during Upgrade Day should be routed to Aishwariya Bhavan; Seshu Pasam; Nate Baechtold via MS teams <a class="reference external" href="https://teams.microsoft.com/l/team/19%3afa2ca3ef3b8042438565ebe7c5e71731%40thread.skype/conversations?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">Ref Arch 1.5 Feedback</a> channel</p></li>
-<li><p>Escalations during Iteration should be routed thru Respective Program team(s) (for prioritization) in addition to Aishwariya Bhavan; Seshu Pasam; Nate Baechtold</p></li>
-<li><p>Tracking of Issues:</p>
-<ul>
-<li><p>Teams to use MS Teams channel to report immediate issues/progress with goal to resolve over the course of the day</p></li>
-<li><p>Teams to use Rally team boards to add user stories for issues that teams expect to rollover into next iteration, to be considered in teams Planning meetings</p></li>
+<li>Check-ins with EA/PO weill be held at 11am and 3pm and EA will be continuously monitoring the Teams channel to provide support</li>
+<li>EA will monitor teams room throughout the day and provide support</li>
+<li>In the event of an unforeseen problem with the Next environment, EA will make a call whether to fix forward (preferred) or roll back. EA will do their best to have a fix available by early afternoon for teams to react. Target end of day decision (3pm ET) with EA whether to roll back or fix forward.</li>
+<li>POs for teams (both platform dev and product dev) will monitor communication stream to coordinate &amp; prioritize when teams need to address specific issues. (i.e. Set up conf call/MS Teams meeting for breakouts as needed for specific issues).</li>
+<li>Escalations during Upgrade Day should be routed to Aishwariya Bhavan; Seshu Pasam; Nate Baechtold via MS teams <a class="reference external" href="https://teams.microsoft.com/l/team/19%3afa2ca3ef3b8042438565ebe7c5e71731%40thread.skype/conversations?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">Ref Arch 1.5 Feedback</a> channel</li>
+<li>Escalations during Iteration should be routed thru Respective Program team(s) (for prioritization) in addition to Aishwariya Bhavan; Seshu Pasam; Nate Baechtold</li>
+<li>Tracking of Issues:<ul>
+<li>Teams to use MS Teams channel to report immediate issues/progress with goal to resolve over the course of the day</li>
+<li>Teams to use Rally team boards to add user stories for issues that teams expect to rollover into next iteration, to be considered in teams Planning meetings</li>
 </ul>
 </li>
-<li><p>EPAM: ~2am ET start – end of day (off shore)</p>
-<ul>
-<li><p>Krishna (EA in India)</p>
-<ul>
-<li><p>Assist and monitor chat for EPAM to troubleshoot and collect info.</p></li>
-<li><p>Provide EPAM handoff at the end of the day to MS Team room, EPAM teams to ensure open communication on individual team rooms</p></li>
+<li>EPAM: ~2am ET start – end of day (off shore)<ul>
+<li>Krishna (EA in India)<ul>
+<li>Assist and monitor chat for EPAM to troubleshoot and collect info.</li>
+<li>Provide EPAM handoff at the end of the day to MS Team room, EPAM teams to ensure open communication on individual team rooms</li>
 </ul>
 </li>
-<li><p>Local EA/PO to ensure communication back to EPAM teams end of day Friday for Monday morning update including awareness of solutions/remaining open issues</p></li>
+<li>Local EA/PO to ensure communication back to EPAM teams end of day Friday for Monday morning update including awareness of solutions/remaining open issues</li>
 </ul>
 </li>
-<li><p>Local: POs/Team members to monitor the public team room to understand issues, go/no go to start day.</p></li>
+<li>Local: POs/Team members to monitor the public team room to understand issues, go/no go to start day.</li>
 </ul>
 </div>
 <div class="section" id="post-upgrade-day">
 <h2>Post Upgrade Day<a class="headerlink" href="#post-upgrade-day" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Cross ART team lessons learned in a consistent and formalized manner after each merge is key. EA to own scheduling the check in the first Monday in iteration 3, to include POs/EA/ADMs and tech leads as appropriate.</p></li>
+<li>Cross ART team lessons learned in a consistent and formalized manner after each merge is key. EA to own scheduling the check in the first Monday in iteration 3, to include POs/EA/ADMs and tech leads as appropriate.</li>
 </ul>
 </div>
 </div>
@@ -159,6 +156,8 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -179,7 +178,7 @@
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

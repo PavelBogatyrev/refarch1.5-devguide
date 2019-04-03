@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>PI13 - I1 &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -35,63 +37,60 @@
 <div class="section" id="overview">
 <h2>OVERVIEW<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Deployment and Infrastructure updates</strong>: Preview Environments for Multiple Services and Vault support are among the new features being delivered with this upgrade cadence for the infrastructure. A number of stability improvements have also been built into the cluster.</p></li>
-<li><p><strong>PDKs</strong>: For java services, the PDKs have been consolidated into a single repository to simplify the workflows to manage these. Some bug fixes and new features are also available for tracing and metrics modules.</p></li>
-<li><p><strong>Medusa</strong>: Publishing of stubs for java services is now supported. Java services should also take advantage of the gradle <code class="docutils literal notranslate"><span class="pre">plugins</span></code> DSL in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> files instead of the <code class="docutils literal notranslate"><span class="pre">apply</span></code> section. Performance quality gate will now include the ability to make assertions on 95th percentile response time. Also, jmeter logs are archived with builds. Sonar quality gate will be run on feature as well as master branch builds now. E2E tests will be run in preview envs as well.</p></li>
-<li><p><strong>Hydra</strong>: 100% Canary stages are no longer supported in deployment manifests. The manifest now supports PodDisruptionBudgets to maintain high availability for services. Additionally, Hydra now provides improved diagnostic output during stage validation in the build console logs.</p></li>
+<li><strong>Deployment and Infrastructure updates</strong>: Preview Environments for Multiple Services and Vault support are among the new features being delivered with this upgrade cadence for the infrastructure. A number of stability improvements have also been built into the cluster.</li>
+<li><strong>PDKs</strong>: For java services, the PDKs have been consolidated into a single repository to simplify the workflows to manage these. Some bug fixes and new features are also available for tracing and metrics modules.</li>
+<li><strong>Medusa</strong>: Publishing of stubs for java services is now supported. Java services should also take advantage of the gradle <code class="docutils literal notranslate"><span class="pre">plugins</span></code> DSL in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> files instead of the <code class="docutils literal notranslate"><span class="pre">apply</span></code> section. Performance quality gate will now include the ability to make assertions on 95th percentile response time. Also, jmeter logs are archived with builds. Sonar quality gate will be run on feature as well as master branch builds now. E2E tests will be run in preview envs as well.</li>
+<li><strong>Hydra</strong>: 100% Canary stages are no longer supported in deployment manifests. The manifest now supports PodDisruptionBudgets to maintain high availability for services. Additionally, Hydra now provides improved diagnostic output during stage validation in the build console logs.</li>
 </ul>
 <div class="section" id="checklist">
 <h3>Checklist<a class="headerlink" href="#checklist" title="Permalink to this headline">¶</a></h3>
 <p><strong>INFRASTRUCTURE</strong></p>
 <ul class="simple">
-<li><p>New Cluster <code class="docutils literal notranslate"><span class="pre">dev4</span></code>: <code class="docutils literal notranslate"><span class="pre">EksH-VpcA-useast1-DeliveryDevQA-Dev4</span></code>. Kube config file available <a class="reference external" href="../files/kubeconfig-dev4">here</a></p></li>
-<li><p><a class="reference external" href=":">Monitoring tools page</a>http://monitoring.eksh-useast1.eks.eis-deliverydevqa.cloud)</p></li>
-<li><p><strong>New jenkins server</strong> <a class="reference external" href="https://jenkins-refarch15c.eis-platformlive.cloud">jenkins-refarch15c</a> for medusa-based projects (primarily Java services).</p></li>
-<li><p>For Node and other services on refarch1.5: <a class="reference external" href="https://jenkins-refarch15a.eis-platformlive.cloud">jenkins-refarch15a</a></p></li>
+<li>New Cluster <code class="docutils literal notranslate"><span class="pre">dev4</span></code>: <code class="docutils literal notranslate"><span class="pre">EksH-VpcA-useast1-DeliveryDevQA-Dev4</span></code>. Kube config file available <a class="reference external" href="../files/kubeconfig-dev4">here</a></li>
+<li><a class="reference external" href=":">Monitoring tools page</a>http://monitoring.eksh-useast1.eks.eis-deliverydevqa.cloud)</li>
+<li><strong>New jenkins server</strong> <a class="reference external" href="https://jenkins-refarch15c.eis-platformlive.cloud">jenkins-refarch15c</a> for medusa-based projects (primarily Java services).</li>
+<li>For Node and other services on refarch1.5: <a class="reference external" href="https://jenkins-refarch15a.eis-platformlive.cloud">jenkins-refarch15a</a></li>
 </ul>
 <p>Here’s a summary of changes required for the refarch1.5 services. Please see the detailed sections in this guide for more details on any of these.</p>
 <p><strong>ALL services</strong></p>
 <ol class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pipeline/deploymentManifest.yaml</span></code> updates</p></li>
+<li><code class="docutils literal notranslate"><span class="pre">pipeline/deploymentManifest.yaml</span></code> updates</li>
 </ol>
 <ul class="simple">
-<li><p>a) Fix pipeline/deploymentManifest.yaml if you have the Canary stage set to 100% weight. This value should be &lt;100%.</p></li>
-<li><p>b) <em>Optional</em>: Add <code class="docutils literal notranslate"><span class="pre">PodDisruptionBudgets</span></code> section if you’d like to customize the values for pod distuption budget for your service. <code class="docutils literal notranslate"><span class="pre">minAvailable</span></code> will default to 50% if this section is not present.</p></li>
+<li>a) Fix pipeline/deploymentManifest.yaml if you have the Canary stage set to 100% weight. This value should be &lt;100%.</li>
+<li>b) <em>Optional</em>: Add <code class="docutils literal notranslate"><span class="pre">PodDisruptionBudgets</span></code> section if you’d like to customize the values for pod distuption budget for your service. <code class="docutils literal notranslate"><span class="pre">minAvailable</span></code> will default to 50% if this section is not present.</li>
 </ul>
 <ol class="simple">
-<li><p><em>Optional</em>: To leverage multi-service preview, add a properly configured previewManifest.yaml file to your project’s <code class="docutils literal notranslate"><span class="pre">pipeline/previewManifests</span></code> directory. See the detailed release notes further below for more information.</p></li>
-<li><p><em>Optional</em>: If you’d like to leverage Vault for secrets management, please contact EA to coordinate on the recommended workflows to adopt the same.</p></li>
+<li><em>Optional</em>: To leverage multi-service preview, add a properly configured previewManifest.yaml file to your project’s <code class="docutils literal notranslate"><span class="pre">pipeline/previewManifests</span></code> directory. See the detailed release notes further below for more information.</li>
+<li><em>Optional</em>: If you’d like to leverage Vault for secrets management, please contact EA to coordinate on the recommended workflows to adopt the same.</li>
 </ol>
 <p><strong>JAVA services</strong></p>
 <p>Apply the following changes, in addition to the ones in the <em>All services</em> section above.</p>
 <ol class="simple">
-<li><p>Follow the steps from the release notes to switch to the <code class="docutils literal notranslate"><span class="pre">refarch15c</span></code>, the <a class="reference external" href="https://jenkins-refarch15c.eis-platformlive.cloud">new jenkins server</a> for all services that use <code class="docutils literal notranslate"><span class="pre">medusa</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file updates. Please see this <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/pull/2/files">PR</a> for the diffs of changes made to the jsb-template repo to support this upgrade. Please make sure to verify that all the changes are made in case of build failures.</p></li>
+<li>Follow the steps from the release notes to switch to the <code class="docutils literal notranslate"><span class="pre">refarch15c</span></code>, the <a class="reference external" href="https://jenkins-refarch15c.eis-platformlive.cloud">new jenkins server</a> for all services that use <code class="docutils literal notranslate"><span class="pre">medusa</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file updates. Please see this <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/pull/2/files">PR</a> for the diffs of changes made to the jsb-template repo to support this upgrade. Please make sure to verify that all the changes are made in case of build failures.</li>
 </ol>
 <ul class="simple">
-<li><p>PDK changes</p>
-<ul>
-<li><p>Replace PDK versions in <code class="docutils literal notranslate"><span class="pre">ext</span></code> section to use a single version for the new consolidated PDK only.</p></li>
-<li><p>Change <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> section to use the single consolidated PDK only.</p></li>
-<li><p>Replace <code class="docutils literal notranslate"><span class="pre">createProperties</span></code> section to use the new consolidated PDK.</p></li>
+<li>PDK changes<ul>
+<li>Replace PDK versions in <code class="docutils literal notranslate"><span class="pre">ext</span></code> section to use a single version for the new consolidated PDK only.</li>
+<li>Change <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> section to use the single consolidated PDK only.</li>
+<li>Replace <code class="docutils literal notranslate"><span class="pre">createProperties</span></code> section to use the new consolidated PDK.</li>
 </ul>
 </li>
-<li><p>Remove all instances of <code class="docutils literal notranslate"><span class="pre">version</span></code> setting in the build.gradle file.</p></li>
-<li><p>Remove <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">plugin:</span> <span class="pre">...</span></code> statements and replace instead with <code class="docutils literal notranslate"><span class="pre">plugins{}</span></code> block.</p></li>
-<li><p>Add <code class="docutils literal notranslate"><span class="pre">settings.gradle</span></code> file. See example <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/blob/master/settings.gradle">here</a>.</p></li>
-<li><p>Replace <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">repositories.gradle</span></code> with <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">medusa.gradle</span></code>. This should be after the <code class="docutils literal notranslate"><span class="pre">plugins{}</span></code> block.</p>
-<ul>
-<li><p><em>NOTE: Rename the file in the repo as well to allow local builds to pass.</em></p></li>
+<li>Remove all instances of <code class="docutils literal notranslate"><span class="pre">version</span></code> setting in the build.gradle file.</li>
+<li>Remove <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">plugin:</span> <span class="pre">...</span></code> statements and replace instead with <code class="docutils literal notranslate"><span class="pre">plugins{}</span></code> block.</li>
+<li>Add <code class="docutils literal notranslate"><span class="pre">settings.gradle</span></code> file. See example <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/blob/master/settings.gradle">here</a>.</li>
+<li>Replace <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">repositories.gradle</span></code> with <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">medusa.gradle</span></code>. This should be after the <code class="docutils literal notranslate"><span class="pre">plugins{}</span></code> block.<ul>
+<li><em>NOTE: Rename the file in the repo as well to allow local builds to pass.</em></li>
 </ul>
 </li>
-<li><p><em>Optional</em>: Include spring-cloud-contract statement in <code class="docutils literal notranslate"><span class="pre">plugins{}</span></code> block if you require publishing <code class="docutils literal notranslate"><span class="pre">stubs.jar</span></code> for consumer-driven contract testing.</p>
-<ul>
-<li><p>*NOTE: Additional chages are required to the ContractTestBase class to support the latest version of the SCC plugin and JUnit5 framework for tests. Please see scaffolding template <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/blob/master/src/test/java/com/ebsco/_cookiecutter_domain_/_cookiecutter_market_/_cookiecutter_javaapp_/contract/ContractVerifierBase.java">ContractVerifierBase.java</a>. <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/commit/751fd70e9b2bb2347a75298ee383a2b5dd8e1d7f#diff-24cc808d05eb60149a6f3d8d65f054ce">Diff</a>.</p></li>
+<li><em>Optional</em>: Include spring-cloud-contract statement in <code class="docutils literal notranslate"><span class="pre">plugins{}</span></code> block if you require publishing <code class="docutils literal notranslate"><span class="pre">stubs.jar</span></code> for consumer-driven contract testing.<ul>
+<li>*NOTE: Additional chages are required to the ContractTestBase class to support the latest version of the SCC plugin and JUnit5 framework for tests. Please see scaffolding template <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/blob/master/src/test/java/com/ebsco/_cookiecutter_domain_/_cookiecutter_market_/_cookiecutter_javaapp_/contract/ContractVerifierBase.java">ContractVerifierBase.java</a>. <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.jsb-cookiecutter/commit/751fd70e9b2bb2347a75298ee383a2b5dd8e1d7f#diff-24cc808d05eb60149a6f3d8d65f054ce">Diff</a>.</li>
 </ul>
 </li>
 </ul>
 <ol class="simple">
-<li><p>Ensure that <code class="docutils literal notranslate"><span class="pre">NinetyFifthPercentile</span></code> KPI is specified as part of the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/tree/release/1#performance-tests">performanceDefinition.yaml</a> file.</p></li>
+<li>Ensure that <code class="docutils literal notranslate"><span class="pre">NinetyFifthPercentile</span></code> KPI is specified as part of the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/tree/release/1#performance-tests">performanceDefinition.yaml</a> file.</li>
 </ol>
 <p><strong>NODE services</strong></p>
 <p>No additional updates, just the ones in the <em>All Services</em> section above.</p>
@@ -103,20 +102,19 @@
 <h3>New Jenkins Server (refarch15c) for services that use Medusa<a class="headerlink" href="#new-jenkins-server-refarch15c-for-services-that-use-medusa" title="Permalink to this headline">¶</a></h3>
 <p><strong>NOTE: Jenkins server jenkins-refarch15b will be decommissioned at the end of I2, if your project is on jenkins-refarch15b, it needs to be migrated to jenkins-refarch15c</strong></p>
 <ul class="simple">
-<li><p>url for new Jenkins server: https://jenkins-refarch15c.eis-platformlive.cloud</p></li>
-<li><p>use label <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code>. <strong>When switching labels, delete the old label and create a new label with ‘jenkins-refarch15c’ do not edit the existing label</strong></p></li>
-<li><p>Create New Label for Repository called <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code> (for medusa only), or <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15a</span></code></p></li>
-<li><p>This will create the project on the Jenkins Server and create necessary webhooks for the Github Repository</p></li>
-<li><p>To move your job from https://jenkins-refarch15b.eis-platformlive.cloud to https://jenkins-refarch15c.eis-platformlive.cloud</p>
-<ul>
-<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15b</span></code> label from your repo</p></li>
-<li><p>Confirm job was removed from https://jenkins-refarch15b.eis-platformlive.cloud</p></li>
-<li><p>Add a new label <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code> to your repo</p></li>
-<li><p>Confirm job was added from https://jenkins-refarch15c.eis-platformlive.cloud</p></li>
-<li><p>Editing the label instead of removing and re-adding will not work</p></li>
+<li>url for new Jenkins server: https://jenkins-refarch15c.eis-platformlive.cloud</li>
+<li>use label <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code>. <strong>When switching labels, delete the old label and create a new label with ‘jenkins-refarch15c’ do not edit the existing label</strong></li>
+<li>Create New Label for Repository called <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code> (for medusa only), or <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15a</span></code></li>
+<li>This will create the project on the Jenkins Server and create necessary webhooks for the Github Repository</li>
+<li>To move your job from https://jenkins-refarch15b.eis-platformlive.cloud to https://jenkins-refarch15c.eis-platformlive.cloud<ul>
+<li>Remove the <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15b</span></code> label from your repo</li>
+<li>Confirm job was removed from https://jenkins-refarch15b.eis-platformlive.cloud</li>
+<li>Add a new label <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code> to your repo</li>
+<li>Confirm job was added from https://jenkins-refarch15c.eis-platformlive.cloud</li>
+<li>Editing the label instead of removing and re-adding will not work</li>
 </ul>
 </li>
-<li><p>The only library supported in <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code> is <code class="docutils literal notranslate"><span class="pre">medusa</span></code></p></li>
+<li>The only library supported in <code class="docutils literal notranslate"><span class="pre">jenkins-refarch15c</span></code> is <code class="docutils literal notranslate"><span class="pre">medusa</span></code></li>
 </ul>
 </div>
 <div class="section" id="hydra-dropping-support-for-100-canary-stages">
@@ -126,19 +124,21 @@
 <div class="section" id="gradle-file-changes-build-gradle-file">
 <h3>Gradle file changes [build.gradle file]<a class="headerlink" href="#gradle-file-changes-build-gradle-file" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Application of <code class="docutils literal notranslate"><span class="pre">repositories.gradle</span></code> file is being renamed to <code class="docutils literal notranslate"><span class="pre">medusa.gradle</span></code>. Users must change <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">repositories.gradle</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">medusa.gradle</span></code> in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file. Please see https://github.com/EBSCOIS/platform.infrastructure.medusa#buildgradle-file.</p></li>
-<li><p>Usage of <code class="docutils literal notranslate"><span class="pre">version</span></code> is now deprecated. All instances of <code class="docutils literal notranslate"><span class="pre">version</span></code> setting in the <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file must be removed. This is now controlled by Medusa.</p></li>
-<li><p>Application of plugins should now be done using the <a class="reference external" href="https://docs.gradle.org/current/userguide/plugins.html">Gradle plugins DSL</a> rather than legacy <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">plugin:</span></code> statements.</p></li>
+<li>Application of <code class="docutils literal notranslate"><span class="pre">repositories.gradle</span></code> file is being renamed to <code class="docutils literal notranslate"><span class="pre">medusa.gradle</span></code>. Users must change <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">repositories.gradle</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">from:</span> <span class="pre">medusa.gradle</span></code> in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file. Please see https://github.com/EBSCOIS/platform.infrastructure.medusa#buildgradle-file.</li>
+<li>Usage of <code class="docutils literal notranslate"><span class="pre">version</span></code> is now deprecated. All instances of <code class="docutils literal notranslate"><span class="pre">version</span></code> setting in the <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file must be removed. This is now controlled by Medusa.</li>
+<li>Application of plugins should now be done using the <a class="reference external" href="https://docs.gradle.org/current/userguide/plugins.html">Gradle plugins DSL</a> rather than legacy <code class="docutils literal notranslate"><span class="pre">apply</span> <span class="pre">plugin:</span></code> statements.</li>
 </ul>
 </div>
 <div class="section" id="java-pdks-consolidation">
 <h3>Java PDKs Consolidation<a class="headerlink" href="#java-pdks-consolidation" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p>Java PDKs are consolidated into one repository: <strong><a class="reference external" href="https://github.com/EBSCOIS/platform.libraries.java">platform.libraries.java</a></strong>.</p></li>
-<li><p><strong>NOTE:</strong> The old <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.metrics">Metrics</a>, <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.tracing">Tracing</a> and <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.logging">Logging</a> repositories are archived and will not be updated going forward.</p></li>
-<li><p>Java Spring Boot applications should switch to new consolidated PDK available at <a class="reference external" href="https://github.com/EBSCOIS/platform.libraries.java">platform.libraries.java</a>. In <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> make the following changes:</p>
+<li><p class="first">Java PDKs are consolidated into one repository: <strong><a class="reference external" href="https://github.com/EBSCOIS/platform.libraries.java">platform.libraries.java</a></strong>.</p>
+</li>
+<li><p class="first"><strong>NOTE:</strong> The old <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.metrics">Metrics</a>, <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.tracing">Tracing</a> and <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.logging">Logging</a> repositories are archived and will not be updated going forward.</p>
+</li>
+<li><p class="first">Java Spring Boot applications should switch to new consolidated PDK available at <a class="reference external" href="https://github.com/EBSCOIS/platform.libraries.java">platform.libraries.java</a>. In <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> make the following changes:</p>
 <ul>
-<li><p>Replace PDK versions in <code class="docutils literal notranslate"><span class="pre">ext</span></code> section from</p>
+<li><p class="first">Replace PDK versions in <code class="docutils literal notranslate"><span class="pre">ext</span></code> section from</p>
 <div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>// PDK versions
 pdkLoggingVersion = &#39;0.1.2&#39;
 pdkMetricsVersion = &#39;0.1.1&#39;
@@ -150,7 +150,7 @@ pdkTracingVersion = &#39;0.2.0&#39;
 </pre></div>
 </div>
 </li>
-<li><p>Change <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> from</p>
+<li><p class="first">Change <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> from</p>
 <div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>// EBSCO Ref Arch 1.5 PDKs
 implementation group: &#39;com.ebsco&#39;, name: &#39;platform.shared.logging&#39;, version: pdkLoggingVersion
 implementation group: &#39;com.ebsco&#39;, name: &#39;platform.shared.metrics&#39;, version: pdkMetricsVersion
@@ -163,7 +163,7 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
 </pre></div>
 </div>
 </li>
-<li><p>Replace <code class="docutils literal notranslate"><span class="pre">createProperties</span></code> from</p>
+<li><p class="first">Replace <code class="docutils literal notranslate"><span class="pre">createProperties</span></code> from</p>
 <div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>task createProperties(dependsOn: processResources) {
     doLast {
         new File(&quot;$projectDir/build/resources/main/pdkversion.properties&quot;).withWriter { w -&gt;
@@ -202,10 +202,11 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
 <div class="section" id="cdc-stub-publication">
 <h3>CDC Stub Publication<a class="headerlink" href="#cdc-stub-publication" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p>Consumer driven contract stubs will now be published for all JSB services.</p></li>
-<li><p>All users must include the <code class="docutils literal notranslate"><span class="pre">spring-cloud-contract</span></code> plugin in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file. Please see <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#buildgradle-file">here</a> for more information.</p>
+<li><p class="first">Consumer driven contract stubs will now be published for all JSB services.</p>
+</li>
+<li><p class="first">All users must include the <code class="docutils literal notranslate"><span class="pre">spring-cloud-contract</span></code> plugin in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file. Please see <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#buildgradle-file">here</a> for more information.</p>
 <ul>
-<li><p>Example inclusion statement for <code class="docutils literal notranslate"><span class="pre">plugins</span></code> block:</p>
+<li><p class="first">Example inclusion statement for <code class="docutils literal notranslate"><span class="pre">plugins</span></code> block:</p>
 <div class="highlight-gradle notranslate"><div class="highlight"><pre><span></span>id &#39;spring-cloud-contract&#39; version &#39;2.0.2.RELEASE&#39;
 </pre></div>
 </div>
@@ -217,28 +218,27 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
 <div class="section" id="th-percentile-performance-checks">
 <h3>95th Percentile Performance Checks<a class="headerlink" href="#th-percentile-performance-checks" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Through the usage of <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.torch">torch</a> and Prometheus, a 95th percentile check will now be performed following the JMeter performance tests. This check aims to verify that the response time of at least 95 percent of the requests made to the service during the performance test run are lower than a given KPI. This KPI is specified as part of the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/tree/release/1#performance-tests">performanceDefinition.yaml</a> file. See <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#performance-tests">Medusa README</a> for more information.</p></li>
+<li>Through the usage of <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.torch">torch</a> and Prometheus, a 95th percentile check will now be performed following the JMeter performance tests. This check aims to verify that the response time of at least 95 percent of the requests made to the service during the performance test run are lower than a given KPI. This KPI is specified as part of the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa/tree/release/1#performance-tests">performanceDefinition.yaml</a> file. See <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#performance-tests">Medusa README</a> for more information.</li>
 </ul>
 </div>
 <div class="section" id="performance-log-archiving">
 <h3>Performance Log Archiving<a class="headerlink" href="#performance-log-archiving" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>When the performance test step fails at any point, Medusa will now attempt to archive both the performance test <code class="docutils literal notranslate"><span class="pre">.log</span></code> and <code class="docutils literal notranslate"><span class="pre">.jtl</span></code> files. This should help with debugging testing problems even in the event where no performance reports are generated.</p></li>
+<li>When the performance test step fails at any point, Medusa will now attempt to archive both the performance test <code class="docutils literal notranslate"><span class="pre">.log</span></code> and <code class="docutils literal notranslate"><span class="pre">.jtl</span></code> files. This should help with debugging testing problems even in the event where no performance reports are generated.</li>
 </ul>
 </div>
 <div class="section" id="end-to-end-tests-in-preview-envs">
 <h3>End-to-End Tests in Preview Envs<a class="headerlink" href="#end-to-end-tests-in-preview-envs" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>End-to-End tests will now be run against preview environments for PR and feature branch builds. This should provide increased confidence for successful deployment of master branch.</p></li>
+<li>End-to-End tests will now be run against preview environments for PR and feature branch builds. This should provide increased confidence for successful deployment of master branch.</li>
 </ul>
 </div>
 <div class="section" id="gradle-plugins-dsl">
 <h3>Gradle Plugins DSL<a class="headerlink" href="#gradle-plugins-dsl" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>JSB services should now take advantage of gradle <code class="docutils literal notranslate"><span class="pre">plugins</span></code> DSL in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> files.</p>
-<ul>
-<li><p>Prior limitation of the way <code class="docutils literal notranslate"><span class="pre">spring-cloud-contract</span></code> plugin was published required the usage of the legacy gradle <code class="docutils literal notranslate"><span class="pre">apply</span></code> functionality. This deficiency has been accounted for in Medusa, enabling the recommended use of the <code class="docutils literal notranslate"><span class="pre">plugins</span></code> DSL.</p></li>
-<li><p>Please see Medusa <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#buildgradle-file"><code class="docutils literal notranslate"><span class="pre">build.gradle</span></code></a> documentation for more information about recommended construction of <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file.</p></li>
+<li>JSB services should now take advantage of gradle <code class="docutils literal notranslate"><span class="pre">plugins</span></code> DSL in their <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> files.<ul>
+<li>Prior limitation of the way <code class="docutils literal notranslate"><span class="pre">spring-cloud-contract</span></code> plugin was published required the usage of the legacy gradle <code class="docutils literal notranslate"><span class="pre">apply</span></code> functionality. This deficiency has been accounted for in Medusa, enabling the recommended use of the <code class="docutils literal notranslate"><span class="pre">plugins</span></code> DSL.</li>
+<li>Please see Medusa <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#buildgradle-file"><code class="docutils literal notranslate"><span class="pre">build.gradle</span></code></a> documentation for more information about recommended construction of <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code> file.</li>
 </ul>
 </li>
 </ul>
@@ -246,19 +246,18 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
 <div class="section" id="feature-branch-sonarqube-analysis">
 <h3>Feature Branch SonarQube Analysis<a class="headerlink" href="#feature-branch-sonarqube-analysis" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Previously, SonarQube code analysis was only performed for PR/master branch builds. This has now been extended to feature branches.</p></li>
+<li>Previously, SonarQube code analysis was only performed for PR/master branch builds. This has now been extended to feature branches.</li>
 </ul>
 </div>
 <div class="section" id="java-pdk-enhancements">
 <h3>Java PDK enhancements<a class="headerlink" href="#java-pdk-enhancements" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Tracing:</p>
-<ul>
-<li><p>Bug fixes related to trace data not being reported to jaeger by some projects (when &#64;Autowired RestTemplate is not used).</p></li>
-<li><p>Added support for tracing of SOAP requests.</p></li>
+<li>Tracing:<ul>
+<li>Bug fixes related to trace data not being reported to jaeger by some projects (when &#64;Autowired RestTemplate is not used).</li>
+<li>Added support for tracing of SOAP requests.</li>
 </ul>
 </li>
-<li><p>Metrics: <code class="docutils literal notranslate"><span class="pre">&#64;Gauge</span></code> annotations now support custom tags.</p></li>
+<li>Metrics: <code class="docutils literal notranslate"><span class="pre">&#64;Gauge</span></code> annotations now support custom tags.</li>
 </ul>
 </div>
 <div class="section" id="hydra-support-for-pod-disruption-budget">
@@ -268,26 +267,26 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
 <div class="section" id="hydra-improved-diagnostic-output">
 <h3>Hydra improved diagnostic output<a class="headerlink" href="#hydra-improved-diagnostic-output" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Hydra now prints out more detailed information during stage validation.</p></li>
-<li><p>Hydra also now displays Pod logs and events when a deployment fails during Crashloop detection.</p></li>
+<li>Hydra now prints out more detailed information during stage validation.</li>
+<li>Hydra also now displays Pod logs and events when a deployment fails during Crashloop detection.</li>
 </ul>
 </div>
 <div class="section" id="vault-secrets">
 <h3>Vault Secrets<a class="headerlink" href="#vault-secrets" title="Permalink to this headline">¶</a></h3>
 <p>Applications can now use Secrets from Vault to gain access to various resources such as the AWS Environment and Databases.</p>
 <ul class="simple">
-<li><p>This is driven by adding a new key to the deployment manifest yaml file or the preview manifest yaml file (on the same level as <code class="docutils literal notranslate"><span class="pre">Timeout</span></code>).</p></li>
-<li><p>The key <code class="docutils literal notranslate"><span class="pre">SecretsRequired:</span> <span class="pre">True</span></code> will allow applications access to secrets.</p></li>
-<li><p>These secrets will be stored in the file <code class="docutils literal notranslate"><span class="pre">config/secrets</span></code>.</p></li>
-<li><p>Check the <a class="reference external" href="https://ebscoind-my.sharepoint.com/:w:/g/personal/agarikipati_corp_epnet_com/EfPwL_BXu25JprfjPdWl4x0B3mRC9CAM5Ztz-ErhjDJw8w?e=ZfXfTh">Vault Release Notes</a> on how to configure Vault for specific secrets, and the extra steps needs to place the required files in the correct folders.</p></li>
-<li><p><strong>NOTE</strong>: Default Behaviour is <code class="docutils literal notranslate"><span class="pre">SecretsRequired:</span> <span class="pre">False</span></code> so if the key is missing, then the secrets mechanism will not be added to the deployment.</p></li>
+<li>This is driven by adding a new key to the deployment manifest yaml file or the preview manifest yaml file (on the same level as <code class="docutils literal notranslate"><span class="pre">Timeout</span></code>).</li>
+<li>The key <code class="docutils literal notranslate"><span class="pre">SecretsRequired:</span> <span class="pre">True</span></code> will allow applications access to secrets.</li>
+<li>These secrets will be stored in the file <code class="docutils literal notranslate"><span class="pre">config/secrets</span></code>.</li>
+<li>Check the <a class="reference external" href="https://ebscoind-my.sharepoint.com/:w:/g/personal/agarikipati_corp_epnet_com/EfPwL_BXu25JprfjPdWl4x0B3mRC9CAM5Ztz-ErhjDJw8w?e=ZfXfTh">Vault Release Notes</a> on how to configure Vault for specific secrets, and the extra steps needs to place the required files in the correct folders.</li>
+<li><strong>NOTE</strong>: Default Behaviour is <code class="docutils literal notranslate"><span class="pre">SecretsRequired:</span> <span class="pre">False</span></code> so if the key is missing, then the secrets mechanism will not be added to the deployment.</li>
 </ul>
 </div>
 <div class="section" id="hydra-preview-environment-multiple-services">
 <h3>Hydra Preview Environment Multiple Services<a class="headerlink" href="#hydra-preview-environment-multiple-services" title="Permalink to this headline">¶</a></h3>
 <p>Hydra now allows you to create an isolated preview environment which includes not just your application but also any dependent or related services. This is driven through a previewManifest.yaml file that lives in your project under <code class="docutils literal notranslate"><span class="pre">pipeline/previewManifests</span></code>. Check the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/tree/release/3#multi-service-preview-environments">hydra preview documentation</a>)</p>
 <ul class="simple">
-<li><p><strong>NOTE:</strong> The preview environments from PI12-I4 drop will still be the default behavior. You will only get a multi-service preview if a properly configured previewManifest.yaml file exists in your project’s <code class="docutils literal notranslate"><span class="pre">pipeline/previewManifests</span></code> directory.</p></li>
+<li><strong>NOTE:</strong> The preview environments from PI12-I4 drop will still be the default behavior. You will only get a multi-service preview if a properly configured previewManifest.yaml file exists in your project’s <code class="docutils literal notranslate"><span class="pre">pipeline/previewManifests</span></code> directory.</li>
 </ul>
 </div>
 </div>
@@ -324,6 +323,8 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
     <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -344,7 +345,7 @@ compile group: &#39;com.ebsco&#39;, name: &#39;platform.libraries.java&#39;, ver
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

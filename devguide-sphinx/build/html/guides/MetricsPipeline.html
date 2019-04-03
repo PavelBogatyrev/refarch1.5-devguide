@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Metrics Pipeline &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -33,14 +35,13 @@
   <div class="section" id="metrics-pipeline">
 <h1>Metrics Pipeline<a class="headerlink" href="#metrics-pipeline" title="Permalink to this headline">¶</a></h1>
 <!-- TOC --><ul class="simple">
-<li><p><a class="reference external" href="#metrics-pipeline">Metrics Pipeline</a></p>
-<ul>
-<li><p><a class="reference external" href="#overview">Overview</a></p></li>
-<li><p><a class="reference external" href="#implicit-metrics-and-the-dashboard-as-a-data-contract">Implicit metrics and the dashboard as a data contract</a></p></li>
-<li><p><a class="reference external" href="#implicit-metrics,-more-detail">Implicit metrics - more detail</a></p></li>
-<li><p><a class="reference external" href="#rollout">Rollout</a></p></li>
-<li><p><a class="reference external" href="#pi12-pipeline-metric-mappings">PI12 Pipeline Metric Mappings</a></p></li>
-<li><p><a class="reference external" href="#canonical-metrics">Canonical Metrics</a></p></li>
+<li><a class="reference external" href="#metrics-pipeline">Metrics Pipeline</a><ul>
+<li><a class="reference external" href="#overview">Overview</a></li>
+<li><a class="reference external" href="#implicit-metrics-and-the-dashboard-as-a-data-contract">Implicit metrics and the dashboard as a data contract</a></li>
+<li><a class="reference external" href="#implicit-metrics,-more-detail">Implicit metrics - more detail</a></li>
+<li><a class="reference external" href="#rollout">Rollout</a></li>
+<li><a class="reference external" href="#pi12-pipeline-metric-mappings">PI12 Pipeline Metric Mappings</a></li>
+<li><a class="reference external" href="#canonical-metrics">Canonical Metrics</a></li>
 </ul>
 </li>
 </ul>
@@ -86,22 +87,22 @@ this is the current state of affairs:</p>
 <div class="section" id="pi12">
 <h3>PI12<a class="headerlink" href="#pi12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Implicit RED signals on Dashboard for REST based services (implicit with istio)</p></li>
-<li><p>Implicit RED Signals on Dashboard for REST based end points with Java PDK</p></li>
-<li><p>Implicit RE (no Duration) on Dashboard for REST based signals with Node Express PDK (not tested yet)</p></li>
-<li><p>Implicit Duration Quantiles to Prometheus but not Dashboard for Node Express PDK (not aligned with istio yet)</p></li>
-<li><p>Custom Metrics to Prometheus with Java and Node Express PDKs</p></li>
-<li><p>Beta versions of Grafana dashboards for custom implicit dashboards for Java PDK RED signals and Node Express RE Signals</p></li>
+<li>Implicit RED signals on Dashboard for REST based services (implicit with istio)</li>
+<li>Implicit RED Signals on Dashboard for REST based end points with Java PDK</li>
+<li>Implicit RE (no Duration) on Dashboard for REST based signals with Node Express PDK (not tested yet)</li>
+<li>Implicit Duration Quantiles to Prometheus but not Dashboard for Node Express PDK (not aligned with istio yet)</li>
+<li>Custom Metrics to Prometheus with Java and Node Express PDKs</li>
+<li>Beta versions of Grafana dashboards for custom implicit dashboards for Java PDK RED signals and Node Express RE Signals</li>
 </ul>
 <p><img alt="../_images/MetricsFlowinPI12.png" src="../_images/MetricsFlowinPI12.png" />High level view Metrics Flow</p>
 </div>
 <div class="section" id="pi13-candidates">
 <h3>PI13 (candidates)<a class="headerlink" href="#pi13-candidates" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Implicit duration on Dashboard for REST based signals with Node Express PDK (using istio le bucketing)</p></li>
-<li><p>Standardized pipeline components for RED signals on Non-REST services</p></li>
-<li><p>Standardized pipeline components for RED signals on Non-REST methods</p></li>
-<li><p>Ability for Adhoc dashboards</p></li>
+<li>Implicit duration on Dashboard for REST based signals with Node Express PDK (using istio le bucketing)</li>
+<li>Standardized pipeline components for RED signals on Non-REST services</li>
+<li>Standardized pipeline components for RED signals on Non-REST methods</li>
+<li>Ability for Adhoc dashboards</li>
 </ul>
 </div>
 </div>
@@ -175,8 +176,8 @@ As the base signals rely on istio for metrics, and metrics in the PDK must have 
 or we will not be able to draw meaningful conclusions</p>
 <p>The two most important characteristics of the metrics are</p>
 <ul class="simple">
-<li><p>The label (dimension)</p></li>
-<li><p>The calculation</p></li>
+<li>The label (dimension)</li>
+<li>The calculation</li>
 </ul>
 <p>The PDKs will handle this for teams but it is important to understand.</p>
 <p><img alt="../_images/MP-MetricsAlignment.png" src="../_images/MP-MetricsAlignment.png" />Alignment Of Metrics In Ref Arch 1.5</p>
@@ -214,6 +215,8 @@ or we will not be able to draw meaningful conclusions</p>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -234,7 +237,7 @@ or we will not be able to draw meaningful conclusions</p>
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Deploying a service in RefArch1.5 &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -35,37 +37,33 @@
 <p><strong><strong>Note:</strong> For the PI13.I3 architecture drop, this document is specific to Java Spring Boot and Node.js edge microservces. It will remain so until the RefArch1.5 implementation is far enough along that the document becomes common to all RefArch1.5 supported technologies.</strong></p>
 <p><a class="reference external" href="#deploying-a-service-in-refarch15">Deploying a service in RefArch1.5</a></p>
 <ul class="simple">
-<li><p><a class="reference external" href="#environments">Environments</a></p>
-<ul>
-<li><p><a class="reference external" href="#dev-clusters-info">DEV Clusters Info</a></p>
-<ul>
-<li><p><a class="reference external" href="#dev5">DEV5</a></p></li>
-<li><p><a class="reference external" href="#jenkinsfile-updates-to-target-the-dev-environment">Jenkinsfile updates to target the dev environment</a></p></li>
-<li><p><a class="reference external" href="#access">Access</a></p></li>
+<li><a class="reference external" href="#environments">Environments</a><ul>
+<li><a class="reference external" href="#dev-clusters-info">DEV Clusters Info</a><ul>
+<li><a class="reference external" href="#dev5">DEV5</a></li>
+<li><a class="reference external" href="#jenkinsfile-updates-to-target-the-dev-environment">Jenkinsfile updates to target the dev environment</a></li>
+<li><a class="reference external" href="#access">Access</a></li>
 </ul>
 </li>
-<li><p><a class="reference external" href="#sandbox-cluster-info">SANDBOX Cluster Info</a></p>
-<ul>
-<li><p><a class="reference external" href="#links">Links</a></p></li>
-<li><p><a class="reference external" href="#access-1">Access</a></p></li>
+<li><a class="reference external" href="#sandbox-cluster-info">SANDBOX Cluster Info</a><ul>
+<li><a class="reference external" href="#links">Links</a></li>
+<li><a class="reference external" href="#access-1">Access</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><a class="reference external" href="#using-jenkins-pipeline-and-hydra-to-deploy-to-dev-environment">Using Jenkins Pipeline and Hydra (to deploy to dev environment)</a>
+<li><a class="reference external" href="#using-jenkins-pipeline-and-hydra-to-deploy-to-dev-environment">Using Jenkins Pipeline and Hydra (to deploy to dev environment)</a>
 - <a class="reference external" href="#deployment-manifest-pipelinedeploymentmanifestsmanifestyaml">Deployment Manifest [<code class="docutils literal notranslate"><span class="pre">pipeline/deploymentmanifests/manifest.yaml</span></code>]</a>
 - <a class="reference external" href="#application-definition-file-applicationdefinitionyaml">Application Definition File [<code class="docutils literal notranslate"><span class="pre">applicationDefinition.yaml</span></code>]</a>
-- <a class="reference external" href="#stub-services-manifest-pipelinestubrunnerservicesmanifestyaml">Stub Services Manifest [<code class="docutils literal notranslate"><span class="pre">pipeline/stubRunner/servicesManifest.yaml</span></code>]</a></p></li>
-<li><p><a class="reference external" href="#what-happens-during-deployment">What happens during deployment</a></p></li>
-<li><p><a class="reference external" href="#using-hydra-cli-only-use-for-sandbox-environment">Using Hydra CLI (ONLY use for sandbox environment)</a></p></li>
-<li><p><a class="reference external" href="#verifying--accessing-deployed-service">Verifying &amp; Accessing Deployed Service</a></p></li>
-<li><p><a class="reference external" href="#generating-traffic-to-deployed-services">Generating traffic to deployed services</a></p>
-<ul>
-<li><p><a class="reference external" href="#role-of-syntheticlive-traffic-for-hydra-deployments">Role of synthetic/live traffic for hydra deployments</a></p></li>
-<li><p><a class="reference external" href="#automated-traffic-generation-in-the-cluster">Automated traffic generation in the cluster</a></p></li>
+- <a class="reference external" href="#stub-services-manifest-pipelinestubrunnerservicesmanifestyaml">Stub Services Manifest [<code class="docutils literal notranslate"><span class="pre">pipeline/stubRunner/servicesManifest.yaml</span></code>]</a></li>
+<li><a class="reference external" href="#what-happens-during-deployment">What happens during deployment</a></li>
+<li><a class="reference external" href="#using-hydra-cli-only-use-for-sandbox-environment">Using Hydra CLI (ONLY use for sandbox environment)</a></li>
+<li><a class="reference external" href="#verifying--accessing-deployed-service">Verifying &amp; Accessing Deployed Service</a></li>
+<li><a class="reference external" href="#generating-traffic-to-deployed-services">Generating traffic to deployed services</a><ul>
+<li><a class="reference external" href="#role-of-syntheticlive-traffic-for-hydra-deployments">Role of synthetic/live traffic for hydra deployments</a></li>
+<li><a class="reference external" href="#automated-traffic-generation-in-the-cluster">Automated traffic generation in the cluster</a></li>
 </ul>
 </li>
-<li><p><a class="reference external" href="#troubleshooting">Troubleshooting</a></p></li>
+<li><a class="reference external" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 <div class="section" id="environments">
 <h2>Environments<a class="headerlink" href="#environments" title="Permalink to this headline">¶</a></h2>
@@ -74,14 +72,13 @@
 <div class="section" id="dev5">
 <h4>DEV5<a class="headerlink" href="#dev5" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>Name: <strong>EksJ-VpcA-useast1-DeliveryDevQA-Dev5</strong> – Note: this is the <strong>DEV5</strong> environment for PI13</p></li>
-<li><p>AWS account: eis-deliverydevqa</p></li>
-<li><p>AWS region: us-east-1</p></li>
-<li><p><a class="reference external" href="/files/kubeconfig-dev5">~/.kube/config file</a></p></li>
-<li><p>Links:</p>
-<ul>
-<li><p>Kiali: http://kiali.eksj-useast1.eks.eis-deliverydevqa.cloud.:20001/kiali (username/pwd: admin/admin)</p></li>
-<li><p>Index page with link to other observability tools: http://monitoring.eksj-useast1.eks.eis-deliverydevqa.cloud</p></li>
+<li>Name: <strong>EksJ-VpcA-useast1-DeliveryDevQA-Dev5</strong> – Note: this is the <strong>DEV5</strong> environment for PI13</li>
+<li>AWS account: eis-deliverydevqa</li>
+<li>AWS region: us-east-1</li>
+<li><a class="reference external" href="/files/kubeconfig-dev5">~/.kube/config file</a></li>
+<li>Links:<ul>
+<li>Kiali: http://kiali.eksj-useast1.eks.eis-deliverydevqa.cloud.:20001/kiali (username/pwd: admin/admin)</li>
+<li>Index page with link to other observability tools: http://monitoring.eksj-useast1.eks.eis-deliverydevqa.cloud</li>
 </ul>
 </li>
 </ul>
@@ -89,37 +86,37 @@
 <div class="section" id="jenkinsfile-updates-to-target-the-dev-environment">
 <h4>Jenkinsfile updates to target the dev environment<a class="headerlink" href="#jenkinsfile-updates-to-target-the-dev-environment" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>All teams deploying to dev clusters in pi13 must use <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa">medusa:snake:</a>.</p></li>
-<li><p>To setup a Medusa pipeline, teams must adhere to the instructions in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#usage">medusa:snake: README.md</a>.</p></li>
+<li>All teams deploying to dev clusters in pi13 must use <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa">medusa:snake:</a>.</li>
+<li>To setup a Medusa pipeline, teams must adhere to the instructions in the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#usage">medusa:snake: README.md</a>.</li>
 </ul>
 </div>
 <div class="section" id="access">
 <h4>Access<a class="headerlink" href="#access" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>ADFS-ExReadOnlyRole gives read-only access to the cluster. This would be the default for all teams/devs.</p></li>
-<li><p>Additionally, ADFS-ExAdministratorsRole gives admin access to the cluster. This is for EA/admins to manage the cluster.</p></li>
+<li>ADFS-ExReadOnlyRole gives read-only access to the cluster. This would be the default for all teams/devs.</li>
+<li>Additionally, ADFS-ExAdministratorsRole gives admin access to the cluster. This is for EA/admins to manage the cluster.</li>
 </ul>
 </div>
 </div>
 <div class="section" id="sandbox-cluster-info">
 <h3>SANDBOX Cluster Info<a class="headerlink" href="#sandbox-cluster-info" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Name: <strong>EksI-VpcA-useast1-DeliveryDevQA-EASandbox</strong> – Note: this is the <strong>SANDBOX</strong> environment for PI13</p></li>
-<li><p>AWS account: eis-deliverydevqa</p></li>
-<li><p>AWS region: us-east-1</p></li>
-<li><p><a class="reference external" href="/files/kubeconfig-easandbox">~/.kube/config file</a></p></li>
+<li>Name: <strong>EksI-VpcA-useast1-DeliveryDevQA-EASandbox</strong> – Note: this is the <strong>SANDBOX</strong> environment for PI13</li>
+<li>AWS account: eis-deliverydevqa</li>
+<li>AWS region: us-east-1</li>
+<li><a class="reference external" href="/files/kubeconfig-easandbox">~/.kube/config file</a></li>
 </ul>
 <div class="section" id="links">
 <h4>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>Kiali: http://kiali.eksi-useast1.eks.eis-deliverydevqa.cloud:20001 (username/pwd: admin/admin)</p></li>
-<li><p>Index page with link to other observability tools: http://monitoring.eksi-useast1.eks.eis-deliverydevqa.cloud</p></li>
+<li>Kiali: http://kiali.eksi-useast1.eks.eis-deliverydevqa.cloud:20001 (username/pwd: admin/admin)</li>
+<li>Index page with link to other observability tools: http://monitoring.eksi-useast1.eks.eis-deliverydevqa.cloud</li>
 </ul>
 </div>
 <div class="section" id="id1">
 <h4>Access<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li><p>ADFS-ExDevTeamRole gives admin access to the cluster. <strong>Please exercise caution when executing commands that could potentially delete resources on this cluster</strong>.</p></li>
+<li>ADFS-ExDevTeamRole gives admin access to the cluster. <strong>Please exercise caution when executing commands that could potentially delete resources on this cluster</strong>.</li>
 </ul>
 </div>
 </div>
@@ -131,26 +128,26 @@
 <div class="section" id="deployment-manifest-pipeline-deploymentmanifests-manifest-yaml">
 <h3>Deployment Manifest [<code class="docutils literal notranslate"><span class="pre">pipeline/deploymentmanifests/manifest.yaml</span></code>]<a class="headerlink" href="#deployment-manifest-pipeline-deploymentmanifests-manifest-yaml" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>This is the default deployment manifest file used by hydra, if an {env-name}.yaml file is not found.</p></li>
-<li><p>For more information on supported stages and customization of this file, please refer to: <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest">Hydra Deployment Manifest</a></p></li>
+<li>This is the default deployment manifest file used by hydra, if an {env-name}.yaml file is not found.</li>
+<li>For more information on supported stages and customization of this file, please refer to: <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.hydra/wiki/Deployment-Manifest">Hydra Deployment Manifest</a></li>
 </ul>
 </div>
 <div class="section" id="application-definition-file-applicationdefinition-yaml">
 <h3>Application Definition File [<code class="docutils literal notranslate"><span class="pre">applicationDefinition.yaml</span></code>]<a class="headerlink" href="#application-definition-file-applicationdefinition-yaml" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>This file is required for tagging resources for cost appropriation and Cloudability reporting.</p></li>
-<li><p>It also provides certain pipeline specific input data.</p></li>
-<li><p>The file should conform to the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#application-definition-file">application definition description in the medusa:snake: README.md</a></p></li>
+<li>This file is required for tagging resources for cost appropriation and Cloudability reporting.</li>
+<li>It also provides certain pipeline specific input data.</li>
+<li>The file should conform to the <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#application-definition-file">application definition description in the medusa:snake: README.md</a></li>
 </ul>
 </div>
 <div class="section" id="stub-services-manifest-pipeline-stubrunner-servicesmanifest-yaml">
 <h3>Stub Services Manifest [<code class="docutils literal notranslate"><span class="pre">pipeline/stubRunner/servicesManifest.yaml</span></code>]<a class="headerlink" href="#stub-services-manifest-pipeline-stubrunner-servicesmanifest-yaml" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p><strong>NOT applicable to Java Spring Boot services, which manage stubs natively through Gradle</strong></p></li>
-<li><p>This is a simple key:value manifest, which lists your runtime service dependencies and their Spring Cloud Contract stub artifacts (generated from Contract tests in the provider project)</p></li>
-<li><p>VALUE is the stub name in Artifactory</p></li>
-<li><p>KEY is an arbitrary name, consisting of upper-case letters, digits and underscores, for referring to the service dependency in your application code. During integration/contract testing, Medusa will spin up each stub and provide its location to your application via an environment variable in the form of <code class="docutils literal notranslate"><span class="pre">[KEY]_ORIGIN</span></code>.</p></li>
-<li><p>Please refer to the node-express-cookiecutter project for an example of <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.node-express-cookiecutter/blob/master/pipeline/stubRunner/servicesManifest.yaml">the manifest</a> and how one might <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.node-express-cookiecutter/blob/master/src/services/example-service/index.js#L1">utilize the env var in application code</a></p></li>
+<li><strong>NOT applicable to Java Spring Boot services, which manage stubs natively through Gradle</strong></li>
+<li>This is a simple key:value manifest, which lists your runtime service dependencies and their Spring Cloud Contract stub artifacts (generated from Contract tests in the provider project)</li>
+<li>VALUE is the stub name in Artifactory</li>
+<li>KEY is an arbitrary name, consisting of upper-case letters, digits and underscores, for referring to the service dependency in your application code. During integration/contract testing, Medusa will spin up each stub and provide its location to your application via an environment variable in the form of <code class="docutils literal notranslate"><span class="pre">[KEY]_ORIGIN</span></code>.</li>
+<li>Please refer to the node-express-cookiecutter project for an example of <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.node-express-cookiecutter/blob/master/pipeline/stubRunner/servicesManifest.yaml">the manifest</a> and how one might <a class="reference external" href="https://github.com/EBSCOIS/platform.shared.node-express-cookiecutter/blob/master/src/services/example-service/index.js#L1">utilize the env var in application code</a></li>
 </ul>
 </div>
 </div>
@@ -159,15 +156,15 @@
 <p>The following resources are created, for the microservice, by Hydra as part of the hydra prepare and deploy commands:</p>
 <p><strong>Kubernetes resources/controllers</strong></p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment</a></p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/">ReplicaSet</a></p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">horizontal-pod-autoscaler aka. hpa</a></p></li>
-<li><p><a class="reference external" href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">ConfigMap</a></p></li>
+<li><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment</a></li>
+<li><a class="reference external" href="https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/">ReplicaSet</a></li>
+<li><a class="reference external" href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">horizontal-pod-autoscaler aka. hpa</a></li>
+<li><a class="reference external" href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">ConfigMap</a></li>
 </ul>
 <p><strong>Istio resources</strong></p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://istio.io/docs/reference/config/istio.networking.v1alpha3/#VirtualService">VirtualService</a></p></li>
-<li><p><a class="reference external" href="https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule">DestinationRule</a></p></li>
+<li><a class="reference external" href="https://istio.io/docs/reference/config/istio.networking.v1alpha3/#VirtualService">VirtualService</a></li>
+<li><a class="reference external" href="https://istio.io/docs/reference/config/istio.networking.v1alpha3/#DestinationRule">DestinationRule</a></li>
 </ul>
 </div>
 <div class="section" id="using-hydra-cli-only-use-for-sandbox-environment">
@@ -186,9 +183,11 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
 <div class="section" id="role-of-synthetic-live-traffic-for-hydra-deployments">
 <h3>Role of synthetic/live traffic for hydra deployments<a class="headerlink" href="#role-of-synthetic-live-traffic-for-hydra-deployments" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p>If a previous version of the service is already present in the cluster, hydra deploy will automatically attempt the canary stage</p></li>
-<li><p>The metrics generated from any real/live traffic are used to validate the health of the deployment</p></li>
-<li><p>Here is the default configuration for the canary stage in hydra’s deployment manifest:</p>
+<li><p class="first">If a previous version of the service is already present in the cluster, hydra deploy will automatically attempt the canary stage</p>
+</li>
+<li><p class="first">The metrics generated from any real/live traffic are used to validate the health of the deployment</p>
+</li>
+<li><p class="first">Here is the default configuration for the canary stage in hydra’s deployment manifest:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Stages</span><span class="p">:</span>
 <span class="o">-</span> <span class="n">Type</span><span class="p">:</span> <span class="n">Canary</span>
   <span class="n">Duration</span><span class="p">:</span> <span class="mi">1</span><span class="n">m</span>
@@ -211,10 +210,10 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
 </pre></div>
 </div>
 </li>
-<li><p>To summarize:</p>
+<li><p class="first">To summarize:</p>
 <ul class="simple">
-<li><p>No synthetic/real traffic is needed for  the <strong>first deployment</strong> of a service</p></li>
-<li><p><strong>2nd and all subsequent deployments</strong> require synthetic/real traffic to generate metrics for the validations at the canary stage</p></li>
+<li>No synthetic/real traffic is needed for  the <strong>first deployment</strong> of a service</li>
+<li><strong>2nd and all subsequent deployments</strong> require synthetic/real traffic to generate metrics for the validations at the canary stage</li>
 </ul>
 </li>
 </ul>
@@ -222,22 +221,22 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
 <div class="section" id="automated-traffic-generation-in-the-cluster">
 <h3>Automated traffic generation in the cluster<a class="headerlink" href="#automated-traffic-generation-in-the-cluster" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p>To address this requirement for metrics-driven deployments and automated promotion, as well as a means to proactively run passive health checks for deployed services, we have a <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> application running in the cluster.</p>
+<li><p class="first">To address this requirement for metrics-driven deployments and automated promotion, as well as a means to proactively run passive health checks for deployed services, we have a <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> application running in the cluster.</p>
 <p><strong>NOTE: This is a <em>beta</em> implementation to assist with traffic generation in the cluster and the workflow will likely be further refined as the 1.5 platform evolves.</strong></p>
 </li>
-<li><p>How does <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> work?</p>
+<li><p class="first">How does <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> work?</p>
 <ul class="simple">
-<li><p>This is a simple python application, which has been dockerized to run in the kubernetes cluster</p></li>
-<li><p>The application’s repo can be found here: <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.ekscluster-loadgen-s3">platform.infrastructure.ekscluster-loadgen-s3</a></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> loops through a list of urls from an <code class="docutils literal notranslate"><span class="pre">s3</span> <span class="pre">bucket</span></code> every 5 seconds, to generate light traffic against deployed services in the cluster.</p></li>
-<li><p>An API exists via API Gateway, that calls lambda functions to update the S3 bucket.</p></li>
+<li>This is a simple python application, which has been dockerized to run in the kubernetes cluster</li>
+<li>The application’s repo can be found here: <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.ekscluster-loadgen-s3">platform.infrastructure.ekscluster-loadgen-s3</a></li>
+<li><code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> loops through a list of urls from an <code class="docutils literal notranslate"><span class="pre">s3</span> <span class="pre">bucket</span></code> every 5 seconds, to generate light traffic against deployed services in the cluster.</li>
+<li>An API exists via API Gateway, that calls lambda functions to update the S3 bucket.</li>
 </ul>
 </li>
-<li><p>How do teams use <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> app to help generate traffic for their service?</p>
+<li><p class="first">How do teams use <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> app to help generate traffic for their service?</p>
 <ul>
-<li><p>To add an endpoint for your service in order to generate steady, light traffic against it in the cluster, you have 2 options:</p>
+<li><p class="first">To add an endpoint for your service in order to generate steady, light traffic against it in the cluster, you have 2 options:</p>
 <ol class="simple">
-<li><p>You can use the <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> operation against the <code class="docutils literal notranslate"><span class="pre">/url</span></code> path in this swagger-ui endpoint http://loadgen.eis-deliverydevqa.cloud/, with the following payload:</p></li>
+<li>You can use the <code class="docutils literal notranslate"><span class="pre">PATCH</span></code> operation against the <code class="docutils literal notranslate"><span class="pre">/url</span></code> path in this swagger-ui endpoint http://loadgen.eis-deliverydevqa.cloud/, with the following payload:</li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="p">{</span>
   <span class="s2">&quot;service-name&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -246,7 +245,7 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
 </pre></div>
 </div>
 <ol class="simple">
-<li><p>You can make a <code class="docutils literal notranslate"><span class="pre">CURL</span></code> command directly to the API gateway endpoint like this:</p></li>
+<li>You can make a <code class="docutils literal notranslate"><span class="pre">CURL</span></code> command directly to the API gateway endpoint like this:</li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">curl</span> <span class="o">-</span><span class="n">X</span> <span class="n">PATCH</span> \
     <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">wfasyphdjb</span><span class="o">.</span><span class="n">execute</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">us</span><span class="o">-</span><span class="n">east</span><span class="o">-</span><span class="mf">1.</span><span class="n">amazonaws</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">beta</span><span class="o">/</span><span class="n">url</span> \
@@ -256,10 +255,13 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
 </pre></div>
 </div>
 </li>
-<li><p>Please see the  <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.ekscluster-loadgen-s3/blob/master/README">loadgens3 repo#readme</a> for more information.</p></li>
-<li><p>To monitor the activity against your service, you can utilize the various <a class="reference internal" href="Observability.html"><span class="doc">Observability</span></a> dashboards/tools, as well as review the logs on the <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> container using this command:
-<code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">logs</span> <span class="pre">-f</span> <span class="pre">--tail=100</span> <span class="pre">deployment/loadgens3</span></code></p></li>
-<li><p><strong>NOTE</strong>: This action will only be required <em>once</em> for a service, unless the endpoint changes. Once your service endpoint has been added i.e., after the 1st deployment, subsequent deployments will be able to use the metrics generated out of this activity for canary deployments and no further action is needed for traffic generation.</p></li>
+<li><p class="first">Please see the  <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.ekscluster-loadgen-s3/blob/master/README">loadgens3 repo#readme</a> for more information.</p>
+</li>
+<li><p class="first">To monitor the activity against your service, you can utilize the various <a class="reference internal" href="Observability.html"><span class="doc">Observability</span></a> dashboards/tools, as well as review the logs on the <code class="docutils literal notranslate"><span class="pre">loadgens3</span></code> container using this command:
+<code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">logs</span> <span class="pre">-f</span> <span class="pre">--tail=100</span> <span class="pre">deployment/loadgens3</span></code></p>
+</li>
+<li><p class="first"><strong>NOTE</strong>: This action will only be required <em>once</em> for a service, unless the endpoint changes. Once your service endpoint has been added i.e., after the 1st deployment, subsequent deployments will be able to use the metrics generated out of this activity for canary deployments and no further action is needed for traffic generation.</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -268,8 +270,8 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
 <div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>If the hydra deploy command fails (cli or jenkins-based) due to an unhandled exception, there may be orphaned deployments/other k8s and Istio resources in the cluster that would need to be cleaned up manually. Please contact EA to help reset these.</p></li>
-<li><p>Please contact EA on the <a class="reference external" href="https://teams.microsoft.com/l/channel/19%3aa2a0927486e74b35bbd033a54fc5495c%40thread.skype/Troubleshooting?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">RefArch1.5 Chat Set - Troubleshooting Channel</a> if this happens to help diagnose the failure scenario and identify next steps. You can &#64;mention <a class="reference external" href="abhavan&#64;ebsco.com">Aish</a>, <a class="reference external" href="nbaechtold&#64;ebsco.com">Nate</a> &amp; <a class="reference external" href="spasam&#64;ebsco.com">Seshu</a> to get someone to look into it quickly.</p></li>
+<li>If the hydra deploy command fails (cli or jenkins-based) due to an unhandled exception, there may be orphaned deployments/other k8s and Istio resources in the cluster that would need to be cleaned up manually. Please contact EA to help reset these.</li>
+<li>Please contact EA on the <a class="reference external" href="https://teams.microsoft.com/l/channel/19%3aa2a0927486e74b35bbd033a54fc5495c%40thread.skype/Troubleshooting?groupId=9b1ce806-0126-471c-8e35-77b3115110e6&amp;tenantId=50fa36ca-7dd3-44f1-9e3f-1bf39a3963a5">RefArch1.5 Chat Set - Troubleshooting Channel</a> if this happens to help diagnose the failure scenario and identify next steps. You can &#64;mention <a class="reference external" href="abhavan&#64;ebsco.com">Aish</a>, <a class="reference external" href="nbaechtold&#64;ebsco.com">Nate</a> &amp; <a class="reference external" href="spasam&#64;ebsco.com">Seshu</a> to get someone to look into it quickly.</li>
 </ul>
 </div>
 </div>
@@ -305,6 +307,8 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -325,7 +329,7 @@ curl -HHost:simplemiddle.eksj-useast1.eks.eis-deliverydevqa.cloud http://istio.e
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>http://example.org/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 Apr 2019 23:53:43 +0300</lastBuildDate>
+    
+	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>My First Post</title>
+      <link>http://example.org/posts/summary/</link>
+      <pubDate>Wed, 03 Apr 2019 23:53:43 +0300</pubDate>
+      
+      <guid>http://example.org/posts/summary/</guid>
+      <description>Summary RefArch 1.5 Early Access Dev Guide This document contains developer oriented instructions and information about how to write and deploy services on RefArch 1.5. We are moving quickly to support development of EBSCO Next and other high priority projects before the RefArch 1.5 platform is complete. This dev guide describes how to integrate your services with the platform in its current state, prior to completion of the RA1.5-DevReady milestone.</description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>http://example.org/posts/my-first-post/</link>
+      <pubDate>Wed, 03 Apr 2019 23:53:43 +0300</pubDate>
+      
+      <guid>http://example.org/posts/my-first-post/</guid>
+      <description>Some text</description>
+    </item>
+    
+  </channel>
+</rss>

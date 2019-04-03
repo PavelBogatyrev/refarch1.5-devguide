@@ -1,9 +1,11 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Quality Gates Supported in the RefArch1.5 CI/CD Pipeline (Medusa) &#8212; DevGuide 1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -33,15 +35,14 @@
   <div class="section" id="quality-gates-supported-in-the-refarch1-5-ci-cd-pipeline-medusa">
 <h1>Quality Gates Supported in the RefArch1.5 CI/CD Pipeline (Medusa)<a class="headerlink" href="#quality-gates-supported-in-the-refarch1-5-ci-cd-pipeline-medusa" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p><a class="reference external" href="#test-stages">Test Stages</a></p></li>
-<li><p><a class="reference external" href="#guidance-on-writing-tests-for-automated-quality-gates">Guidance on Writing Tests For Automated Quality Gates</a></p>
-<ul>
-<li><p><a class="reference external" href="#unit-tests">Unit Tests</a></p></li>
-<li><p><a class="reference external" href="#integration-tests">Integration Tests</a></p></li>
-<li><p><a class="reference external" href="#consumer-driven-contract-test-cdc">Consumer-driven Contract Test (CDC)</a></p></li>
-<li><p><a class="reference external" href="#performance-tests-server-side">Performance Tests (Server-side)</a></p></li>
-<li><p><a class="reference external" href="#performance-tests-client-side">Performance Tests (Client-side)</a></p></li>
-<li><p><a class="reference external" href="#e2e-tests">E2E Tests</a></p></li>
+<li><a class="reference external" href="#test-stages">Test Stages</a></li>
+<li><a class="reference external" href="#guidance-on-writing-tests-for-automated-quality-gates">Guidance on Writing Tests For Automated Quality Gates</a><ul>
+<li><a class="reference external" href="#unit-tests">Unit Tests</a></li>
+<li><a class="reference external" href="#integration-tests">Integration Tests</a></li>
+<li><a class="reference external" href="#consumer-driven-contract-test-cdc">Consumer-driven Contract Test (CDC)</a></li>
+<li><a class="reference external" href="#performance-tests-server-side">Performance Tests (Server-side)</a></li>
+<li><a class="reference external" href="#performance-tests-client-side">Performance Tests (Client-side)</a></li>
+<li><a class="reference external" href="#e2e-tests">E2E Tests</a></li>
 </ul>
 </li>
 </ul>
@@ -134,9 +135,9 @@
 <p><strong>Use of test doubles</strong></p>
 <p>Aggressively mock all dependencies, including:</p>
 <ul class="simple">
-<li><p>external service dependencies (i.e. anything that crosses a process/network boundary)</p></li>
-<li><p>external libraries</p></li>
-<li><p>classes/ functions in the same project</p></li>
+<li>external service dependencies (i.e. anything that crosses a process/network boundary)</li>
+<li>external libraries</li>
+<li>classes/ functions in the same project</li>
 </ul>
 </div>
 <div class="section" id="integration-tests">
@@ -144,8 +145,8 @@
 <p><strong>Use of test doubles</strong></p>
 <p>Aim to run your external dependencies locally i.e., mock/stub dependencies not owned by the service, like:</p>
 <ul class="simple">
-<li><p>in-process test doubles to test integration with external systems e.g., in-memory embedded databases, local MySQL database, local ext4 filesystem</p></li>
-<li><p>out-of-process stubs to replace an external service (recommended to use the stubs published by the producer service during the contract testing stage)</p></li>
+<li>in-process test doubles to test integration with external systems e.g., in-memory embedded databases, local MySQL database, local ext4 filesystem</li>
+<li>out-of-process stubs to replace an external service (recommended to use the stubs published by the producer service during the contract testing stage)</li>
 </ul>
 </div>
 <div class="section" id="consumer-driven-contract-test-cdc">
@@ -153,8 +154,8 @@
 <p><strong>Use of test doubles</strong></p>
 <p>The framework provides 2 frameworks to execute contract verifier tests:</p>
 <ul class="simple">
-<li><p>For gradle/maven based spring boot services, use MockMvc framework to mock dependencies.</p></li>
-<li><p>For all others (e.g., nodejs or .NET), use stub servers to replace calls to external dependencies if CDC tests are run in non-MVC mode (i.e., explicit-mode). These are out-of-process test-doubles that help mock external service calls using reliable stubs published from the downstream producer’s contract test stage.</p></li>
+<li>For gradle/maven based spring boot services, use MockMvc framework to mock dependencies.</li>
+<li>For all others (e.g., nodejs or .NET), use stub servers to replace calls to external dependencies if CDC tests are run in non-MVC mode (i.e., explicit-mode). These are out-of-process test-doubles that help mock external service calls using reliable stubs published from the downstream producer’s contract test stage.</li>
 </ul>
 </div>
 <div class="section" id="performance-tests-server-side">
@@ -163,26 +164,22 @@
 <p>Recommendation is to write “narrow perf tests” to isolate measurements to service-under-test by using stubs to replace downstream dependencies. Watch this space for updates – more to come when we have examples/reference implementation for these scenarios).</p>
 <p><strong>JMX Test Attributes</strong></p>
 <ul class="simple">
-<li><p>Please refer to the Medusa guide on <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#performance-tests">Performance Tests</a> for specifications around where the tests are discovered from and more about the performanceDefinition.yaml file.</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">TestProperties</span></code> section in the performanceDefinition file helps define the attributes of the jmeter test (<code class="docutils literal notranslate"><span class="pre">jmx</span></code> test plan) when Medusa orchestrates the test as an automated quality gate during the CD-phase of the pipeline.</p></li>
-<li><p>In order for these properties to take effect, a matching JMeter property (referenced using <code class="docutils literal notranslate"><span class="pre">${__P(duration,60)}</span></code> in test plan, and passed into the command-line invokation of the jmx file using <code class="docutils literal notranslate"><span class="pre">-J</span></code> argument) should be present in the test plan.</p>
-<ul>
-<li><p>e.g., if <code class="docutils literal notranslate"><span class="pre">duration</span></code> is provided under the <code class="docutils literal notranslate"><span class="pre">TestProperties</span></code> section, the <code class="docutils literal notranslate"><span class="pre">jmx</span></code> test plan should implement and use the <code class="docutils literal notranslate"><span class="pre">-Jduration</span></code> property.</p></li>
+<li>Please refer to the Medusa guide on <a class="reference external" href="https://github.com/EBSCOIS/platform.infrastructure.medusa#performance-tests">Performance Tests</a> for specifications around where the tests are discovered from and more about the performanceDefinition.yaml file.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">TestProperties</span></code> section in the performanceDefinition file helps define the attributes of the jmeter test (<code class="docutils literal notranslate"><span class="pre">jmx</span></code> test plan) when Medusa orchestrates the test as an automated quality gate during the CD-phase of the pipeline.</li>
+<li>In order for these properties to take effect, a matching JMeter property (referenced using <code class="docutils literal notranslate"><span class="pre">${__P(duration,60)}</span></code> in test plan, and passed into the command-line invokation of the jmx file using <code class="docutils literal notranslate"><span class="pre">-J</span></code> argument) should be present in the test plan.<ul>
+<li>e.g., if <code class="docutils literal notranslate"><span class="pre">duration</span></code> is provided under the <code class="docutils literal notranslate"><span class="pre">TestProperties</span></code> section, the <code class="docutils literal notranslate"><span class="pre">jmx</span></code> test plan should implement and use the <code class="docutils literal notranslate"><span class="pre">-Jduration</span></code> property.</li>
 </ul>
 </li>
-<li><p>Recommendations for performance tests in the pipeline:</p>
-<ul>
-<li><p>Provide <code class="docutils literal notranslate"><span class="pre">duration</span></code> in the <code class="docutils literal notranslate"><span class="pre">TestProperties</span></code> section, to limit the tests to a fixed duration.</p>
-<ul>
-<li><p>Minimum duration should be at least &gt;1 minute (i.e., 2x the prometheus scrape interval, which defaults to 30s), and maximum duration should be well under the &lt;15 minutes to stay within the <code class="docutils literal notranslate"><span class="pre">hydra</span></code> timeout setting for test jobs.</p></li>
-<li><p>Recommended duration for tests is 5-10 minutes i.e., 300 seconds - 600 seconds.</p></li>
+<li>Recommendations for performance tests in the pipeline:<ul>
+<li>Provide <code class="docutils literal notranslate"><span class="pre">duration</span></code> in the <code class="docutils literal notranslate"><span class="pre">TestProperties</span></code> section, to limit the tests to a fixed duration.<ul>
+<li>Minimum duration should be at least &gt;1 minute (i.e., 2x the prometheus scrape interval, which defaults to 30s), and maximum duration should be well under the &lt;15 minutes to stay within the <code class="docutils literal notranslate"><span class="pre">hydra</span></code> timeout setting for test jobs.</li>
+<li>Recommended duration for tests is 5-10 minutes i.e., 300 seconds - 600 seconds.</li>
 </ul>
 </li>
-<li><p>Provide <code class="docutils literal notranslate"><span class="pre">throughput</span></code>, <code class="docutils literal notranslate"><span class="pre">threads</span></code>, <code class="docutils literal notranslate"><span class="pre">rampup</span></code> (optional) attributes in the <code class="docutils literal notranslate"><span class="pre">jmx</span></code> test plan to help drive the load levels (<code class="docutils literal notranslate"><span class="pre">rps</span></code> or <code class="docutils literal notranslate"><span class="pre">requests</span> <span class="pre">per</span> <span class="pre">second</span></code>) for your tests.</p>
-<ul>
-<li><p>Recommendation is to use steady load (throughput) during these tests, instead of variable load since these are short-duration tests and variability in load levels can lead to inconsistent measurements on aggregate calculations of response time.</p></li>
-<li><p>Ramp up/down can be used, but the validation currently does not offset these windows from calculating 95th percentile response time. This will be a future enhancement added to the platform (tentatively in PI14).</p></li>
-<li><p>The <code class="docutils literal notranslate"><span class="pre">Constant</span> <span class="pre">Throughput</span> <span class="pre">Timer</span></code> element can be used to throttle/vary the request rates for the <code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">Request</span></code> elements in the test plan. When this is applied at the <code class="docutils literal notranslate"><span class="pre">Thread</span> <span class="pre">Group</span></code> level it applies to all <code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">Request</span></code> elements under that group, but you could use the timer within an <code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">Request</span></code> element to apply a variable rate and override the parent-rate for specific requests within a thread group.</p></li>
+<li>Provide <code class="docutils literal notranslate"><span class="pre">throughput</span></code>, <code class="docutils literal notranslate"><span class="pre">threads</span></code>, <code class="docutils literal notranslate"><span class="pre">rampup</span></code> (optional) attributes in the <code class="docutils literal notranslate"><span class="pre">jmx</span></code> test plan to help drive the load levels (<code class="docutils literal notranslate"><span class="pre">rps</span></code> or <code class="docutils literal notranslate"><span class="pre">requests</span> <span class="pre">per</span> <span class="pre">second</span></code>) for your tests.<ul>
+<li>Recommendation is to use steady load (throughput) during these tests, instead of variable load since these are short-duration tests and variability in load levels can lead to inconsistent measurements on aggregate calculations of response time.</li>
+<li>Ramp up/down can be used, but the validation currently does not offset these windows from calculating 95th percentile response time. This will be a future enhancement added to the platform (tentatively in PI14).</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">Constant</span> <span class="pre">Throughput</span> <span class="pre">Timer</span></code> element can be used to throttle/vary the request rates for the <code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">Request</span></code> elements in the test plan. When this is applied at the <code class="docutils literal notranslate"><span class="pre">Thread</span> <span class="pre">Group</span></code> level it applies to all <code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">Request</span></code> elements under that group, but you could use the timer within an <code class="docutils literal notranslate"><span class="pre">HTTP</span> <span class="pre">Request</span></code> element to apply a variable rate and override the parent-rate for specific requests within a thread group.</li>
 </ul>
 </li>
 </ul>
@@ -198,7 +195,7 @@
 <p>Typically, no test doubles/mocking recommended. The purpose of these tests is to test integration with external services, persistence, startup logic, authentication workflows, network configuration and remote request/response routing with dependencies.</p>
 <p>For UX svcs: Validate limited user-critical workflows, to test integration with downstream dependencies. Model tests around users of the system and the journeys those users make through the system (business cases).</p>
 <p>As an exception, mocking could be considered for async back-end processes and other flaky external services that might be part of the e2e workflow for the service. Refer guidance from Martin Fowler “If a particular external service or GUI is a major cause of flakiness in the test suite, it can help to redefine the test boundary to exclude the component. In this case, total end-to-end coverage is traded in favour of reliability in the suite. This is acceptable as long as other forms of testing verify the flaky component using different means.”</p>
-<p>Please see this page for more guidance around e2e tests: <a class="reference external" href="http://confluence/display/~abhavan/E2E+Testing+for+Microservices">E2E Testing for Microservices</a></p>
+<p>Please see this page for more guidance around e2e tests: <a class="reference external" href="http://confluence/display/%7Eabhavan/E2E+Testing+for+Microservices">E2E Testing for Microservices</a></p>
 </div>
 </div>
 </div>
@@ -234,6 +231,8 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -254,7 +253,7 @@
       &copy;2019, Pavel.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
