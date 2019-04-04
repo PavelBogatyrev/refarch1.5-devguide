@@ -1,0 +1,8 @@
+{
+    "plugins" : [ 
+        "include-highlight"
+        ,"responsive-iframes"
+        ,"wide-page"
+        ,"video"
+    ]
+}
