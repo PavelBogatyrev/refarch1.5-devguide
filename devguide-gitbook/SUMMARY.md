@@ -22,3 +22,4 @@ __Note:__ For the I4 architecture drop, a distinction will be made between JSB a
 - [Platform Release Notes](guides/Platform_Release_Notes.md)
 - [Projected Release Notes](guides/Preliminary_Platform_Release_Notes.md) -- These are intended releases notes and do not reflect actual commitments
 - [FAQ](guides/FAQ.md)
+- [Sample](guides/Sample.md)
