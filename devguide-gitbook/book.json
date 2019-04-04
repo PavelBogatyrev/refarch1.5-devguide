@@ -1,8 +1,14 @@
 {
     "plugins" : [ 
-        "include-highlight"
-        ,"responsive-iframes"
-        ,"wide-page"
-        ,"video"
-    ]
+        "include-highlight",
+        "download-pdf-link"
+    ],
+    "pluginsConfig": {
+        "download-pdf-link": {
+        "base": "https://www.gitbook.com/book/poppy-project/poppy-docs/",
+        "label": {
+            "en": "Download PDF"
+            }
+        }
+    }
 }
