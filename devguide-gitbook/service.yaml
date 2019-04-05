@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: devguide-gitbook
+spec:
+  selector:
+    app: devguide-gitbook
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 4000
+    

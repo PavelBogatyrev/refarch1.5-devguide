@@ -1,7 +1,7 @@
 ######################################################################
 # Deployment
 ######################################################################
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1beta1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: devguide-gitbook-deployment
@@ -20,19 +20,3 @@ spec:
         image: beimax/devguide-gitbook:latest
         ports:
         - containerPort: 4000
-
-######################################################################
-# Service
-######################################################################
-kind: Service
-apiVersion: v1
-metadata:
-  name: devguide-gitbook
-spec:
-  selector:
-    app: devguide-gitbook
-  ports:
-  - protocol: TCP
-    port: 8080
-    targetPort: 80
-  type: LoadBalancer
