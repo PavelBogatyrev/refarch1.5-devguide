@@ -1,0 +1,15 @@
+# Summary
+- [Operating Guidelines](guides/Operating_Guidelines.md)
+- [Development Operating Procedures for Node.js GUI](guides/Development_Operating_Procedures.md)
+- [Development Operating Procedures for Java Spring Boot or Node.js Microservices](guides/Development_Operating_Procedures_JSB_or_Node_Microservices.md)
+- [Deploying a Node.js GUI](guides/Deploy.md)
+- [Deploying a Java Spring Boot or Node.js Microservice](guides/Deploy_JSB_or_Node_microservice.md)
+- [Custom Configuration](guides/Custom_Configuration.md)
+- [Observability](guides/Observability.md)
+- [Troubleshooting Guide](guides/Troubleshooting_Guide.md)
+- [Local Development and Debugging](guides/Local_Dev_and_Debugging.md)
+- [Pipeline Test Stages / Quality Gates](guides/Quality_Gates_Medusa.md)
+- [Code Examples](guides/Code_Examples.md)
+- [Platform Release Notes](guides/Platform_Release_Notes.md)
+- [Projected Release Notes](guides/Preliminary_Platform_Release_Notes.md) -- These are intended releases notes and do not reflect actual commitments
+- [FAQ](guides/FAQ.md)

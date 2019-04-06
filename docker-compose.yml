@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+   devguide-mkdocs:
+     image: beimax/devguide-mkdocs-material:latest
+     ports:
+       - "8004:8000"
+   devguide-mdbook:
+     image: beimax/devguide-mdbook:latest
+     ports:
+       - "8001:3000"
+   devguide-sphinx:
+     image: beimax/devguide-sphinx:latest
+     ports:
+       - "8002:80"
+   devguide-gitbook:
+     image: beimax/devguide-gitbook:latest
+     ports:
+       - "8003:4000"
